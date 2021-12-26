@@ -19,6 +19,7 @@
       <button id="Enter" bindtap='enterRoom'>Enter</button>
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <button id="refresh" bindtap='refresh'>refresh</button>
+      <button id="getRole" bindtap='getRole'>getRole</button>
     </block>
 
 

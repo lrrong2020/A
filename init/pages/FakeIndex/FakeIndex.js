@@ -3,6 +3,8 @@
 const regeneratorRuntime = require('../common/regenerator-runtime.js')
 const app = getApp()
 
+
+
 Page({
   data: {
     userInfo: {},
@@ -60,17 +62,36 @@ Page({
     })
   },
   enterRoom(e){
+    console.log("enter room")
     // if(!this.data.owner){
     //   return
     // }
-    
-
+    Array.prototype.shuffle = function() {
+      var array = this;
+      var m = array.length,
+          t, i;
+      while (m) {
+          i = Math.floor(Math.random() * m--);
+          t = array[m];
+          array[m] = array[i];
+          array[i] = t;
+      }
+      return array;
+  }
+    const db = wx.cloud.database({})
+    var shuffledMyQueue = app.globalData.myQueue.shuffle()
+    for(var i = 0;i < shuffledMyQueue.length;++i){
+      db.collection('role').add({
+        data: {
+          info: shuffledMyQueue[i]
+        }
+      })
+      .then(res => {
+      })
+    }
   },
 
   refresh(e){
-    this.setData({
-      displayQueue: app.globalData.myQueue
-    })
     const db = wx.cloud.database({})
     db.collection('queue').where({
       inQueue: true
@@ -84,15 +105,13 @@ Page({
           myQueue.push(res.data[i])
           //theQueue.push(res.data[i])
         }
-
-
-
         console.log("refresh myQueue")
         console.log(myQueue)
         //console.log(theQueue)
-
-        
       }
+    })
+    this.setData({
+      displayQueue: app.globalData.myQueue
     })
   },
 
@@ -102,7 +121,6 @@ Page({
     // }
     const db = wx.cloud.database({})
     db.collection('queue').where({
-      inQueue: true
     })
     .get({
       success: function(res) {
@@ -121,6 +139,41 @@ Page({
       }
     })
     console.log("Queue cleared")
+
+    db.collection('role').where({
+    })
+    .get({
+      success: function(res) {
+        // res.data 是包含以上定义的两条记录的数组
+        var idList = []
+        for(var i = 0;i < res.data.length;++i){
+          idList.push(res.data[i]._id)
+        }
+
+        for(var j = 0;j < idList.length;++j ){
+          db.collection('role').doc(idList[j]).remove({
+            success: function(res) {
+            }
+          })
+        }
+      }
+    })
+    console.log("role cleared")
+  },
+  getRole(e){
+    console.log("get role")
+    const db = wx.cloud.database({})
+    const role = app.globalData.role
+    db.collection('role').where({})
+    .get({
+      success: function(res) {
+        for(var i = 0;i < res.data.length;++i){
+          role.push(res.data[i].info)
+        }
+        console.log("globalData.role:")
+        console.log(role)
+      }
+    })
   },
 
   async checkUser () {

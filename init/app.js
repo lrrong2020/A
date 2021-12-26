@@ -38,6 +38,7 @@ App({
         },
         id: null,
         owner: false,
-        myQueue:[]
+        myQueue:[],
+        role:[]
     }
 })
