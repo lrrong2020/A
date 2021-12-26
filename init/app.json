@@ -1,0 +1,33 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/user/user",
+        "pages/photos/add",
+        "pages/photos/photos",
+        "pages/album/add",
+        "pages/FakeIndex/FakeIndex"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "WeChat",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "position": "top",
+        "selectedColor": "#fdc21c",
+        "list": [
+            {
+                "pagePath": "pages/index/index",
+                "text": "相册"
+            },
+            {
+                "pagePath": "pages/FakeIndex/FakeIndex",
+                "text": "用户"
+            }
+        ]
+    },
+    "cloud": true,
+    "disableScroll": true,
+    "sitemapLocation": "sitemap.json"
+}

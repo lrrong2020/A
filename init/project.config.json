@@ -1,0 +1,92 @@
+{
+    "description": "项目配置文件。",
+    "packOptions": {
+        "ignore": []
+    },
+    "setting": {
+        "urlCheck": false,
+        "es6": true,
+        "enhance": true,
+        "postcss": true,
+        "preloadBackgroundData": false,
+        "minified": true,
+        "newFeature": true,
+        "coverView": true,
+        "nodeModules": false,
+        "autoAudits": false,
+        "showShadowRootInWxmlPanel": true,
+        "scopeDataCheck": false,
+        "uglifyFileName": false,
+        "checkInvalidKey": true,
+        "checkSiteMap": true,
+        "uploadWithSourceMap": true,
+        "compileHotReLoad": false,
+        "lazyloadPlaceholderEnable": false,
+        "useMultiFrameRuntime": true,
+        "useApiHook": true,
+        "useApiHostProcess": true,
+        "babelSetting": {
+            "ignore": [],
+            "disablePlugins": [],
+            "outputPath": ""
+        },
+        "enableEngineNative": false,
+        "useIsolateContext": true,
+        "userConfirmedBundleSwitch": false,
+        "packNpmManually": false,
+        "packNpmRelationList": [],
+        "minifyWXSS": true,
+        "disableUseStrict": false,
+        "showES6CompileOption": false,
+        "useCompilerPlugins": false
+    },
+    "compileType": "miniprogram",
+    "libVersion": "2.2.5",
+    "appid": "wx8f5f173b2107cd8a",
+    "projectname": "%E4%B8%AA%E4%BA%BA%E7%9B%B8%E5%86%8C",
+    "isGameTourist": false,
+    "cloudfunctionRoot": "cloud/functions/",
+    "condition": {
+        "search": {
+            "list": []
+        },
+        "conversation": {
+            "list": []
+        },
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "currentL": -1,
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "id": -1,
+                    "name": "评论",
+                    "pathName": "pages/review/review",
+                    "query": ""
+                },
+                {
+                    "id": 1,
+                    "name": "编辑",
+                    "pathName": "pages/detail/detail",
+                    "query": "url=https://tcb-def7de.tcb.qcloud.la/1531733018488-1224544.png"
+                },
+                {
+                    "id": 2,
+                    "name": "相册详情页",
+                    "pathName": "pages/photos/photos",
+                    "query": "id=0"
+                },
+                {
+                    "id": -1,
+                    "name": "上传图片",
+                    "pathName": "pages/photos/add",
+                    "query": ""
+                }
+            ]
+        }
+    }
+}
