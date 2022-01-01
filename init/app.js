@@ -32,13 +32,13 @@ App({
         code: null,
         openId: null,
         flag: 0,
-        nickName: '',
         allData: {
             albums: []
         },
         id: null,
         owner: false,
         myQueue:[],
-        role:[]
+        role:[],
+        nickName:null
     }
 })
