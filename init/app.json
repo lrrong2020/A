@@ -19,11 +19,11 @@
         "list": [
             {
                 "pagePath": "pages/index/index",
-                "text": "相册"
+                "text": "用户须知"
             },
             {
                 "pagePath": "pages/FakeIndex/FakeIndex",
-                "text": "用户"
+                "text": "登录并进入房间"
             }
         ]
     },

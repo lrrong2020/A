@@ -13,17 +13,46 @@ Page({
     owner: false,
     displayQueue:[],
     displayRole:[],
-    nickName:''
+    nickName:'',
+    roleTextList:[]
   },
 
   onLoad() {
-    this.checkUser()
-    this.refresh()
     if (wx.getUserProfile) {
       this.setData({
-        canIUseGetUserProfile: true
+        canIUseGetUserProfile: true,
+        displayQueue: app.globalData.myQueue
       })
     }
+    // this.refresh()
+    const that = this
+    const db = wx.cloud.database()
+    const watcher = db.collection('queue')
+      .where({})
+      .watch({
+        onChange: function(snapshot) {
+          console.log('docs\'s changed events', snapshot.docChanges)
+          console.log('query result snapshot after the event', snapshot.docs)
+          console.log('is init data', snapshot.type === 'init')
+          // console.log("Test Interval 0")
+
+          // console.log("Test Interval 2")
+          
+          //refresh
+          
+          
+          setTimeout(() => {
+            console.log("Auto Update")
+            that.setData({displayQueue: snapshot.docs})
+          }, 3000);
+
+
+        },
+        onError: function(err) {
+          console.error('the watch closed because of error', err)
+        }
+      })
+      //  watcher.close()
   },
 
   getUserProfile(e) {
@@ -35,16 +64,16 @@ Page({
       
         this.setData({
           userInfo: res.userInfo,
-          hasUserInfo: true
+          hasUserInfo: true,
+          displayQueue: app.globalData.myQueue
         })
 
-        this.refresh()
+
 
         //console.log(this.data.userInfo)
 
         const db = wx.cloud.database({})
         const queue = db.collection('queue')
-        this.checkUser()
         console.log("owner: "+this.data.owner)
 
         db.collection('queue').add({
@@ -54,6 +83,10 @@ Page({
           }
         })
         .then(res => {
+          this.setData({
+            displayQueue: app.globalData.myQueue
+          })
+          return "200"
         })
       }
     })
@@ -82,21 +115,33 @@ Page({
 
     //append shuffled queue to role
     const db = wx.cloud.database({})
-    var shuffledMyQueue = app.globalData.myQueue.shuffle()
+    // var shuffledMyQueue = app.globalData.myQueue.shuffle()
+    var shuffledMyQueue = this.data.displayQueue.shuffle()
     for(var i = 0;i < shuffledMyQueue.length;++i){
       db.collection('role').add({
         data: {
           info: shuffledMyQueue[i]
         }
+
       })
       .then(res => {
       })
     }
+    console.log('shuffledMyQueue')
+    console.log(shuffledMyQueue)
   },
 
-  refresh(e){
+  async refresh(e){
     this.checkUser()
+
     console.log("refreshing myQueue")
+
+    //successfully upload user profile and then refresh
+
+    // const code = await this.getUserProfile()
+    // console.log("code")
+    // console.log(code)
+
     const db = wx.cloud.database({})
     db.collection('queue').where({})
     .get({
@@ -108,6 +153,7 @@ Page({
         for(var i = 0;i < res.data.length;++i){
           myQueue.push(res.data[i])
           //theQueue.push(res.data[i])
+          //dq.push(res.data[i])
         }
         console.log('myQueue:')
         console.log(myQueue)
@@ -177,14 +223,13 @@ Page({
 
 
   getRole(e){
-    this.checkUser()
+    // this.checkUser()
     console.log("getting role")
-
-
     const userInfo = this.data.userInfo
-
     const db = wx.cloud.database({})
     const role = app.globalData.role
+    const roleTextList = this.data.roleTextList
+    var roleNo = -1
 
     db.collection('role').where({})
     .get({
@@ -195,12 +240,10 @@ Page({
         // this.setData({
         //   displayRole: app.globalData.role
         // })
-
         console.log("shuffled role from Database")
         console.log(role)
-
         var nm = userInfo.nickName
-        var roleNo = -1
+
         for(var i = 0;i < role.length;++i){
           if(role[i].nickName == nm){
             roleNo = i
@@ -209,17 +252,26 @@ Page({
         }
         console.log("roleNo:")
         console.log(roleNo)
+        console.log("a")
+        roleTextList.push(roleNo)
+        console.log("b")
 
-        switch(roleNo){
-          case 0:
-            break
-          case 1:
-            break
-          case 2:
-            break
-        }
+        console.log("c")
+        // switch(roleNo){
+        //   case 0:
+        //     break
+        //   case 1:
+        //     break
+        //   case 2:
+        //     break
+        // }
       }
+      
     })
+    this.setData({
+      roleTextList
+    })
+
 
 
 
@@ -248,6 +300,36 @@ Page({
     app.globalData.nickName = userinfo.nickName
     //app.globalData.allData.albums = userinfo.albums
 
-}
+},
+
+onclickProfile(e){
+  if(this.owner){
+    // console.log('kickout player')
+  }
+  const id = e.target.id
+  console.log(id)
+  console.log(app.globalData.myQueue[id])
+
+  // const query = wx.createSelectorQuery()
+  // query.select(id).style.color = "red" 
+},
+
+testCloud(e){
+  wx.cloud.callFunction({
+    // 云函数名称
+    name: 'add',
+    // 传给云函数的参数
+    data: {
+      a: 1,
+      b: 2,
+    },
+  })
+  .then(res => {
+    console.log(res.result) // 3
+  })
+  .catch(console.error)
+},
+
+
 
 })
