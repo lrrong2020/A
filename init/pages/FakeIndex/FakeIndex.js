@@ -10,11 +10,14 @@ Page({
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
     canIUseGetUserProfile: false,
     canIUseOpenData: false,
-    owner: false,
+    isOwner: false,
     displayQueue:[],
     displayRole:[],
     nickName:'',
-    roleTextList:[]
+    roleText: -1,
+    roleChanged: false,
+    hasRole: false
+
   },
 
   onLoad() {
@@ -31,9 +34,9 @@ Page({
       .where({})
       .watch({
         onChange: function(snapshot) {
-          console.log('docs\'s changed events', snapshot.docChanges)
-          console.log('query result snapshot after the event', snapshot.docs)
-          console.log('is init data', snapshot.type === 'init')
+          // console.log('docs\'s changed events', snapshot.docChanges)
+          // console.log('query result snapshot after the event', snapshot.docs)
+          // console.log('is init data', snapshot.type === 'init')
           // console.log("Test Interval 0")
 
           // console.log("Test Interval 2")
@@ -52,6 +55,26 @@ Page({
           console.error('the watch closed because of error', err)
         }
       })
+
+      const watcher1 = db.collection('role')
+      .where({})
+      .watch({
+        onChange: function(snapshot) {
+          console.log('docs\'s changed events', snapshot.docChanges)
+          console.log('query result snapshot after the event', snapshot.docs)
+          console.log('is init data', snapshot.type === 'init')
+          if(snapshot.docChanges.length > 0){          
+            console.log("Role changed")
+          that.setData({roleChanged: true})
+        }
+
+        },
+        onError: function(err) {
+          
+        }
+
+      })
+
       //  watcher.close()
   },
 
@@ -74,7 +97,7 @@ Page({
 
         const db = wx.cloud.database({})
         const queue = db.collection('queue')
-        console.log("owner: "+this.data.owner)
+        console.log("isOwner: "+this.data.isOwner)
 
         db.collection('queue').add({
           data: {
@@ -94,8 +117,8 @@ Page({
   enterRoom(e){
     this.checkUser()
     console.log("enter room")
-    //owner only (may be only visible to the onwer)
-    // if(!this.data.owner){
+    //isOwner only (may be only visible to the onwer)
+    // if(!this.data.isOwner){
     //   return
     // }
 
@@ -171,10 +194,10 @@ Page({
   clearRoom(e){
     //to clear queue and role
 
-    //owner only
+    //isOwner only
 
 
-    // if(!this.data.owner){
+    // if(!this.data.isOwner){
     //   return
     // }
 
@@ -228,7 +251,8 @@ Page({
     const userInfo = this.data.userInfo
     const db = wx.cloud.database({})
     const role = app.globalData.role
-    const roleTextList = this.data.roleTextList
+
+
     var roleNo = -1
 
     db.collection('role').where({})
@@ -247,29 +271,25 @@ Page({
         for(var i = 0;i < role.length;++i){
           if(role[i].nickName == nm){
             roleNo = i
+
             break
           }
         }
+        app.globalData.roleNo_G = roleNo
         console.log("roleNo:")
         console.log(roleNo)
         console.log("a")
-        roleTextList.push(roleNo)
+        console.log(app.globalData.roleNo_G)
         console.log("b")
 
-        console.log("c")
-        // switch(roleNo){
-        //   case 0:
-        //     break
-        //   case 1:
-        //     break
-        //   case 2:
-        //     break
-        // }
+
+          wx.navigateTo({
+            url: '/pages/roles/0',
+          })
+          // this.setData({hasRole: true})
+
       }
-      
-    })
-    this.setData({
-      roleTextList
+
     })
 
 
@@ -289,8 +309,9 @@ Page({
     // 如果没有用户，跳转到登录页面登录
     if (!user.data.length) {
         app.globalData.hasUser = false
-        app.globalData.owner = true
-        this.data.owner = true
+        // app.globalData.isOwner = true
+        // this.data.isOwner = true
+        // this.setData({isOwner})
         return
     }
     const userinfo = user.data[0]
@@ -303,7 +324,7 @@ Page({
 },
 
 onclickProfile(e){
-  if(this.owner){
+  if(this.isOwner){
     // console.log('kickout player')
   }
   const id = e.target.id
@@ -329,6 +350,15 @@ testCloud(e){
   })
   .catch(console.error)
 },
+
+seeRole(e){
+
+    wx.navigateTo({
+      url: '/pages/roles/0',
+    })
+
+  // console.log(app.globalData.roleNo_G)
+}
 
 
 

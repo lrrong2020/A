@@ -16,31 +16,15 @@
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <button id="Enter" bindtap='enterRoom'>Enter</button>
+      <button wx:if="{{isOwner}}" id="Enter" bindtap='enterRoom'>Enter</button>
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <button id="refresh" bindtap='refresh'>refresh</button>
-
-      <button id="getRole" bindtap='getRole'>getRole</button>
-
-      <!-- <button id="hideText" bindtap="hideText">hideText</button>> -->
-
-
-      <button id="testCloud" bindtap='testCloud'>testCloud</button>
-    </block>
-
-
-
-
-    
+      <block wx:if="{{roleChanged}}">
+        <button id="getRole" bindtap='getRole'>getRole</button>
+      </block>
+      <!-- <button id="testCloud" bindtap='testCloud'>testCloud</button> -->
+    </block>  
   </view>
-  <text>roleText</text>>
-  <view wx:for="{{roleTextList}}" wx:for-index="idx" wx:for-item="itemName">
-
-    <text id="roleText">{{itemName[idx]}}</text>
-
-</view>
-
-
 
 <view wx:for="{{displayQueue}}" wx:for-index="idx" wx:for-item="itemName">
 
@@ -48,7 +32,6 @@
 <text class="userinfo-nickname">{{itemName.nickName}}</text>
 
 </view>
-
 
 </view>
 

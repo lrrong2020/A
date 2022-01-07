@@ -39,6 +39,7 @@ App({
         owner: false,
         myQueue:[],
         role:[],
-        nickName:null
+        nickName:null,
+        roleNo_G: -1
     }
 })

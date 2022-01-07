@@ -5,7 +5,9 @@
         "pages/photos/add",
         "pages/photos/photos",
         "pages/album/add",
-        "pages/FakeIndex/FakeIndex"
+        "pages/FakeIndex/FakeIndex",
+        "pages/roles/0"
+
     ],
     "window": {
         "backgroundTextStyle": "light",

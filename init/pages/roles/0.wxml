@@ -1,0 +1,4 @@
+<view><button bindtap="displayText">f</button></view>
+<view wx:if="{{roleNo!=-1}}">
+{{roleNo}}{{text}}
+</view>
