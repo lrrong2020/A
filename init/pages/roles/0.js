@@ -107,7 +107,7 @@ Page({
                 break;
             case 6:
                 this.setData({
-                    text: "你是奥伯伦"
+                    text: "你是奥伯伦" + ""
                 })
                 break;
             case 7:

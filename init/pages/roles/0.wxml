@@ -1,4 +1,4 @@
-<view><button bindtap="displayText">f</button></view>
+<view><button bindtap="displayText">查看你的身份信息</button></view>
 <view wx:if="{{roleNo!=-1}}">
 {{roleNo}}{{text}}
 </view>

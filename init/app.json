@@ -6,7 +6,8 @@
         "pages/photos/photos",
         "pages/album/add",
         "pages/FakeIndex/FakeIndex",
-        "pages/roles/0"
+        "pages/roles/0",
+        "test/test"
 
     ],
     "window": {

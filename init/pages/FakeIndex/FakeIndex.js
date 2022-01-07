@@ -1,4 +1,4 @@
-// index.js
+// FakeIndex.js
 // 获取应用实例
 const regeneratorRuntime = require('../common/regenerator-runtime.js')
 const app = getApp()
@@ -19,7 +19,16 @@ Page({
     hasRole: false
 
   },
-
+  onshow(){
+    if(this.data.hasUserInfo && this.data.displayQueue.length == 0){
+      console.log("危险")
+      wx.showModal({
+        title:'危险!',
+        cancelColor: 'cancelColor',
+        content:'请点击右上角三个点 → "重新进入小程序"'
+      })
+    }
+  },
   onLoad() {
     if (wx.getUserProfile) {
       this.setData({
@@ -42,14 +51,12 @@ Page({
           // console.log("Test Interval 2")
           
           //refresh
-          
-          
+               
           setTimeout(() => {
+            that.checkUser()
             console.log("Auto Update")
             that.setData({displayQueue: snapshot.docs})
           }, 3000);
-
-
         },
         onError: function(err) {
           console.error('the watch closed because of error', err)
@@ -74,11 +81,10 @@ Page({
         }
 
       })
-
       //  watcher.close()
   },
 
-  getUserProfile(e) {
+  async getUserProfile(e) {
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
       desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
@@ -91,13 +97,40 @@ Page({
           displayQueue: app.globalData.myQueue
         })
 
-
-
         //console.log(this.data.userInfo)
 
         const db = wx.cloud.database({})
         const queue = db.collection('queue')
         console.log("isOwner: "+this.data.isOwner)
+
+        //如果已经存在于数据库中
+        // const exist = await db.collection('queue').get()
+        // db.collection('queue').where({})
+        //   .get({
+        //     success: function(res) {
+        //     // res.data 是包含以上定义的两条记录的数组
+        //     var avatarList = []
+        //     for(var i = 0;i < res.data.length;++i){
+        //       if(res.data[i]._avatar == this.data.userInfo.avatarUrl){
+                
+        //         return
+        //       }
+        //       else{
+        //         avatarList.push(res.data[i]._avatar)
+        //       }
+
+        //     }
+
+        //     //借用id实现多记录删除
+        //     // for(var j = 0;j < idList.length;++j ){
+        //     //   db.collection('queue').doc(idList[j]).remove({
+        //     //     success: function(res) {
+        //     //     }
+        //     //   })
+        //     // }
+        //   }
+        // })
+
 
         db.collection('queue').add({
           data: {
@@ -109,7 +142,7 @@ Page({
           this.setData({
             displayQueue: app.globalData.myQueue
           })
-          return "200"
+          // return "200"
         })
       }
     })
@@ -145,7 +178,6 @@ Page({
         data: {
           info: shuffledMyQueue[i]
         }
-
       })
       .then(res => {
       })
@@ -196,16 +228,13 @@ Page({
 
     //isOwner only
 
-
     // if(!this.data.isOwner){
     //   return
     // }
-
     this.checkUser()
 
     const db = wx.cloud.database({})
-    db.collection('queue').where({
-    })
+    db.collection('queue').where({})
     .get({
       success: function(res) {
         // res.data 是包含以上定义的两条记录的数组
@@ -251,8 +280,6 @@ Page({
     const userInfo = this.data.userInfo
     const db = wx.cloud.database({})
     const role = app.globalData.role
-
-
     var roleNo = -1
 
     db.collection('role').where({})
@@ -276,25 +303,19 @@ Page({
           }
         }
         app.globalData.roleNo_G = roleNo
-        console.log("roleNo:")
-        console.log(roleNo)
-        console.log("a")
-        console.log(app.globalData.roleNo_G)
-        console.log("b")
-
+        // console.log("roleNo:")
+        // console.log(roleNo)
+        // console.log("a")
+        // console.log(app.globalData.roleNo_G)
+        // console.log("b")
 
           wx.navigateTo({
             url: '/pages/roles/0',
           })
           // this.setData({hasRole: true})
-
       }
 
     })
-
-
-
-
   },
   getRoleNo(){
 
@@ -307,18 +328,16 @@ Page({
     const user = await db.collection('queue').get()
 
     // 如果没有用户，跳转到登录页面登录
-    if (!user.data.length) {
+    if (user.data.length < 2) {
         app.globalData.hasUser = false
-        // app.globalData.isOwner = true
-        // this.data.isOwner = true
-        // this.setData({isOwner})
-        return
+        app.globalData.isOwner = true
+        this.setData({isOwner: true})
     }
     const userinfo = user.data[0]
     //console.log("userinfo: "+userinfo)
     app.globalData.hasUser = true
     //app.globalData.id = userinfo._id
-    app.globalData.nickName = userinfo.nickName
+    // app.globalData.nickName = userinfo.nickName
     //app.globalData.allData.albums = userinfo.albums
 
 },
@@ -352,14 +371,16 @@ testCloud(e){
 },
 
 seeRole(e){
-
     wx.navigateTo({
       url: '/pages/roles/0',
     })
-
   // console.log(app.globalData.roleNo_G)
+},
+
+drive(e){
+  wx.navigateTo({
+    url: '/test/test',
+  })
+
 }
-
-
-
 })

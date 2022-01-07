@@ -1,0 +1,8 @@
+<!--pages/button-select/button-select.wxml-->
+<view class='button_container'>
+  <block wx:for="{{buttons}}" wx:key="buttons">
+  <button class='{{item.checked?"checked_button":"normal_button"}}' data-id='{{item.id}}' bindtap='checkButtonTap'>{{item.name}}</button>
+  </block>
+</view>
+<text>{{msg}}    </text>
+<text>number: {{number}}</text>

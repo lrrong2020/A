@@ -16,23 +16,27 @@
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <button wx:if="{{isOwner}}" id="Enter" bindtap='enterRoom'>Enter</button>
+      <button wx:if="{{isOwner}}" id="Enter" bindtap='enterRoom'>开始游戏</button>
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
-      <button id="refresh" bindtap='refresh'>refresh</button>
+      <!-- <button id="refresh" bindtap='refresh'>refresh</button> -->
       <block wx:if="{{roleChanged}}">
         <button id="getRole" bindtap='getRole'>getRole</button>
       </block>
       <!-- <button id="testCloud" bindtap='testCloud'>testCloud</button> -->
+      
+      <!-- <button wx:if="{{isOwner}}" id="drive" bindtap='drive'>发车</button> -->
     </block>  
   </view>
 
+<view  class="userinfoF">
 <view wx:for="{{displayQueue}}" wx:for-index="idx" wx:for-item="itemName">
 
 <image id="{{idx}}" class='userinfo-avatar' src="{{itemName.avatar}}" mode="cover" bindtap='onclickProfile'></image>
 <text class="userinfo-nickname">{{itemName.nickName}}</text>
 
 </view>
-
+</view>
+      <button id="drive" bindtap='drive'>发车</button>
 </view>
 
 
