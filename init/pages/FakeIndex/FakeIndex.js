@@ -23,9 +23,8 @@ Page({
     if(this.data.hasUserInfo && this.data.displayQueue.length == 0){
       console.log("危险")
       wx.showModal({
-        title:'危险!',
         cancelColor: 'cancelColor',
-        content:'请点击右上角三个点 → "重新进入小程序"'
+        title:'请点击右上角三个点 → "重新进入小程序"',
       })
     }
   },
@@ -56,6 +55,10 @@ Page({
             that.checkUser()
             console.log("Auto Update")
             that.setData({displayQueue: snapshot.docs})
+            app.globalData.myQueue = snapshot.docs
+            console.log("global: ")
+            console.log(app.globalData.myQueue)
+
           }, 3000);
         },
         onError: function(err) {
@@ -73,6 +76,7 @@ Page({
           if(snapshot.docChanges.length > 0){          
             console.log("Role changed")
           that.setData({roleChanged: true})
+
         }
 
         },
@@ -103,7 +107,7 @@ Page({
         const queue = db.collection('queue')
         console.log("isOwner: "+this.data.isOwner)
 
-        //如果已经存在于数据库中
+        //如果已经存在于数据库中 而且不应该超过10人
         // const exist = await db.collection('queue').get()
         // db.collection('queue').where({})
         //   .get({
@@ -271,6 +275,31 @@ Page({
       }
     })
     console.log("role cleared")
+
+    console.log(1)
+    db.collection('fellow').where({})
+    .get({
+      success: function(res) {
+        // res.data 是包含以上定义的两条记录的数组
+        console.log(2)
+        var idList = []
+        console.log(3)
+        for(var i = 0;i < res.data.length;++i){
+          console.log(4)
+          idList.push(res.data[i]._id)
+        }
+        console.log(5)
+        for(var j = 0;j < idList.length;++j ){
+          console.log(6)
+          db.collection('role').doc(idList[j]).remove({
+            success: function(res) {
+              console.log(7)
+            }
+          })
+        }
+      }
+    })
+    console.log("fellow cleared")
   },
 
 

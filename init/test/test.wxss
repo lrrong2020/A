@@ -2,15 +2,26 @@
 
 .button_container{
     display: flex;
+    flex:50%;
     flex-direction: row;
     justify-content: space-around
   }
   /* 按钮未选中 */
   .normal_button{
+    overflow: hidden;
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
     background: greenyellow
   }
   /* 按钮选中 */
   .checked_button{
+    overflow: hidden;
+    width: 192rpx;
+    height: 192rpx;
+    margin: 20rpx;
+    border-radius: 50%;
     background: red;
     color: white
     

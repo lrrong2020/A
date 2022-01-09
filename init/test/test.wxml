@@ -1,8 +1,14 @@
 <!--pages/button-select/button-select.wxml-->
 <view class='button_container'>
-  <block wx:for="{{buttons}}" wx:key="buttons">
+  <!-- <block wx:for="{{buttons}}" wx:key="buttons">
   <button class='{{item.checked?"checked_button":"normal_button"}}' data-id='{{item.id}}' bindtap='checkButtonTap'>{{item.name}}</button>
+  </block> -->
+
+  <block wx:for="{{displayQueue}}" wx:key="theQueue">
+  <image class='{{item.checked?"checked_button":"normal_button"}}' data-id='{{item.id}}' bindtap='checkButtonTap' src="{{item.avatar}}"></image>
   </block>
 </view>
 <text>{{msg}}    </text>
 <text>number: {{number}}</text>
+<button bindtap="select">开始选人</button>
+<button bindtap="submit">提交结果</button>

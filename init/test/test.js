@@ -1,3 +1,4 @@
+const app = getApp()
 // test/test.js
 Page({
 
@@ -7,7 +8,11 @@ Page({
     data: {
         buttons: [{ id: 1, name: '银色' }, { id: 2, name: '白色' }, { id: 3, name: '黑色' }],
         msg:'',
-        number: 0
+        number: 0,
+        f: -1,
+        theQueue: app.globalData.myQueue,
+        displayQueue:[],
+        submitList:[]
       },
     
 
@@ -19,6 +24,7 @@ Page({
         // this.setData({
         //   buttons: this.data.buttons,
         // })
+        this.setData({theQueue: app.globalData.myQueue})
       },
     
 
@@ -78,41 +84,42 @@ radioButtonTap: function (e) {
     console.log(e)
     let id = e.currentTarget.dataset.id
     console.log(id)
-    for (let i = 0; i < this.data.buttons.length; i++) {
-      if (this.data.buttons[i].id == id) {
+    for (let i = 0; i < this.data.displayQueue.length; i++) {
+      if (this.data.displayQueue[i].id == id) {
         //当前点击的位置为true即选中
-        this.data.buttons[i].checked = true;
+        this.data.displayQueue[i].checked = true;
 
 
       }
       else {
         //其他的位置为false
-        this.data.buttons[i].checked = false;
+        this.data.displayQueue[i].checked = false;
       }
     }
     this.setData({
-      buttons: this.data.buttons,
+      displayQueue: this.data.displayQueue,
       msg: "id:"+id
     })
   },
   checkButtonTap:function(e){
       var n = 0
-      var f = 0
+      const f = this.data.f
     console.log(e)
     let id = e.currentTarget.dataset.id
     console.log(id)
-    for (let i = 0; i < this.data.buttons.length; i++) {
-      if (this.data.buttons[i].id == id) {
-        if (this.data.buttons[i].checked == true) {
-          this.data.buttons[i].checked = false;
+    for (let i = 0; i < this.data.displayQueue.length; i++) {
+      if (this.data.displayQueue[i].id == id) {
+        if (this.data.displayQueue[i].checked == true) {
+          this.data.displayQueue[i].checked = false;
+
           n--
 
         } else {
-          this.data.buttons[i].checked = true;
-        
+          this.data.displayQueue[i].checked = true;
             //record first button met
-            if(f == 0 & n == 0){
-                f = i
+            if(this.data.number == 0){
+
+                this.setData({f: i})
             }
           //if reaches upper limit
           if((this.data.number + n + 1) > 2){
@@ -122,7 +129,11 @@ radioButtonTap: function (e) {
             //         break
             //     }
             // }
-            this.data.buttons[f].checked = false;
+            wx.showModal({
+              cancelColor: 'cancelColor',
+              title:"最多可以选n个人\n请再次点击取消选取"
+            })
+            this.data.displayQueue[f].checked = false;
             break
           }
           n++
@@ -130,12 +141,83 @@ radioButtonTap: function (e) {
         }
       }
     }
+
+
    this.setData({
-     buttons: this.data.buttons,
+     displayQueue: this.data.displayQueue,
      msg: "id:"+id,
      number: this.data.number += n
     })
 
   },
 
+  select(e){
+    //create new array of objecs including surrogate ids
+
+    this.setData({theQueue: app.globalData.myQueue})
+    const displayQueue = this.data.displayQueue
+
+    if(this.data.displayQueue.length > 0){
+      return
+    }
+      for(let a = 0; a < this.data.theQueue.length;++a){
+        displayQueue.push({id: a, nickName: this.data.theQueue[a].nickName, avatar: this.data.theQueue[a].avatar})
+      }
+      this.setData({displayQueue})
+
+  },
+
+  submit(e){
+
+    this.setData({submitList: []})
+    for (let i = 0; i < this.data.displayQueue.length; i++) {
+      if(this.data.displayQueue[i].checked == true){
+        this.data.submitList.push(this.data.displayQueue[i])
+      }
+      else{continue}
+    }
+    this.setData({submitList: this.data.submitList})
+
+    console.log("submit")
+    const submitList = this.data.submitList
+    console.log(submitList)
+
+    let displayContent = ""
+    for(let i = 0; i < submitList.length; i++){
+      displayContent = displayContent +  submitList[i].nickName+ ", "  
+    }
+
+
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:"请确认你的选择",
+      content: displayContent,
+      success: function(res){
+        if(res.confirm){
+          const db = wx.cloud.database({})
+          console.log(1)
+          for(let i = 0;i < submitList.length;i++){
+            console.log(2)
+            db.collection('fellow').add({
+              data:{
+                nickName: submitList[i].nickName,
+                avatar: submitList[i].avatar
+              }
+            })      
+              .then(res => {
+            })
+            
+            console.log(3)
+          }
+          console.log(4)
+          //voted = false (globaldata)
+          //navigate to FakeIndex
+          //hide 发车
+        }
+
+
+
+      }
+    })
+  }
 })
