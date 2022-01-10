@@ -136,10 +136,10 @@ Page({
               hasFellow: app.globalData.hasFellow,
               displayFellow: app.globalData.fellow
             })
-            console.log("global.hasFellow")
-            console.log(app.globalData.hasFellow)
-            console.log("global.fellow")
-            console.log(app.globalData.fellow)
+            // console.log("global.hasFellow")
+            // console.log(app.globalData.hasFellow)
+            // console.log("global.fellow")
+            // console.log(app.globalData.fellow)
         }
 
         },
@@ -309,7 +309,7 @@ Page({
         for(var i = 0;i < res.data.length;++i){
           idList.push(res.data[i]._id)
         }
-        console.log(idList)
+        // console.log(idList)
         //借用id实现多记录删除
         for(var j = 0;j < idList.length;++j ){
           db.collection('queue').doc(idList[j]).remove({
@@ -356,7 +356,18 @@ Page({
     })
     .catch(console.error)
     console.log("fellow cleared")
-
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'addd',
+      // 传给云函数的参数
+      data: {
+      },
+    })
+    .then(res => {
+      // console.log(res.result) // 3
+    })
+    .catch(console.error)
+    console.log('vote cleared')
 
 
   },
@@ -490,10 +501,24 @@ drive(e){
 },
 
 clickYes(e){
+   //shuffle users in queue
+   Array.prototype.shuffle = function() {
+    var array = this;
+    var m = array.length,
+        t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+}
+  const that = this
   this.setData({hasFellow: false})
 
   const db = wx.cloud.database({})
-  db.collection('queue').add({
+  db.collection('vote').add({
     data: {
       nickName: this.data.userInfo.nickName,
       avatar: this.data.userInfo.avatarUrl,
@@ -502,6 +527,10 @@ clickYes(e){
     }
   })
   .then(res => {
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:'投票成功!'
+    })
   })
 
   const watcher3 = db.collection('vote')
@@ -511,15 +540,13 @@ clickYes(e){
       // console.log('docs\'s changed events', snapshot.docChanges)
       // console.log('query result snapshot after the event', snapshot.docs)
       // console.log('is init data', snapshot.type === 'init')
-      if(snapshot.docChanges.length > 0){          
-        this.setData({
-          displayVote:snapshot.docs
+      if(snapshot.docChanges.length == that.data.displayQueue.length){          
+        that.setData({
+          displayVote:snapshot.docs.shuffle()
         })
     }
-
     },
     onError: function(err) {
-
     }
 
   })
@@ -527,6 +554,54 @@ clickYes(e){
 
 
 clickNo(e){
+   //shuffle users in queue
+   Array.prototype.shuffle = function() {
+    var array = this;
+    var m = array.length,
+        t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+}
+  const that = this
   this.setData({hasFellow: false})
+
+  const db = wx.cloud.database({})
+  db.collection('vote').add({
+    data: {
+      nickName: this.data.userInfo.nickName,
+      avatar: this.data.userInfo.avatarUrl,
+      hasVote: true,
+      voteRes: false
+    }
+  })
+  .then(res => {
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:'投票成功!'
+    })
+  })
+
+  const watcher3 = db.collection('vote')
+  .where({})
+  .watch({
+    onChange: function(snapshot) {
+      // console.log('docs\'s changed events', snapshot.docChanges)
+      // console.log('query result snapshot after the event', snapshot.docs)
+      // console.log('is init data', snapshot.type === 'init')
+      if(snapshot.docChanges.length == that.data.displayQueue.length){          
+        that.setData({
+          displayVote:snapshot.docs.shuffle()
+        })
+    }
+    },
+    onError: function(err) {
+    }
+
+  })
 },
 })

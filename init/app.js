@@ -32,10 +32,11 @@ App({
                 // console.log('docs\'s changed events', snapshot.docChanges)
                 // console.log('query result snapshot after the event', snapshot.docs)
                 // console.log('is init data', snapshot.type === 'init')
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
-                if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){          
+                
+                if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
+                    console.log('1.docs\'s changed events', snapshot.docChanges)
+                    console.log('2,query result snapshot after the event', snapshot.docs)
+                    console.log('3.is init data', snapshot.type === 'init')    
                     console.log("fellow changed")
                     getApp().globalData.hasFellow = true
                     getApp().globalData.fellow = snapshot.docs
@@ -43,6 +44,9 @@ App({
                     cancelColor: 'cancelColor',
                     title:"车长即将发车, 请投票"
                     })
+                    wx.navigateBack({
+                        delta: 1
+                      })
                 }
              },
             onError: function(err) {

@@ -44,6 +44,11 @@
 <image id="{{idx}}" class='userinfo-avatar' src="{{itemName.avatar}}" mode="cover" bindtap='onclickProfile'></image>
 <text class="userinfo-nickname">{{itemName.nickName}}</text>
 
+
+  <view wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
+          <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+          <text>{{itemName.voteRes}}</text>
+        </view>
 </view>
 </view>
       <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->

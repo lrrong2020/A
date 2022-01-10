@@ -195,9 +195,9 @@ radioButtonTap: function (e) {
       success: function(res){
         if(res.confirm){
           const db = wx.cloud.database({})
-          console.log(1)
+
           for(let i = 0;i < submitList.length;i++){
-            console.log(2)
+
             db.collection('fellow').add({
               data:{
                 nickName: submitList[i].nickName,
@@ -208,9 +208,9 @@ radioButtonTap: function (e) {
               .then(res => {
             })
             
-            console.log(3)
+
           }
-          console.log(4)
+
           //voted = false (globaldata)
           //navigate to FakeIndex
           //hide 发车
