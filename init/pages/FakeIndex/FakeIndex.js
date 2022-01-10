@@ -246,10 +246,13 @@ Page({
         for(var i = 0;i < res.data.length;++i){
           idList.push(res.data[i]._id)
         }
+        console.log(idList)
         //借用id实现多记录删除
         for(var j = 0;j < idList.length;++j ){
           db.collection('queue').doc(idList[j]).remove({
             success: function(res) {
+              console.log("remove success")
+              console.log(res)
             }
           })
         }
@@ -269,6 +272,8 @@ Page({
         for(var j = 0;j < idList.length;++j ){
           db.collection('role').doc(idList[j]).remove({
             success: function(res) {
+              console.log("remove success")
+              console.log(res)
             }
           })
         }
@@ -276,29 +281,17 @@ Page({
     })
     console.log("role cleared")
 
-    console.log(1)
-    db.collection('fellow').where({})
-    .get({
-      success: function(res) {
-        // res.data 是包含以上定义的两条记录的数组
-        console.log(2)
-        var idList = []
-        console.log(3)
-        for(var i = 0;i < res.data.length;++i){
-          console.log(4)
-          idList.push(res.data[i]._id)
-        }
-        console.log(5)
-        for(var j = 0;j < idList.length;++j ){
-          console.log(6)
-          db.collection('role').doc(idList[j]).remove({
-            success: function(res) {
-              console.log(7)
-            }
-          })
-        }
-      }
+    wx.cloud.callFunction({
+      // 云函数名称
+      name: 'add',
+      // 传给云函数的参数
+      data: {
+      },
     })
+    .then(res => {
+      console.log(res.result) // 3
+    })
+    .catch(console.error)
     console.log("fellow cleared")
   },
 
@@ -389,8 +382,6 @@ testCloud(e){
     name: 'add',
     // 传给云函数的参数
     data: {
-      a: 1,
-      b: 2,
     },
   })
   .then(res => {

@@ -17,12 +17,12 @@
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
       <button wx:if="{{isOwner}}" id="Enter" bindtap='enterRoom'>开始游戏</button>
-      <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->
+      <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <!-- <button id="refresh" bindtap='refresh'>refresh</button> -->
       <block wx:if="{{roleChanged}}">
         <button id="getRole" bindtap='getRole'>getRole</button>
       </block>
-      <!-- <button id="testCloud" bindtap='testCloud'>testCloud</button> -->
+      <button id="testCloud" bindtap='testCloud'>testCloud</button>
       
       <!-- <button wx:if="{{isOwner}}" id="drive" bindtap='drive'>发车</button> -->
     </block>  
@@ -36,7 +36,7 @@
 
 </view>
 </view>
-      <button id="clearRoom" bindtap='clearRoom'>Clear</button>
+      <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->
       <button id="drive" bindtap='drive'>发车</button>
 </view>
 

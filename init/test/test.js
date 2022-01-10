@@ -201,7 +201,8 @@ radioButtonTap: function (e) {
             db.collection('fellow').add({
               data:{
                 nickName: submitList[i].nickName,
-                avatar: submitList[i].avatar
+                avatar: submitList[i].avatar,
+                isExisted: true
               }
             })      
               .then(res => {
