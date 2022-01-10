@@ -22,16 +22,20 @@ Page({
     displayVote:[]
 
   },
-  onshow(){
+  onShow(){
+
     if(this.data.hasUserInfo && this.data.displayQueue.length == 0){
-      console.log("危险")
+
       wx.showModal({
         cancelColor: 'cancelColor',
-        title:'请点击右上角三个点 → "重新进入小程序"',
+        title:'房间已经被清理. 请点击右上角三个点 → "重新进入小程序"'
       })
     }
+
   },
+
   onLoad() {
+       
     if (wx.getUserProfile) {
       this.setData({
         canIUseGetUserProfile: true,
@@ -291,85 +295,91 @@ Page({
   },
 
   clearRoom(e){
-    //to clear queue and role
-
-    //isOwner only
-
-    // if(!this.data.isOwner){
-    //   return
-    // }
     this.checkUser()
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:"你确定要清理房间吗?",
+      success:function(res){
+        if(res.confirm){
+          //to clear queue and role
 
-    const db = wx.cloud.database({})
-    db.collection('queue').where({})
-    .get({
-      success: function(res) {
-        // res.data 是包含以上定义的两条记录的数组
-        var idList = []
-        for(var i = 0;i < res.data.length;++i){
-          idList.push(res.data[i]._id)
-        }
-        // console.log(idList)
-        //借用id实现多记录删除
-        for(var j = 0;j < idList.length;++j ){
-          db.collection('queue').doc(idList[j]).remove({
-            success: function(res) {
-              // console.log("remove success")
-              // console.log(res)
-            }
-          })
+          //isOwner only
+
+          // if(!this.data.isOwner){
+          //   return
+         // }
+         const db = wx.cloud.database({})
+         db.collection('queue').where({})
+         .get({
+           success: function(res) {
+             // res.data 是包含以上定义的两条记录的数组
+             var idList = []
+             for(var i = 0;i < res.data.length;++i){
+               idList.push(res.data[i]._id)
+             }
+             // console.log(idList)
+             //借用id实现多记录删除
+             for(var j = 0;j < idList.length;++j ){
+               db.collection('queue').doc(idList[j]).remove({
+                 success: function(res) {
+                   // console.log("remove success")
+                   // console.log(res)
+                 }
+               })
+             }
+           }
+         })
+         console.log("Queue cleared")
+     
+         db.collection('role').where({})
+         .get({
+           success: function(res) {
+             // res.data 是包含以上定义的两条记录的数组
+             var idList = []
+             for(var i = 0;i < res.data.length;++i){
+               idList.push(res.data[i]._id)
+             }
+     
+             for(var j = 0;j < idList.length;++j ){
+               db.collection('role').doc(idList[j]).remove({
+                 success: function(res) {
+                   // console.log("remove success")
+                   // console.log(res)
+                 }
+               })
+             }
+           }
+         })
+         console.log("role cleared")
+         wx.cloud.callFunction({
+           // 云函数名称
+           name: 'add',
+           // 传给云函数的参数
+           data: {
+           },
+         })
+         .then(res => {
+           // console.log(res.result) // 3
+         })
+         .catch(console.error)
+         console.log("fellow cleared")
+         wx.cloud.callFunction({
+           // 云函数名称
+           name: 'addd',
+           // 传给云函数的参数
+           data: {
+           },
+         })
+         .then(res => {
+           // console.log(res.result) // 3
+         })
+         .catch(console.error)
+         console.log('vote cleared')    
         }
       }
     })
-    console.log("Queue cleared")
 
-    db.collection('role').where({})
-    .get({
-      success: function(res) {
-        // res.data 是包含以上定义的两条记录的数组
-        var idList = []
-        for(var i = 0;i < res.data.length;++i){
-          idList.push(res.data[i]._id)
-        }
-
-        for(var j = 0;j < idList.length;++j ){
-          db.collection('role').doc(idList[j]).remove({
-            success: function(res) {
-              // console.log("remove success")
-              // console.log(res)
-            }
-          })
-        }
-      }
-    })
-    console.log("role cleared")
-
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: 'add',
-      // 传给云函数的参数
-      data: {
-      },
-    })
-    .then(res => {
-      // console.log(res.result) // 3
-    })
-    .catch(console.error)
-    console.log("fellow cleared")
-    wx.cloud.callFunction({
-      // 云函数名称
-      name: 'addd',
-      // 传给云函数的参数
-      data: {
-      },
-    })
-    .then(res => {
-      // console.log(res.result) // 3
-    })
-    .catch(console.error)
-    console.log('vote cleared')
-
-
+   
   },
 
 
@@ -393,6 +403,20 @@ Page({
         console.log("shuffled role from Database")
         console.log(role)
         var nm = userInfo.nickName
+        //需要换成avatar否则发身份有问题
+         //需要换成avatar否则发身份有问题
+          //需要换成avatar否则发身份有问题
+           //需要换成avatar否则发身份有问题
+            //需要换成avatar否则发身份有问题
+             //需要换成avatar否则发身份有问题
+              //需要换成avatar否则发身份有问题
+               //需要换成avatar否则发身份有问题
+                //需要换成avatar否则发身份有问题
+                 //需要换成avatar否则发身份有问题
+                  //需要换成avatar否则发身份有问题
+                   //需要换成avatar否则发身份有问题
+                    //需要换成avatar否则发身份有问题
+                    
 
         for(var i = 0;i < role.length;++i){
           if(role[i].nickName == nm){
@@ -523,7 +547,7 @@ clickYes(e){
       nickName: this.data.userInfo.nickName,
       avatar: this.data.userInfo.avatarUrl,
       hasVote: true,
-      voteRes: true
+      voteRes: [true, null, null, null, null]
     }
   })
   .then(res => {
@@ -576,7 +600,7 @@ clickNo(e){
       nickName: this.data.userInfo.nickName,
       avatar: this.data.userInfo.avatarUrl,
       hasVote: true,
-      voteRes: false
+      voteRes: [false, null, null, null, null]
     }
   })
   .then(res => {

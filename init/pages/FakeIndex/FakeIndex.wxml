@@ -20,7 +20,7 @@
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <!-- <button id="refresh" bindtap='refresh'>refresh</button> -->
       <block wx:if="{{roleChanged}}">
-        <button id="getRole" bindtap='getRole'>getRole</button>
+        <button id="getRole" bindtap='getRole'>获取你的身份牌</button>
       </block>
       <!-- <button id="testCloud" bindtap='testCloud'>testCloud</button> -->
       
@@ -47,8 +47,8 @@
 
   <view wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
           <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
-          <text>{{itemName.voteRes}}</text>
-        </view>
+          <text>{{itemName.voteRes[0]}}</text>
+  </view>
 </view>
 </view>
       <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->

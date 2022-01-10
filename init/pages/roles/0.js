@@ -72,17 +72,38 @@ Page({
     },
 
     displayText(e){
+        //shuffle users in queue
+   Array.prototype.shuffle = function() {
+    var array = this;
+    var m = array.length,
+        t, i;
+    while (m) {
+        i = Math.floor(Math.random() * m--);
+        t = array[m];
+        array[m] = array[i];
+        array[i] = t;
+    }
+    return array;
+}
         this.setData({roleNo: app.globalData.roleNo_G})
         const i = this.data.roleNo
+        const role = app.globalData.role
+        const meiLinArr = [role[6],role[7],role[8],role[9]].shuffle()
+        const badGuyArr = [role[7],role[8],role[9]]
+        const pieArr = [role[0],role[7]].shuffle()
+        let meiLin = "你是梅林" + "\n红方:" + meiLinArr[0].nickName + "\n" + meiLinArr[1]+ "\n" + meiLinArr[2].nickName + "\n"
+        let pai = "你是派西维尔" + "\n这两个人是派西维尔和梅林, 但是你不知道谁是谁:" + pieArr[0].nickName + "\n" + pieArr[1].nickName
+        let badGuy = "你是红方" + "\n红方:" + "莫甘娜: "+badGuyArr[0].nickName + "\n" + "刺客: "+badGuyArr[1].nickName+ "\n" + "莫德雷德: "+badGuyArr[2].nickName + "\n"
+
         switch(i){
             case 0:
                 this.setData({
-                    text: "你是梅林"
+                    text: meiLin
                 })
                 break;
             case 1:
                 this.setData({
-                    text: "你是派西维尔"
+                    text: pai
                 })
                 break;
             case 2:
@@ -107,22 +128,22 @@ Page({
                 break;
             case 6:
                 this.setData({
-                    text: "你是奥伯伦" + ""
+                    text: "你是奥伯伦"
                 })
                 break;
             case 7:
                 this.setData({
-                    text: "你是莫甘娜"
+                    text: badGuy
                 })
                 break;
             case 8:
                 this.setData({
-                    text: "你是刺客"
+                    text: badGuy
                 })
                 break;
             case 9:
                 this.setData({
-                    text: "你是莫德雷德"
+                    text: badGuy
                 })
                 break;                
         }
