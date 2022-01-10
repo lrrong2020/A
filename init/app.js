@@ -23,7 +23,64 @@ App({
                     //})        
             }
         })
+        const that = this
+        const db = wx.cloud.database()
+        const watcher = db.collection('fellow')
+        .where({})
+        .watch({
+            onChange: function(snapshot) {
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){          
+                    console.log("fellow changed")
+                    getApp().globalData.hasFellow = true
+                    getApp().globalData.fellow = snapshot.docs
+                    wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:"车长即将发车, 请投票"
+                    })
+                }
+             },
+            onError: function(err) {
+                console.error('the watch closed because of error', err)
+            }
+        })
+        const watcher1 = db.collection('queue')
+        .where({})
+        .watch({
+            onChange: function(snapshot) {
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                if(snapshot.docs.length == 0 && snapshot.docChanges.length > 0){
+                    getApp().globalData.cleared = true
+                    wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:"房间已清理 请点击右上角 ... 重新进入小程序"
+                    })
+                    wx.showModal({
+                        cancelColor: 'cancelColor',
+                        title:"房间已清理 请点击右上角 ... 重新进入小程序"
+                    })
+                    wx.showModal({
+                        cancelColor: 'cancelColor',
+                        title:"房间已清理 请点击右上角 ... 重新进入小程序"
+                    })
+                }
+             },
+            onError: function(err) {
+                console.error('the watch closed because of error', err)
+            }
+        })
     },
+
     globalData: {
         hasUser: false, // 数据库中是否有用户
         hasUserInfo: false, // 小程序的userInfo是否有获取
@@ -40,6 +97,9 @@ App({
         myQueue:[],
         role:[],
         nickName:null,
-        roleNo_G: -1
+        roleNo_G: -1,
+        hasFellow:false,
+        fellow:[],
+        cleared: false
     }
 })

@@ -8,7 +8,7 @@
       <open-data type="userNickName"></open-data>
     </block>
     <block wx:elif="{{!hasUserInfo}}">
-      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取 </button>
+      <button wx:if="{{canIUseGetUserProfile}}" bindtap="getUserProfile"> 获取并进入房间 </button>
       
       <button wx:elif="{{canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
       <view wx:else> 请使用1.4.4及以上版本基础库 </view>
@@ -22,9 +22,19 @@
       <block wx:if="{{roleChanged}}">
         <button id="getRole" bindtap='getRole'>getRole</button>
       </block>
-      <button id="testCloud" bindtap='testCloud'>testCloud</button>
+      <!-- <button id="testCloud" bindtap='testCloud'>testCloud</button> -->
       
       <!-- <button wx:if="{{isOwner}}" id="drive" bindtap='drive'>发车</button> -->
+
+<view wx:if="{{hasFellow}}">
+        <view wx:for="{{displayFellow}}" wx:for-index="idx" wx:for-item="itemName">
+          <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+
+        </view>
+        <button bindtap="clickYes" class="voteButton">同意</button>
+        <button bindtap="clickNo" class="voteButton">反对</button>
+</view>
+
     </block>  
   </view>
 

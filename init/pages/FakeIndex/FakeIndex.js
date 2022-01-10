@@ -16,7 +16,10 @@ Page({
     nickName:'',
     roleText: -1,
     roleChanged: false,
-    hasRole: false
+    hasRole: false,
+    hasFellow: false,
+    displayFellow: [],
+    displayVote:[]
 
   },
   onshow(){
@@ -37,11 +40,14 @@ Page({
     }
     // this.refresh()
     const that = this
+
     const db = wx.cloud.database()
     const watcher = db.collection('queue')
       .where({})
       .watch({
         onChange: function(snapshot) {
+          
+          if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
           // console.log('is init data', snapshot.type === 'init')
@@ -50,16 +56,47 @@ Page({
           // console.log("Test Interval 2")
           
           //refresh
-               
           setTimeout(() => {
             that.checkUser()
+            let doc = snapshot.docs
+            // console.log(doc)
+            if(that.data.userInfo.avatarUrl != doc[0].avatar){
+              that.setData({isOwner: false})
+            }
+            else{
+              that.setData({isOwner: true})
+            }
             console.log("Auto Update")
-            that.setData({displayQueue: snapshot.docs})
+            that.setData({
+              displayQueue: snapshot.docs        
+              // hasFellow: app.globalData.hasFellow,
+              // displayFellow: app.globalData.fellow
+            })
             app.globalData.myQueue = snapshot.docs
-            console.log("global: ")
-            console.log(app.globalData.myQueue)
-
+            // console.log("global.myQueue ")
+            // console.log(app.globalData.myQueue)
           }, 3000);
+ 
+          }
+          if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "remove"){
+            console.log(snapshot.docChanges[0])
+            if(snapshot.docChanges[0].doc.avatar == that.data.userInfo.avatarUrl){
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'你已经被房主踢出',
+                content:'拜拜咯'
+              })
+            }
+            setTimeout(() => {
+              that.checkUser()
+              console.log("Auto Update")
+              that.setData({
+                displayQueue: snapshot.docs        
+              })
+              app.globalData.myQueue = snapshot.docs
+            }, 3000);
+          }
+          
         },
         onError: function(err) {
           console.error('the watch closed because of error', err)
@@ -70,18 +107,43 @@ Page({
       .where({})
       .watch({
         onChange: function(snapshot) {
-          console.log('docs\'s changed events', snapshot.docChanges)
-          console.log('query result snapshot after the event', snapshot.docs)
-          console.log('is init data', snapshot.type === 'init')
+          // console.log('docs\'s changed events', snapshot.docChanges)
+          // console.log('query result snapshot after the event', snapshot.docs)
+          // console.log('is init data', snapshot.type === 'init')
           if(snapshot.docChanges.length > 0){          
             console.log("Role changed")
           that.setData({roleChanged: true})
-
         }
 
         },
         onError: function(err) {
           
+        }
+
+      })
+
+      const watcher2 = db.collection('fellow')
+      .where({})
+      .watch({
+        onChange: function(snapshot) {
+          // console.log('docs\'s changed events', snapshot.docChanges)
+          // console.log('query result snapshot after the event', snapshot.docs)
+          // console.log('is init data', snapshot.type === 'init')
+          if(snapshot.docChanges.length > 0){          
+            console.log("fellow changed")
+            that.setData({
+              hasFellow: true,
+              hasFellow: app.globalData.hasFellow,
+              displayFellow: app.globalData.fellow
+            })
+            console.log("global.hasFellow")
+            console.log(app.globalData.hasFellow)
+            console.log("global.fellow")
+            console.log(app.globalData.fellow)
+        }
+
+        },
+        onError: function(err) {
         }
 
       })
@@ -93,7 +155,8 @@ Page({
     wx.getUserProfile({
       desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
-        console.log("res userinfo: "+res.userInfo)
+        console.log("res userinfo: ")
+        console.log(res)
       
         this.setData({
           userInfo: res.userInfo,
@@ -251,8 +314,8 @@ Page({
         for(var j = 0;j < idList.length;++j ){
           db.collection('queue').doc(idList[j]).remove({
             success: function(res) {
-              console.log("remove success")
-              console.log(res)
+              // console.log("remove success")
+              // console.log(res)
             }
           })
         }
@@ -272,8 +335,8 @@ Page({
         for(var j = 0;j < idList.length;++j ){
           db.collection('role').doc(idList[j]).remove({
             success: function(res) {
-              console.log("remove success")
-              console.log(res)
+              // console.log("remove success")
+              // console.log(res)
             }
           })
         }
@@ -289,10 +352,13 @@ Page({
       },
     })
     .then(res => {
-      console.log(res.result) // 3
+      // console.log(res.result) // 3
     })
     .catch(console.error)
     console.log("fellow cleared")
+
+
+
   },
 
 
@@ -350,7 +416,7 @@ Page({
     const user = await db.collection('queue').get()
 
     // 如果没有用户，跳转到登录页面登录
-    if (user.data.length < 2) {
+    if (user.data.length < 1) {
         app.globalData.hasUser = false
         app.globalData.isOwner = true
         this.setData({isOwner: true})
@@ -365,12 +431,31 @@ Page({
 },
 
 onclickProfile(e){
-  if(this.isOwner){
+  if(this.data.isOwner == false){
     // console.log('kickout player')
+    return
   }
-  const id = e.target.id
-  console.log(id)
-  console.log(app.globalData.myQueue[id])
+
+  let displayContent = "你确定要将" + app.globalData.myQueue[e.target.id].nickName + "踢出房间吗?"
+  wx.showModal({
+    cancelColor: 'cancelColor',
+    title:'踢出房间',
+    content: displayContent,
+    success: function(res){
+      if(res.confirm){
+        const realId = app.globalData.myQueue[e.target.id]._id
+        // console.log(realId)
+
+        const db = wx.cloud.database({})
+        db.collection('queue').doc(realId).remove({
+          success: function(res) {
+          }
+        })
+      }
+    }
+  })
+
+  
 
   // const query = wx.createSelectorQuery()
   // query.select(id).style.color = "red" 
@@ -402,5 +487,46 @@ drive(e){
     url: '/test/test',
   })
 
-}
+},
+
+clickYes(e){
+  this.setData({hasFellow: false})
+
+  const db = wx.cloud.database({})
+  db.collection('queue').add({
+    data: {
+      nickName: this.data.userInfo.nickName,
+      avatar: this.data.userInfo.avatarUrl,
+      hasVote: true,
+      voteRes: true
+    }
+  })
+  .then(res => {
+  })
+
+  const watcher3 = db.collection('vote')
+  .where({})
+  .watch({
+    onChange: function(snapshot) {
+      // console.log('docs\'s changed events', snapshot.docChanges)
+      // console.log('query result snapshot after the event', snapshot.docs)
+      // console.log('is init data', snapshot.type === 'init')
+      if(snapshot.docChanges.length > 0){          
+        this.setData({
+          displayVote:snapshot.docs
+        })
+    }
+
+    },
+    onError: function(err) {
+
+    }
+
+  })
+},
+
+
+clickNo(e){
+  this.setData({hasFellow: false})
+},
 })

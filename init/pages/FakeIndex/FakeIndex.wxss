@@ -30,6 +30,13 @@
   border-radius: 50%;
 }
 
+.userinfo-avatar-fellow{
+  overflow: hidden;
+  width: 64rpx;
+  height: 64rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
 
 .usermotto {
   margin-top: 200px;
