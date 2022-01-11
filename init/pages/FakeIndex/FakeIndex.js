@@ -20,16 +20,29 @@ Page({
     hasFellow: false,
     displayFellow: [],
     displayVote:[],
-    isLeader: false
+    isLeader: false,
+    isGoddess: false,
+    isAssa: app.globalData.isAssa,
+    votes1: [1],
+    votes2: [2],
+    votes3: [3],
+    votes4: [4],
+    votes5: [5],
+    canGo: app.globalData.canGo,
+    isBegun:false,
+    queueIdx: -1
 
   },
   onShow(){
-
-    if(this.data.hasUserInfo && this.data.displayQueue.length == 0){
+    this.setData({
+      canGo: app.globalData.canGo,    
+      isAssa: app.globalData.isAssa,
+    })
+    if((this.data.hasUserInfo && this.data.displayQueue.length == 0) || (this.data.hasUserInfo && this.data.queueIdx == -1)){
 
       wx.showModal({
         cancelColor: 'cancelColor',
-        title:'房间已经被清理. 请点击右上角三个点 → "重新进入小程序"'
+        title:'房间已经被清理或你已经被踢出房间. 如要重新进入房间, 请点击右上角三个点 → "重新进入小程序"'
       })
     }
 
@@ -45,6 +58,8 @@ Page({
     }
     // this.refresh()
     const that = this
+    // var currentRound = this.data.currentRound
+
 
    
     const displayQueue = this.data.displayQueue
@@ -53,6 +68,8 @@ Page({
       .where({})
       .watch({
         onChange: function(snapshot) {
+          // console.log("curentRound:")
+          // console.log(curentRound)
 
           if(snapshot.docChanges.length > 0 && (snapshot.docChanges[0].dataType == "add" || snapshot.docChanges[0].dataType == "update")){
           // console.log('docs\'s changed events', snapshot.docChanges)
@@ -81,6 +98,7 @@ Page({
             for(let i = 0; i < doc.length;++i){
               if(doc[i].avatar == avt){
                 idx = i
+                that.setData({queueIdx: idx})
                 break
               }
             }
@@ -106,12 +124,16 @@ Page({
           if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "remove"){
             console.log(snapshot.docChanges[0])
             if(snapshot.docChanges[0].doc.avatar == that.data.userInfo.avatarUrl){
+              that.setData({
+                queueIdx: -1
+              })
               wx.showModal({
                 cancelColor: 'cancelColor',
                 title:'你已经被房主踢出',
                 content:'拜拜咯'
               })
             }
+
             setTimeout(() => {
               that.checkUser()
               console.log("Auto Update")
@@ -119,8 +141,9 @@ Page({
                 displayQueue: snapshot.docs        
               })
               app.globalData.myQueue = snapshot.docs
-            }, 3000);
+            }, 2000);
           }
+          
 
           
         },
@@ -246,6 +269,7 @@ Page({
     })
   },
   enterRoom(e){
+    this.setData({isBegun: true})
     this.checkUser()
     console.log("enter room")
     //isOwner only (may be only visible to the onwer)
@@ -286,7 +310,7 @@ Page({
         console.log(4)
         //rd 0-9
         let rd = Math.floor(Math.random() * 10)
-        console.log("rd" + rd)
+        console.log("rd: " + rd)
         console.log(5)
         db.collection('queue').doc(idList[rd]).update({
           data:{
@@ -527,8 +551,48 @@ Page({
 },
 
 onclickProfile(e){
-  if(this.data.isOwner == false){
-    // console.log('kickout player')
+  const that = this
+  if(this.data.isOwner && (!this.data.isBegun)){
+
+    let displayContent = "你确定要将" + app.globalData.myQueue[e.target.id].nickName + "踢出房间吗?"
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:'踢出房间',
+      content: displayContent,
+      success: function(res){
+        if(res.confirm){
+          const realId = app.globalData.myQueue[e.target.id]._id
+          // console.log(realId)
+  
+          const db = wx.cloud.database({})
+          db.collection('queue').doc(realId).remove({
+            success: function(res) {
+            }
+          })
+        }
+      }
+    })
+    // const query = wx.createSelectorQuery()
+    // query.select(id).style.color = "red" 
+
+
+  }
+
+  else if(that.data.isAssa){
+    let assText = "你确定要刺杀 " + app.globalData.myQueue[e.target.id].nickName + " 吗?"
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:"猎杀时刻",
+      content: assText,
+      success:function(res){
+        if(res.confirm){
+          console.log(that.data.displayQueue[that.data.queueIdx].nickName + " 刺杀了 " + app.globalData.myQueue[e.target.id].nickName)
+        }
+      }
+    })
+    return
+  }
+  else{
     wx.showModal({
       cancelColor: 'cancelColor',
       title:"玩家昵称",
@@ -537,29 +601,7 @@ onclickProfile(e){
     return
   }
 
-  let displayContent = "你确定要将" + app.globalData.myQueue[e.target.id].nickName + "踢出房间吗?"
-  wx.showModal({
-    cancelColor: 'cancelColor',
-    title:'踢出房间',
-    content: displayContent,
-    success: function(res){
-      if(res.confirm){
-        const realId = app.globalData.myQueue[e.target.id]._id
-        // console.log(realId)
 
-        const db = wx.cloud.database({})
-        db.collection('queue').doc(realId).remove({
-          success: function(res) {
-          }
-        })
-      }
-    }
-  })
-
-  
-
-  // const query = wx.createSelectorQuery()
-  // query.select(id).style.color = "red" 
 },
 
 testCloud(e){
@@ -584,6 +626,7 @@ seeRole(e){
 },
 
 drive(e){
+
   wx.navigateTo({
     url: '/test/test',
   })
@@ -642,6 +685,30 @@ clickYes(e){
         console.log("app.globalData.vote: ")
         console.log(app.globalData.vote)
 
+        //change currentRound ptr
+/*      
+        if(less than half votes are true): 
+          currentRound ptr++
+          canGo = true
+          if(currentRound == 5): 
+            expire the leader
+            delegate new leader
+        else: 
+          expire the leader
+          delegate new leader //(queueidx+1) / queue.length(10)
+          store the votes result of the last round in votesx[]
+          if (in fellow): 
+            isPartialVoting
+          await res from cloud function
+          if (success): 
+          wx.showModal
+          display:{
+            第x局
+            2/4 x -----失败
+          }
+          canGo = true
+*/
+
     }
     },
     onError: function(err) {
@@ -695,6 +762,7 @@ clickNo(e){
         that.setData({
           displayVote:snapshot.docs.shuffle()
         })
+        app.globalData.vote = that.data.displayQueue
     }
     },
     onError: function(err) {

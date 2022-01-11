@@ -193,6 +193,7 @@ radioButtonTap: function (e) {
       title:"请确认你的选择",
       content: displayContent,
       success: function(res){
+        getApp().globalData.canGo = false
         if(res.confirm){
           const db = wx.cloud.database({})
 

@@ -105,6 +105,10 @@ App({
         hasFellow:false,
         fellow:[],
         cleared: false,
-        vote:[]
+        vote:[],
+        currentRound:0,//for leader to vote (<5)
+        currentFrame:0,//for count larger frames
+        canGo: true,
+        isAssa: false,
     }
 })

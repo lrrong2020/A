@@ -42,10 +42,10 @@
 
 .userinfo-avatar-fellow{
   overflow: hidden;
-  width: 128rpx;
-  height: 128rpx;
+  width: 132rpx;
+  height: 132rpx;
   margin: 20rpx;
-  border-radius: 50%;
+  border-radius: 75%;
 }
 
 .usermotto {
@@ -54,4 +54,9 @@
 
 .chosen{
   color: red
+}
+
+.container-block{
+  border-width: 1px;
+  margin: 50rpx;
 }

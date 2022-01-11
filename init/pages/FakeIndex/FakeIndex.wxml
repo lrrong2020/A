@@ -16,7 +16,7 @@
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-      <button wx:if="{{isOwner}}" id="Enter" bindtap='enterRoom'>开始游戏</button>
+      <button wx:if="{{isOwner && !isBegun}}" id="Enter" bindtap='enterRoom'>开始游戏</button>
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <!-- <button id="refresh" bindtap='refresh'>refresh</button> -->
       <block wx:if="{{roleChanged}}">
@@ -25,8 +25,8 @@
       <!-- <button id="testCloud" bindtap='testCloud'>testCloud</button> -->
       
       <!-- <button wx:if="{{isOwner}}" id="drive" bindtap='drive'>发车</button> -->
-
-<view wx:if="{{hasFellow}}">
+<block class="container-block">
+<view class="userinfoF" wx:if="{{hasFellow}}">
         <view wx:for="{{displayFellow}}" wx:for-index="idx" wx:for-item="itemName">
           <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
 
@@ -34,7 +34,7 @@
         <button bindtap="clickYes" class="voteButton">同意</button>
         <button bindtap="clickNo" class="voteButton">反对</button>
 </view>
-
+</block>
     </block>  
   </view>
 
@@ -50,15 +50,25 @@
           <text>{{itemName.voteRes[0]}}</text>
   </view> -->
 </view>
-<view wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
-          <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
-          <text>{{itemName.voteRes[0]}}</text>
+
 </view>
-</view>
-<block wx:if="{{isLeader}}">
+<!-- <block wx:if="{{isLeader}}"> -->
+<block wx:if="{{canGo}}">
       <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->
       <button id="drive" bindtap='drive'>发车</button>
 </block>
 </view>
+
+<view class="container-block" wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
+          <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+
+          <text wx:for="{{itemName.voteRes.length}}" wx:for-index="i"> {{itemName.voteRes[i] != null?itemName.voteRes[i]:""}}</text>
+</view>
+
+<view wx:if="{{votes1}}"><button onclick='one'>第一局</button></view>
+<view wx:if="{{votes2}}"><button onclick='two'>第二局</button></view>
+<view wx:if="{{votes3}}"><button onclick='three'>第三局</button></view>
+<view wx:if="{{votes4}}"><button onclick='four'>第四局</button></view>
+<view wx:if="{{votes5}}"><button onclick='five'>第五局</button></view>
 
 

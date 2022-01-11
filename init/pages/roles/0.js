@@ -140,6 +140,7 @@ Page({
                 this.setData({
                     text: badGuy
                 })
+                getApp().globalData.isAssa = true
                 break;
             case 9:
                 this.setData({
