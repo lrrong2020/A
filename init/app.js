@@ -42,7 +42,7 @@ App({
                     getApp().globalData.fellow = snapshot.docs
                     wx.showModal({
                     cancelColor: 'cancelColor',
-                    title:"车长即将发车, 请投票"
+                    title:"任务进行中"
                     })
                     wx.navigateBack({
                         delta: 1
@@ -103,7 +103,15 @@ App({
         nickName:null,
         roleNo_G: -1,
         hasFellow:false,
+        hasFellow2:false,
+        hasFellow3:false,
+        hasFellow4:false,
+        hasFellow5:false,
         fellow:[],
+        fellow2:[],
+        fellow3:[],
+        fellow4:[],
+        fellow5:[],
         cleared: false,
         vote:[],
         currentRound:0,//for leader to vote (<5)

@@ -45,7 +45,7 @@
   width: 132rpx;
   height: 132rpx;
   margin: 20rpx;
-  border-radius: 75%;
+
 }
 
 .usermotto {

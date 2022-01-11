@@ -18,7 +18,15 @@ Page({
     roleChanged: false,
     hasRole: false,
     hasFellow: false,
+    hasFellow2:false,
+    hasFellow3:false,
+    hasFellow4:false,
+    hasFellow5:false,
     displayFellow: [],
+    displayFellow2: [],
+    displayFellow3: [],
+    displayFellow4: [],
+    displayFellow5: [],
     displayVote:[],
     isLeader: false,
     isGoddess: false,
@@ -104,8 +112,8 @@ Page({
             }
             console.log("idx: " + idx)
             console.log("Auto Update")
-            let isLeader = doc[idx].isLeader
-            let isGoddess = doc[idx].isGoddess
+            var isLeader = doc[idx].isLeader
+            var isGoddess = doc[idx].isGoddess
             console.log("isLeader:" + isLeader)
             console.log("isGoddess:" + isGoddess)
             that.setData({
@@ -118,7 +126,7 @@ Page({
             app.globalData.myQueue = snapshot.docs
             // console.log("global.myQueue ")
             // console.log(app.globalData.myQueue)
-          }, 3000);
+          }, 5000);
  
           }
           if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "remove"){
@@ -190,11 +198,9 @@ Page({
             // console.log("global.fellow")
             // console.log(app.globalData.fellow)
         }
-
         },
         onError: function(err) {
         }
-
       })
       //  watcher.close()
   },
@@ -216,6 +222,7 @@ Page({
           displayQueue: app.globalData.myQueue
         })
 
+        app.globalData.userInfo = res.userInfo
         //console.log(this.data.userInfo)
 
         const db = wx.cloud.database({})
@@ -271,6 +278,7 @@ Page({
   enterRoom(e){
     this.setData({isBegun: true})
     this.checkUser()
+    const that = this
     console.log("enter room")
     //isOwner only (may be only visible to the onwer)
     // if(!this.data.isOwner){
@@ -308,8 +316,8 @@ Page({
         console.log(idList)
         //借用id实现随机选择
         console.log(4)
-        //rd 0-9
-        let rd = Math.floor(Math.random() * 10)
+        //rd 0 ~ queue.length-1
+        let rd = Math.floor(Math.random() * that.data.displayQueue.length)
         console.log("rd: " + rd)
         console.log(5)
         db.collection('queue').doc(idList[rd]).update({
@@ -675,17 +683,58 @@ clickYes(e){
       console.log('2,query result snapshot after the event', snapshot.docs)
       console.log('3.is init data', snapshot.type === 'init')    
       if(snapshot.docs.length == that.data.displayQueue.length){   
-        console.log(1)       
+        // console.log(1)       
         that.setData({
           displayVote:snapshot.docs.shuffle()
         })
-        console.log(2)       
-        app.globalData.vote = that.data.displayQueue
-        console.log(3)       
-        console.log("app.globalData.vote: ")
-        console.log(app.globalData.vote)
+        app.globalData.vote = that.data.displayVote
+        // console.log(2)       
+        // console.log(3)       
+        // console.log("app.globalData.vote: ")
+        // console.log(app.globalData.vote)
 
-        //change currentRound ptr
+        const currentRound = app.globalData.currentRound
+        const votes = snapshot.docs
+        console.log("votes:")
+        console.log(votes)
+
+        let count = 0
+        for(let a=0;a<votes.length;++a){
+          if(votes[currentRound] == true){
+            count++
+          }
+        }
+
+        console.log("count")
+        console.log(count)
+        if(count <= votes.length){
+          console.log(app.globalData.currentRound)
+          app.globalData.currentRound = app.globalData.currentRound + 1
+          console.log(app.globalData.currentRound)
+          if(app.globalData.currentRound == 5){
+            var resId = ""
+            const db = wx.cloud.database({})
+            db.collection('queue').where({
+              avatar: that.data.avatarUrl
+            })
+            .get({
+              success:function(res){
+                resId = res._id
+              }
+            })
+            db.collection('queue').doc(resId).update({
+              isLeader: false
+            })
+          }
+
+          app.globalData.canGo = true
+          that.setData({canGo: true})
+        }
+        else{
+          console.log("没有流局")
+          console.log(app.globalData.currentRound)
+          console.log("app.globalData.currentRound")
+        }
 /*      
         if(less than half votes are true): 
           currentRound ptr++
@@ -693,9 +742,12 @@ clickYes(e){
           if(currentRound == 5): 
             expire the leader
             delegate new leader
+            currentRound = 0
+            return
         else: 
           expire the leader
           delegate new leader //(queueidx+1) / queue.length(10)
+          currentRound = 0
           store the votes result of the last round in votesx[]
           if (in fellow): 
             isPartialVoting
@@ -719,6 +771,7 @@ clickYes(e){
 
 
 clickNo(e){
+  const db = wx.cloud.database({})
    //shuffle users in queue
    Array.prototype.shuffle = function() {
     var array = this;
@@ -735,39 +788,147 @@ clickNo(e){
   const that = this
   this.setData({hasFellow: false})
 
-  const db = wx.cloud.database({})
-  db.collection('vote').add({
-    data: {
-      nickName: this.data.userInfo.nickName,
-      avatar: this.data.userInfo.avatarUrl,
-      hasVote: true,
-      voteRes: [false, null, null, null, null]
-    }
-  })
-  .then(res => {
-    wx.showModal({
-      cancelColor: 'cancelColor',
-      title:'投票成功!'
+  if(app.globalData.currentRound == 0){
+    db.collection('vote').add({
+      data: {
+        nickName: this.data.userInfo.nickName,
+        avatar: this.data.userInfo.avatarUrl,
+        hasVote: true,
+        voteRes: [false, null, null, null, null]
+      }
     })
-  })
+    .then(res => {
+      wx.showModal({
+        cancelColor: 'cancelColor',
+        title:'投票成功!'
+      })
+    })
 
-  const watcher3 = db.collection('vote')
-  .where({})
-  .watch({
-    onChange: function(snapshot) {
-      // console.log('docs\'s changed events', snapshot.docChanges)
-      // console.log('query result snapshot after the event', snapshot.docs)
-      // console.log('is init data', snapshot.type === 'init')
-      if(snapshot.docChanges.length == that.data.displayQueue.length){          
-        that.setData({
-          displayVote:snapshot.docs.shuffle()
+    const watcher3 = db.collection('vote')
+    .where({})
+    .watch({
+      onChange: function(snapshot) {
+        // console.log('docs\'s changed events', snapshot.docChanges)
+        // console.log('query result snapshot after the event', snapshot.docs)
+        // console.log('is init data', snapshot.type === 'init')
+        if(snapshot.docChanges.length == that.data.displayQueue.length){    
+          that.setData({
+            displayVote:snapshot.docs.shuffle()
+          })
+          app.globalData.vote = that.data.displayVote    
+
+          wx.cloud.callFunction({
+            // 云函数名称
+            name: 'add',
+            // 传给云函数的参数
+            data: {
+            },
+          })
+          .then(res => {
+            // console.log(res.result) // 3
+          })
+          .catch(console.error)
+          console.log("fellow cleared")
+
+
+          that.setData({canGo: true})
+      }
+      },
+      onError: function(err) {
+      }
+    })
+  }
+  else{
+    const db = wx.cloud.database({})
+    var resId = ""
+    var voteArr = []
+
+    db.collection('queue').where({
+      avatar: that.data.userInfo.avatarUrl
+    })
+    .get({
+      success:function(res){
+        resId = res._id
+        voteArr = res.voteRes
+        console.log("voteArr")
+        console.log(voteArr)
+        db.collection('queue').doc(resId).update({
+          isLeader: false
         })
-        app.globalData.vote = that.data.displayQueue
-    }
-    },
-    onError: function(err) {
-    }
+      }
+    })
 
-  })
+
+  }
 },
 })
+
+/*
+        const currentRound = app.globalData.currentRound
+        const votes = snapshot.docs
+        console.log("votes:")
+        console.log(votes)
+
+        let count = 0
+        for(let a=0;a<votes.length;++a){
+          if(votes[currentRound] == true){
+            count++
+          }
+        }
+
+        console.log("count")
+        console.log(count)
+        if(count <= votes.length){
+          console.log(app.globalData.currentRound)
+          app.globalData.currentRound = app.globalData.currentRound + 1
+          console.log(app.globalData.currentRound)
+          if(app.globalData.currentRound == 5){
+            var resId = ""
+            const db = wx.cloud.database({})
+            db.collection('queue').where({
+              avatar: that.data.avatarUrl
+            })
+            .get({
+              success:function(res){
+                resId = res._id
+              }
+            })
+            db.collection('queue').doc(resId).update({
+              isLeader: false
+            })
+          }
+
+          app.globalData.canGo = true
+          that.setData({canGo: true})
+        }
+        else{
+          console.log("没有流局")
+          console.log(app.globalData.currentRound)
+          console.log("app.globalData.currentRound")
+        }
+/*      
+        if(less than half votes are true): 
+          currentRound ptr++
+          canGo = true
+          clear votes database?
+          if(currentRound == 5): 
+            expire the leader
+            delegate new leader
+            currentRound = 0
+            return
+        else: 
+          expire the leader
+          delegate new leader //(queueidx+1) / queue.length(10)
+          currentRound = 0
+          store the votes result of the last round in votesx[]
+          if (in fellow): 
+            isPartialVoting
+          await res from cloud function
+          if (success): 
+          wx.showModal
+          display:{
+            第x局
+            2/4 x -----失败
+          }
+          canGo = true
+*/

@@ -211,6 +211,63 @@ radioButtonTap: function (e) {
             
 
           }
+          console.log("app.globalData.userInfo")
+          console.log(app.globalData.userInfo)
+
+          const avt = app.globalData.userInfo.avatarUrl
+          console.log("avt")
+          console.log(avt)
+            // const db = wx.cloud.database({})
+            db.collection('queue').where({
+            })
+            .get({
+              success:function(res){
+                // resId = res._id
+                // console.log("resId")
+                // console.log(resId)
+                // console.log("res")
+                // console.log(res)
+                // res.data 是包含以上定义的两条记录的数组
+                var resId = ""
+                var nextId = ""
+                // console.log("resId before")
+                // console.log(resId)
+                for(var i = 0;i < res.data.length;i++){
+                  if(res.data[i].avatar == avt){
+                    resId = res.data[i]._id
+                    const nextIndex = (i+1) % res.data.length
+                    console.log("i: " + i)
+                    console.log("nextIndex: " + nextIndex)
+                    nextId = res.data[(i+1) % res.data.length]._id
+                    break
+                  }
+                  else{
+                    continue
+                  }
+
+                }
+                console.log("resId after")
+                console.log(resId)
+                console.log("nextId after")
+                console.log(nextId)
+
+                db.collection('queue').doc(resId).update({
+                  data:{
+                    isLeader: false
+                  }
+
+                })
+                db.collection('queue').doc(nextId).update({
+                  data:{
+                    isLeader: true
+                  }
+                })
+
+                // console.log(idList)
+                //借用id实现多记录删除
+              }
+            })
+            
 
           //voted = false (globaldata)
           //navigate to FakeIndex

@@ -27,12 +27,12 @@
       <!-- <button wx:if="{{isOwner}}" id="drive" bindtap='drive'>发车</button> -->
 <block class="container-block">
 <view class="userinfoF" wx:if="{{hasFellow}}">
+  <text>1: </text>
         <view wx:for="{{displayFellow}}" wx:for-index="idx" wx:for-item="itemName">
           <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
-
         </view>
-        <button bindtap="clickYes" class="voteButton">同意</button>
-        <button bindtap="clickNo" class="voteButton">反对</button>
+        <!-- <button bindtap="clickYes" class="voteButton">同意</button>
+        <button bindtap="clickNo" class="voteButton">反对</button> -->
 </view>
 </block>
     </block>  
@@ -53,13 +53,13 @@
 
 </view>
 <!-- <block wx:if="{{isLeader}}"> -->
-<block wx:if="{{canGo}}">
+<block wx:if="{{canGo && isLeader}}">
       <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->
       <button id="drive" bindtap='drive'>发车</button>
 </block>
 </view>
 
-<view class="container-block" wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
+<view wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
           <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
 
           <text wx:for="{{itemName.voteRes.length}}" wx:for-index="i"> {{itemName.voteRes[i] != null?itemName.voteRes[i]:""}}</text>

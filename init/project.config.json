@@ -44,7 +44,7 @@
     "compileType": "miniprogram",
     "libVersion": "2.2.5",
     "appid": "wx8f5f173b2107cd8a",
-    "projectname": "%E4%B8%AA%E4%BA%BA%E7%9B%B8%E5%86%8C",
+    "projectname": "馋死阿了",
     "isGameTourist": false,
     "cloudfunctionRoot": "cloud/functions/",
     "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
