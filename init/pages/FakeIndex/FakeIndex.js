@@ -19,7 +19,8 @@ Page({
     hasRole: false,
     hasFellow: false,
     displayFellow: [],
-    displayVote:[]
+    displayVote:[],
+    isLeader: false
 
   },
   onShow(){
@@ -45,34 +46,54 @@ Page({
     // this.refresh()
     const that = this
 
+   
+    const displayQueue = this.data.displayQueue
     const db = wx.cloud.database()
     const watcher = db.collection('queue')
       .where({})
       .watch({
         onChange: function(snapshot) {
-          
-          if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
+
+          if(snapshot.docChanges.length > 0 && (snapshot.docChanges[0].dataType == "add" || snapshot.docChanges[0].dataType == "update")){
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
           // console.log('is init data', snapshot.type === 'init')
           // console.log("Test Interval 0")
-
           // console.log("Test Interval 2")
           
           //refresh
           setTimeout(() => {
             that.checkUser()
+            const avt = that.data.userInfo.avatarUrl
+            console.log("avt:")
+            console.log(avt)
             let doc = snapshot.docs
+            console.log("doc: ")
+            console.log(doc)
             // console.log(doc)
-            if(that.data.userInfo.avatarUrl != doc[0].avatar){
+            if(avt != doc[0].avatar){
               that.setData({isOwner: false})
             }
             else{
               that.setData({isOwner: true})
             }
+            let idx = -1
+            for(let i = 0; i < doc.length;++i){
+              if(doc[i].avatar == avt){
+                idx = i
+                break
+              }
+            }
+            console.log("idx: " + idx)
             console.log("Auto Update")
+            let isLeader = doc[idx].isLeader
+            let isGoddess = doc[idx].isGoddess
+            console.log("isLeader:" + isLeader)
+            console.log("isGoddess:" + isGoddess)
             that.setData({
-              displayQueue: snapshot.docs        
+              displayQueue: snapshot.docs,
+              isLeader: isLeader,
+              isGoddess: isGoddess,
               // hasFellow: app.globalData.hasFellow,
               // displayFellow: app.globalData.fellow
             })
@@ -100,6 +121,7 @@ Page({
               app.globalData.myQueue = snapshot.docs
             }, 3000);
           }
+
           
         },
         onError: function(err) {
@@ -154,7 +176,10 @@ Page({
       //  watcher.close()
   },
 
+
   async getUserProfile(e) {
+
+    console.log("Login")
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
       desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
@@ -205,8 +230,10 @@ Page({
 
         db.collection('queue').add({
           data: {
-            nickName: this.data.userInfo.nickName,
-            avatar: this.data.userInfo.avatarUrl
+            nickName: res.userInfo.nickName,
+            avatar: res.userInfo.avatarUrl,
+            isLeader: false,
+            isGoddess: false
           }
         })
         .then(res => {
@@ -240,8 +267,49 @@ Page({
       return array;
   }
 
+  console.log(1)
     //append shuffled queue to role
     const db = wx.cloud.database({})
+    console.log(2)
+    //pick leader
+    db.collection('queue').where({})
+    .get({
+      success: function(res) {
+        console.log(3)
+        // res.data 是包含以上定义的两条记录的数组
+        var idList = []
+        for(var i = 0;i < res.data.length;++i){
+          idList.push(res.data[i]._id)
+        }
+        console.log(idList)
+        //借用id实现随机选择
+        console.log(4)
+        //rd 0-9
+        let rd = Math.floor(Math.random() * 10)
+        console.log("rd" + rd)
+        console.log(5)
+        db.collection('queue').doc(idList[rd]).update({
+          data:{
+            isLeader: true
+          },
+          success: function(res) {
+            console.log("success rd")
+            console.log(res)
+          },
+          fail: function(res){
+            console.log("fail rd")
+            console.log(res)
+          }
+        })
+        console.log(6)
+      }
+    })
+
+
+
+    console.log(6)
+
+
     // var shuffledMyQueue = app.globalData.myQueue.shuffle()
     var shuffledMyQueue = this.data.displayQueue.shuffle()
     for(var i = 0;i < shuffledMyQueue.length;++i){
@@ -403,23 +471,16 @@ Page({
         console.log("shuffled role from Database")
         console.log(role)
         var nm = userInfo.nickName
+        var avt = userInfo.avatarUrl
         //需要换成avatar否则发身份有问题
-         //需要换成avatar否则发身份有问题
-          //需要换成avatar否则发身份有问题
-           //需要换成avatar否则发身份有问题
-            //需要换成avatar否则发身份有问题
-             //需要换成avatar否则发身份有问题
-              //需要换成avatar否则发身份有问题
-               //需要换成avatar否则发身份有问题
-                //需要换成avatar否则发身份有问题
-                 //需要换成avatar否则发身份有问题
-                  //需要换成avatar否则发身份有问题
-                   //需要换成avatar否则发身份有问题
-                    //需要换成avatar否则发身份有问题
-                    
 
+                    
+        // console.log(avt)
         for(var i = 0;i < role.length;++i){
-          if(role[i].nickName == nm){
+          // if(role[i].nickName == nm){
+            // console.log(role[i].avatar)
+        if(role[i].avatar == avt){
+
             roleNo = i
 
             break
@@ -468,6 +529,11 @@ Page({
 onclickProfile(e){
   if(this.data.isOwner == false){
     // console.log('kickout player')
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:"玩家昵称",
+      content: app.globalData.myQueue[e.target.id].nickName
+    })
     return
   }
 
@@ -561,13 +627,21 @@ clickYes(e){
   .where({})
   .watch({
     onChange: function(snapshot) {
-      // console.log('docs\'s changed events', snapshot.docChanges)
-      // console.log('query result snapshot after the event', snapshot.docs)
-      // console.log('is init data', snapshot.type === 'init')
-      if(snapshot.docChanges.length == that.data.displayQueue.length){          
+      console.log("vote changed")
+      console.log('1.docs\'s changed events', snapshot.docChanges)
+      console.log('2,query result snapshot after the event', snapshot.docs)
+      console.log('3.is init data', snapshot.type === 'init')    
+      if(snapshot.docs.length == that.data.displayQueue.length){   
+        console.log(1)       
         that.setData({
           displayVote:snapshot.docs.shuffle()
         })
+        console.log(2)       
+        app.globalData.vote = that.data.displayQueue
+        console.log(3)       
+        console.log("app.globalData.vote: ")
+        console.log(app.globalData.vote)
+
     }
     },
     onError: function(err) {
