@@ -680,7 +680,7 @@ clickYes(e){
           displayVote:snapshot.docs.shuffle()
         })
         console.log(2)       
-        app.globalData.vote = that.data.displayQueue
+        app.globalData.vote = that.data.displayVote
         console.log(3)       
         console.log("app.globalData.vote: ")
         console.log(app.globalData.vote)
@@ -762,7 +762,7 @@ clickNo(e){
         that.setData({
           displayVote:snapshot.docs.shuffle()
         })
-        app.globalData.vote = that.data.displayQueue
+        app.globalData.vote = that.data.displayVote
     }
     },
     onError: function(err) {
