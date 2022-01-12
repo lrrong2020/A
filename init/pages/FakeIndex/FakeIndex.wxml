@@ -27,7 +27,7 @@
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <!-- <button id="refresh" bindtap='refresh'>refresh</button> -->
       <block wx:if="{{roleChanged}}">
-        <button id="getRole" bindtap='getRole'>获取你的身份牌</button>
+        <button id="getRole" bindtap='getRole'>查看你的身份牌</button>
       </block>
       <!-- <button id="testCloud" bindtap='testCloud'>testCloud</button> -->
       
@@ -38,6 +38,7 @@
         <view wx:for="{{displayFellow}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
+  <text wx:if="{{votes0 != -1}}">{{votes0}}/{{fellowNo[0]}}</text>
         <!-- <button bindtap="clickYes" class="voteButton">同意</button>
         <button bindtap="clickNo" class="voteButton">反对</button> -->
 </view>
@@ -46,24 +47,28 @@
         <view wx:for="{{displayFellow2}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
+  <text wx:if="{{votes1 != -1}}">{{votes1}}/{{fellowNo[1]}}</text>
 </view>
 <view class="userinfoF" wx:if="{{hasFellow3}}">
   <text>3: </text>
         <view wx:for="{{displayFellow3}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
+  <text wx:if="{{votes2 != -1}}">{{votes2}}/{{fellowNo[2]}}</text>
 </view>
 <view class="userinfoF" wx:if="{{hasFellow4}}">
   <text>4: </text>
         <view wx:for="{{displayFellow4}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
+  <text wx:if="{{votes3 != -1}}">{{votes3}}/{{fellowNo[3]}}</text>
 </view>
 <view class="userinfoF" wx:if="{{hasFellow5}}">
   <text>5: </text>
         <view wx:for="{{displayFellow5}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
+  <text wx:if="{{votes4 != -1}}">{{votes4}}/{{fellowNo[4]}}</text>
 </view>
 </block>
     </block>  
@@ -80,12 +85,21 @@
       <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->
       <button id="drive" bindtap='drive'>发车</button>
 </block>
+
+<block wx:if="{{inFellow}}">
+      <!-- <button id="startMis" bindtap='startMis'>开始任务</button> -->
+       <button id="sucMis" bindtap='sucMis'>success</button>
+        <button id="failMis" bindtap='failMis'>fail</button>  
+</block>
+
+
 </view>
 
 <view wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
           <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
           <text wx:for="{{itemName.voteRes.length}}" wx:for-index="i"> {{itemName.voteRes[i] != null?itemName.voteRes[i]:""}}</text>
 </view>
+
 <!-- 
 <view wx:if="{{votes1}}"><button onclick='one'>第一局</button></view>
 <view wx:if="{{votes2}}"><button onclick='two'>第二局</button></view>

@@ -1,5 +1,5 @@
 <view wx:if="{{!hide}}">
-    <button bindtap="displayText">查看/隐藏你的身份信息</button>
+    <button bindtap="displayText">查看/隐藏身份信息</button>
 </view>
 
 <view wx:if="{{hide}}">

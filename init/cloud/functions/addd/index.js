@@ -12,5 +12,12 @@ exports.main = async (event, context) => {
     }).remove()
   } catch(e) {
     console.error(e)
+  }finally{
+    db.collection('vote').where({
+      vote: true
+    }).remove()
+    db.collection('vote').where({
+      vote: false
+    }).remove()
   }
 }

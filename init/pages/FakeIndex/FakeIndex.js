@@ -31,15 +31,16 @@ Page({
     isLeader: false,
     isGoddess: false,
     isAssa: app.globalData.isAssa,
-    votes1: [1],
-    votes2: [2],
-    votes3: [3],
-    votes4: [4],
-    votes5: [5],
+    votes0: -1,
+    votes1: -1,
+    votes2: -1,
+    votes3: -1,
+    votes4: -1,
     canGo: app.globalData.canGo,
     isBegun:false,
     queueIdx: -1,
-    inFellow: false
+    inFellow: false,
+    fellowNo:[3,4,4,5,5]
 
   },
   onShow(){
@@ -158,10 +159,17 @@ Page({
       .watch({
         onChange: function(snapshot) {
           that.refresh()
+
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
           // console.log('is init data', snapshot.type === 'init')
-          if(snapshot.docChanges.length > 0){          
+          if(snapshot.type != 'init'){
+            wx.showModal({
+              cancelColor: 'cancelColor',
+              title:"游戏开始",
+              content:"请查看你的身份牌"
+            })
+
             console.log("Role changed")
           that.setData({roleChanged: true})
         }
@@ -197,6 +205,18 @@ Page({
                   hasFellow: app.globalData.hasFellow,
                   displayFellow: app.globalData.fellow
                 })
+
+                const avt = that.data.userInfo.avatarUrl
+                let doc = snapshot.docs
+                for(let i = 0; i < doc.length;++i){
+                  if(doc[i].avatar == avt){
+                    that.setData({inFellow: true})
+                    break
+                  }
+                }
+
+
+
                 // console.log("global.hasFellow")
                 // console.log(app.globalData.hasFellow)
                 // console.log("global.fellow")
@@ -231,6 +251,14 @@ Page({
                 hasFellow2: app.globalData.hasFellow2,
                 displayFellow2: app.globalData.fellow2
               })
+              const avt = that.data.userInfo.avatarUrl
+              let doc = snapshot.docs
+              for(let i = 0; i < doc.length;++i){
+                if(doc[i].avatar == avt){
+                  that.setData({inFellow: true})
+                  break
+                }
+              }
 
           }
           },
@@ -259,6 +287,14 @@ Page({
                   hasFellow3: app.globalData.hasFellow3,
                   displayFellow3: app.globalData.fellow3
                 })
+                const avt = that.data.userInfo.avatarUrl
+                let doc = snapshot.docs
+                for(let i = 0; i < doc.length;++i){
+                  if(doc[i].avatar == avt){
+                    that.setData({inFellow: true})
+                    break
+                  }
+                }
 
             }
             },
@@ -288,6 +324,14 @@ Page({
               hasFellow4: app.globalData.hasFellow4,
               displayFellow4: app.globalData.fellow4
             })
+            const avt = that.data.userInfo.avatarUrl
+            let doc = snapshot.docs
+            for(let i = 0; i < doc.length;++i){
+              if(doc[i].avatar == avt){
+                that.setData({inFellow: true})
+                break
+              }
+            }
 
         }
         },
@@ -316,11 +360,85 @@ Page({
                   hasFellow5: app.globalData.hasFellow5,
                   displayFellow5: app.globalData.fellow5
                 })
+                const avt = that.data.userInfo.avatarUrl
+                let doc = snapshot.docs
+                for(let i = 0; i < doc.length;++i){
+                  if(doc[i].avatar == avt){
+                    that.setData({inFellow: true})
+                    break
+                  }
+                }
 
             }
             },
             onError: function(err) {
             }
+          })
+
+          const curFrame = getApp().globalData.currentFrame
+          const watcher114 = db.collection('vote')
+          .where({
+              currentFrame: curFrame
+          })
+          .watch({
+            onChange: function(snapshot) {
+              that.refresh()
+              const fellowNo = [3,4,4,5,5]
+    
+
+              if(snapshot.docChanges.length > 0 && snapshot.type != 'init'){
+              // console.log('docs\'s changed events', snapshot.docChanges)
+              // console.log('query result snapshot after the event', snapshot.docs)
+              // console.log('is init data', snapshot.type === 'init')
+              
+              if(snapshot.docs.length == fellowNo[curFrame]){
+
+                let no = 0
+                for(let index = 0;index < snapshot.docs.length;index++){
+                  if(snapshot.docs[index].vote){
+                    no++
+                  }
+                }
+
+                switch(curFrame){
+                  case 0:
+                    that.setData({
+                      votes0: no
+                    })
+                    break
+
+                  case 1:
+                    that.setData({
+                      votes1: no
+                    })
+                    break
+
+                  case 2:
+                    that.setData({
+                      votes2: no
+                    })
+                    break
+
+                  case 3:
+                    that.setData({
+                      votes3: no
+                    })
+                    break
+
+                    case 4:
+                      that.setData({
+                        votes4: no
+                      })
+                      break
+                }
+              }
+            }
+    
+            },
+            onError: function(err) {
+              
+            }
+    
           })
 
   },
@@ -516,8 +634,8 @@ Page({
           //theQueue.push(res.data[i])
           //dq.push(res.data[i])
         }
-        console.log('myQueue:')
-        console.log(myQueue)
+        // console.log('myQueue:')
+        // console.log(myQueue)
         //console.log(theQueue)
       }
     })
@@ -833,4 +951,42 @@ drive(e){
   })
 },
 
+sucMis(e){
+  //success
+  const currentFrame = app.globalData.currentFrame - 1
+  console.log("任务开始")
+  const db = wx.cloud.database()
+  db.collection('vote').add({
+    data:{
+      currentFrame: currentFrame,
+      vote: true
+    }
+  })      
+  .then(res => {
+  })
+  this.setData({
+    inFellow:false
+  })
+
+},
+
+failMis(e){
+  //fail
+  const currentFrame = app.globalData.currentFrame - 1
+  console.log("任务开始")
+  // console.log(getApp().globalData.currentFrame)
+  const db = wx.cloud.database()
+  db.collection('vote').add({
+    data:{
+      currentFrame: currentFrame,
+      vote: false
+    }
+  })   
+  .then(res => {
+  })
+  this.setData({
+    inFellow:false
+  })
+
+}
 })

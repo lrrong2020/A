@@ -4,7 +4,8 @@
     display: flex;
     flex:50%;
     flex-direction: row;
-    justify-content: space-around
+    justify-content: space-around;
+    flex-wrap: wrap;
 
   }
   /* 按钮未选中 */

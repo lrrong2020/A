@@ -95,9 +95,9 @@ Page({
         const meiLinArr = [role[6],role[7],role[8]].shuffle()
         const badGuyArr = [role[7],role[8],role[9]]
         const pieArr = [role[0],role[7]].shuffle()
-        let meiLin = "你是梅林" + "\n红方:" + meiLinArr[0].nickName + "\n" + meiLinArr[1].nickName+ "\n" + meiLinArr[2].nickName + "\n"
-        let pai = "你是派西维尔" + "\n这两个人是莫甘娜和梅林, 但是你不知道谁是谁:" + pieArr[0].nickName + "\n" + pieArr[1].nickName
-        let badGuy = "你是红方" + "\n红方:" + "莫甘娜: "+badGuyArr[0].nickName + "\n" + "刺客: "+badGuyArr[1].nickName+ "\n" + "莫德雷德: "+badGuyArr[2].nickName + "\n"
+        let meiLin = " 你是梅林 " + " \n红方: " + meiLinArr[0].nickName + " \n " + meiLinArr[1].nickName+ " \n " + meiLinArr[2].nickName + " \n "
+        let pai = " 你是派西维尔 " + " \n这两个人是莫甘娜和梅林, 但是你不知道谁是谁: " + pieArr[0].nickName +  " \n " + pieArr[1].nickName
+        let badGuy = " 你是红方 " + " \n红方: " + " 莫甘娜: "+badGuyArr[0].nickName + " \n " + "刺客: " +badGuyArr[1].nickName+ " \n " + "莫德雷德: " +badGuyArr[2].nickName + " \n "
 
         switch(i){
             case 0:

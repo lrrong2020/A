@@ -75,5 +75,7 @@ Page({
 
         this.setData({ albums })
         this.isLoaded = true
-    }
+    },
+
+   
 })
