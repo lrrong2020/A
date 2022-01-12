@@ -47,8 +47,7 @@ Page({
       canGo: app.globalData.canGo,    
       isAssa: app.globalData.isAssa,
     })
-    while((this.data.hasUserInfo && this.data.displayQueue.length == 0) || (this.data.hasUserInfo && this.data.queueIdx == -1)){
-
+    if((this.data.hasUserInfo && this.data.displayQueue.length == 0) || (this.data.hasUserInfo && this.data.queueIdx == -1)){
       wx.showModal({
         cancelColor: 'cancelColor',
         title:'房间已经被清理或你已经被踢出房间. 如要重新进入房间, 请点击右上角三个点 → "重新进入小程序"'
@@ -158,6 +157,7 @@ Page({
       .where({})
       .watch({
         onChange: function(snapshot) {
+          that.refresh()
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
           // console.log('is init data', snapshot.type === 'init')
@@ -396,15 +396,26 @@ Page({
     })
   },
   enterRoom(e){
-    this.setData({isBegun: true})
-    this.checkUser()
+    let renshu = "队列中人数: " + this.data.displayQueue.length + "/10"
     const that = this
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:"你确定要开始游戏吗?",
+      content: renshu,
+      success:function(res){
+        if(res.cancel){
+          return
+        }
+        if(res.confirm){
+          
+    that.setData({isBegun: true})
+    that.checkUser()
+
     console.log("enter room")
     //isOwner only (may be only visible to the onwer)
     // if(!this.data.isOwner){
     //   return
     // }
-
     //shuffle users in queue
     Array.prototype.shuffle = function() {
       var array = this;
@@ -463,7 +474,7 @@ Page({
 
 
     // var shuffledMyQueue = app.globalData.myQueue.shuffle()
-    var shuffledMyQueue = this.data.displayQueue.shuffle()
+    var shuffledMyQueue = that.data.displayQueue.shuffle()
     for(var i = 0;i < shuffledMyQueue.length;++i){
       db.collection('role').add({
         data: {
@@ -475,6 +486,10 @@ Page({
     }
     console.log('shuffledMyQueue')
     console.log(shuffledMyQueue)
+        }
+      }
+    })
+
   },
 
   async refresh(e){

@@ -134,6 +134,7 @@ radioButtonTap: function (e) {
             //         break
             //     }
             // }
+            let zuiduo = "此轮最多可以选 " + FELLOW_NO[currentFrame]+ " 个人\n请再次点击取消选取"
             wx.showModal({
               cancelColor: 'cancelColor',
               title:"最多可以选n个人\n请再次点击取消选取"

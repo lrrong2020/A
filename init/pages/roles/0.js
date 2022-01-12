@@ -7,7 +7,8 @@ Page({
      */
     data: {
         roleNo: app.globalData.roleNo_G,
-        text:null
+        text:null,
+        hide:false
     },
 
     /**
@@ -72,6 +73,9 @@ Page({
     },
 
     displayText(e){
+        this.setData({
+            hide:true
+        })
         //shuffle users in queue
    Array.prototype.shuffle = function() {
     var array = this;
@@ -148,5 +152,11 @@ Page({
                 })
                 break;                
         }
+    },
+
+    hideRole(e){
+        this.setData({
+            hide:false
+        })
     }
 })

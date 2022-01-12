@@ -1,4 +1,11 @@
-<view><button bindtap="displayText">查看你的身份信息</button></view>
-<view wx:if="{{roleNo!=-1}}">
+<view wx:if="{{!hide}}">
+    <button bindtap="displayText">查看/隐藏你的身份信息</button>
+</view>
+
+<view wx:if="{{hide}}">
+    <button bindtap="hideRole">查看/隐藏身份信息</button>
+</view>
+
+<view wx:if="{{roleNo!=-1 && hide}}">
 {{roleNo}}{{text}}
 </view>
