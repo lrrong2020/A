@@ -38,7 +38,8 @@ Page({
     votes5: [5],
     canGo: app.globalData.canGo,
     isBegun:false,
-    queueIdx: -1
+    queueIdx: -1,
+    inFellow: false
 
   },
   onShow(){
@@ -46,7 +47,7 @@ Page({
       canGo: app.globalData.canGo,    
       isAssa: app.globalData.isAssa,
     })
-    if((this.data.hasUserInfo && this.data.displayQueue.length == 0) || (this.data.hasUserInfo && this.data.queueIdx == -1)){
+    while((this.data.hasUserInfo && this.data.displayQueue.length == 0) || (this.data.hasUserInfo && this.data.queueIdx == -1)){
 
       wx.showModal({
         cancelColor: 'cancelColor',
@@ -90,12 +91,7 @@ Page({
           setTimeout(() => {
             that.checkUser()
             const avt = that.data.userInfo.avatarUrl
-            console.log("avt:")
-            console.log(avt)
             let doc = snapshot.docs
-            console.log("doc: ")
-            console.log(doc)
-            // console.log(doc)
             if(avt != doc[0].avatar){
               that.setData({isOwner: false})
             }
@@ -110,9 +106,9 @@ Page({
                 break
               }
             }
-            console.log("idx: " + idx)
+            // console.log("idx: " + idx)
             console.log("Auto Update")
-            var isLeader = doc[idx].isLeader
+            var isLeader = doc[idx].isLeader//???????????????????????????????
             var isGoddess = doc[idx].isGoddess
             console.log("isLeader:" + isLeader)
             console.log("isGoddess:" + isGoddess)
@@ -120,8 +116,6 @@ Page({
               displayQueue: snapshot.docs,
               isLeader: isLeader,
               isGoddess: isGoddess,
-              // hasFellow: app.globalData.hasFellow,
-              // displayFellow: app.globalData.fellow
             })
             app.globalData.myQueue = snapshot.docs
             // console.log("global.myQueue ")
@@ -179,30 +173,156 @@ Page({
 
       })
 
-      const watcher2 = db.collection('fellow')
+
+
+
+              const watcher2 = db.collection('fellow')
+          .where({})
+          .watch({
+            
+            onChange: function(snapshot) {
+              if(snapshot.type != 'init'){
+                app.globalData.currentFrame = 1
+                console.log("[0]app.globalData.currentFrame: "+app.globalData.currentFrame)
+                getApp().globalData.canGo = true
+              }
+
+              // console.log('docs\'s changed events', snapshot.docChanges)
+              // console.log('query result snapshot after the event', snapshot.docs)
+              // console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docChanges.length > 0){          
+                console.log("fellow changed")
+                that.setData({
+                  hasFellow: true,
+                  hasFellow: app.globalData.hasFellow,
+                  displayFellow: app.globalData.fellow
+                })
+                // console.log("global.hasFellow")
+                // console.log(app.globalData.hasFellow)
+                // console.log("global.fellow")
+                // console.log(app.globalData.fellow)
+
+            }
+            },
+            onError: function(err) {
+            }
+          })
+
+
+
+
+
+            const watcher3 = db.collection('fellow2')
+        .where({})
+        .watch({
+          onChange: function(snapshot) {
+            if(snapshot.type != 'init'){
+              app.globalData.currentFrame = 2
+              console.log("[1]app.globalData.currentFrame: "+app.globalData.currentFrame)
+              getApp().globalData.canGo = true
+            }
+            // console.log('docs\'s changed events', snapshot.docChanges)
+            // console.log('query result snapshot after the event', snapshot.docs)
+            // console.log('is init data', snapshot.type === 'init')
+            if(snapshot.docChanges.length > 0){          
+              console.log("fellow2 changed")
+              that.setData({
+                hasFellow2: true,
+                hasFellow2: app.globalData.hasFellow2,
+                displayFellow2: app.globalData.fellow2
+              })
+
+          }
+          },
+          onError: function(err) {
+          }
+        })
+
+
+        const watcher4 = db.collection('fellow3')
+          .where({})
+          .watch({
+            onChange: function(snapshot) {
+              if(snapshot.type != 'init'){
+                app.globalData.currentFrame = 3
+                console.log("[2]app.globalData.currentFrame: "+app.globalData.currentFrame)
+                getApp().globalData.canGo = true
+              }
+              const watcher4 = db.collection('fellow3')
+              // console.log('docs\'s changed events', snapshot.docChanges)
+              // console.log('query result snapshot after the event', snapshot.docs)
+              // console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docChanges.length > 0){          
+                console.log("fellow3 changed")
+                that.setData({
+                  hasFellow3: true,
+                  hasFellow3: app.globalData.hasFellow3,
+                  displayFellow3: app.globalData.fellow3
+                })
+
+            }
+            },
+            onError: function(err) {
+            }
+          })
+          //  watcher.close()
+
+
+
+          const watcher5 = db.collection('fellow4')
       .where({})
       .watch({
         onChange: function(snapshot) {
+          if(snapshot.type != 'init'){
+            app.globalData.currentFrame = 4
+            console.log("[3]app.globalData.currentFrame: "+app.globalData.currentFrame)
+            getApp().globalData.canGo = true
+          }
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
           // console.log('is init data', snapshot.type === 'init')
           if(snapshot.docChanges.length > 0){          
-            console.log("fellow changed")
+            console.log("fellow4 changed")
             that.setData({
-              hasFellow: true,
-              hasFellow: app.globalData.hasFellow,
-              displayFellow: app.globalData.fellow
+              hasFellow4: true,
+              hasFellow4: app.globalData.hasFellow4,
+              displayFellow4: app.globalData.fellow4
             })
-            // console.log("global.hasFellow")
-            // console.log(app.globalData.hasFellow)
-            // console.log("global.fellow")
-            // console.log(app.globalData.fellow)
+
         }
         },
         onError: function(err) {
         }
       })
-      //  watcher.close()
+
+
+
+
+          const watcher6 = db.collection('fellow5')
+          .where({})
+          .watch({
+            onChange: function(snapshot) {
+              if(snapshot.type != 'init'){
+                app.globalData.currentFrame = 5
+                console.log("[4]app.globalData.currentFrame: "+app.globalData.currentFrame)
+              }
+              // console.log('docs\'s changed events', snapshot.docChanges)
+              // console.log('query result snapshot after the event', snapshot.docs)
+              // console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docChanges.length > 0){          
+                console.log("fellow5 changed")
+                that.setData({
+                  hasFellow5: true,
+                  hasFellow5: app.globalData.hasFellow5,
+                  displayFellow5: app.globalData.fellow5
+                })
+
+            }
+            },
+            onError: function(err) {
+            }
+          })
+
   },
 
 
@@ -451,6 +571,7 @@ Page({
            }
          })
          console.log("role cleared")
+
          wx.cloud.callFunction({
            // 云函数名称
            name: 'add',
@@ -462,7 +583,64 @@ Page({
            // console.log(res.result) // 3
          })
          .catch(console.error)
+
+
          console.log("fellow cleared")
+         wx.cloud.callFunction({
+           // 云函数名称
+           name: 'add2',
+           // 传给云函数的参数
+           data: {
+           },
+         })
+         .then(res => {
+           // console.log(res.result) // 3
+         })
+         .catch(console.error)
+         console.log("fellow2 cleared")
+
+
+         
+
+         wx.cloud.callFunction({
+           // 云函数名称
+           name: 'add3',
+           // 传给云函数的参数
+           data: {
+           },
+         })
+         .then(res => {
+           // console.log(res.result) // 3
+         })
+         .catch(console.error)
+         console.log("fellow3 cleared")
+
+         wx.cloud.callFunction({
+          // 云函数名称
+          name: 'add4',
+          // 传给云函数的参数
+          data: {
+          },
+        })
+        .then(res => {
+          // console.log(res.result) // 3
+        })
+        .catch(console.error)
+        console.log("fellow4 cleared")
+
+        wx.cloud.callFunction({
+          // 云函数名称
+          name: 'add5',
+          // 传给云函数的参数
+          data: {
+          },
+        })
+        .then(res => {
+          // console.log(res.result) // 3
+        })
+        .catch(console.error)
+        console.log("fellow5 cleared")
+
          wx.cloud.callFunction({
            // 云函数名称
            name: 'addd',
@@ -587,7 +765,8 @@ onclickProfile(e){
   }
 
   else if(that.data.isAssa){
-    let assText = "你确定要刺杀 " + app.globalData.myQueue[e.target.id].nickName + " 吗?"
+    let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
+    let assText = "你确定要刺杀 " + app.globalData.myQueue[e.target.id].nickName + leaderText + " 吗?"
     wx.showModal({
       cancelColor: 'cancelColor',
       title:"猎杀时刻",
@@ -601,15 +780,15 @@ onclickProfile(e){
     return
   }
   else{
+    let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
+    let content = app.globalData.myQueue[e.target.id].nickName + leaderText
     wx.showModal({
       cancelColor: 'cancelColor',
       title:"玩家昵称",
-      content: app.globalData.myQueue[e.target.id].nickName
+      content: content
     })
     return
   }
-
-
 },
 
 testCloud(e){
@@ -634,301 +813,9 @@ seeRole(e){
 },
 
 drive(e){
-
   wx.navigateTo({
     url: '/test/test',
   })
-
 },
 
-clickYes(e){
-   //shuffle users in queue
-   Array.prototype.shuffle = function() {
-    var array = this;
-    var m = array.length,
-        t, i;
-    while (m) {
-        i = Math.floor(Math.random() * m--);
-        t = array[m];
-        array[m] = array[i];
-        array[i] = t;
-    }
-    return array;
-}
-  const that = this
-  this.setData({hasFellow: false})
-
-  const db = wx.cloud.database({})
-  db.collection('vote').add({
-    data: {
-      nickName: this.data.userInfo.nickName,
-      avatar: this.data.userInfo.avatarUrl,
-      hasVote: true,
-      voteRes: [true, null, null, null, null]
-    }
-  })
-  .then(res => {
-    wx.showModal({
-      cancelColor: 'cancelColor',
-      title:'投票成功!'
-    })
-  })
-
-  const watcher3 = db.collection('vote')
-  .where({})
-  .watch({
-    onChange: function(snapshot) {
-      console.log("vote changed")
-      console.log('1.docs\'s changed events', snapshot.docChanges)
-      console.log('2,query result snapshot after the event', snapshot.docs)
-      console.log('3.is init data', snapshot.type === 'init')    
-      if(snapshot.docs.length == that.data.displayQueue.length){   
-        // console.log(1)       
-        that.setData({
-          displayVote:snapshot.docs.shuffle()
-        })
-        app.globalData.vote = that.data.displayVote
-        // console.log(2)       
-        // console.log(3)       
-        // console.log("app.globalData.vote: ")
-        // console.log(app.globalData.vote)
-
-        const currentRound = app.globalData.currentRound
-        const votes = snapshot.docs
-        console.log("votes:")
-        console.log(votes)
-
-        let count = 0
-        for(let a=0;a<votes.length;++a){
-          if(votes[currentRound] == true){
-            count++
-          }
-        }
-
-        console.log("count")
-        console.log(count)
-        if(count <= votes.length){
-          console.log(app.globalData.currentRound)
-          app.globalData.currentRound = app.globalData.currentRound + 1
-          console.log(app.globalData.currentRound)
-          if(app.globalData.currentRound == 5){
-            var resId = ""
-            const db = wx.cloud.database({})
-            db.collection('queue').where({
-              avatar: that.data.avatarUrl
-            })
-            .get({
-              success:function(res){
-                resId = res._id
-              }
-            })
-            db.collection('queue').doc(resId).update({
-              isLeader: false
-            })
-          }
-
-          app.globalData.canGo = true
-          that.setData({canGo: true})
-        }
-        else{
-          console.log("没有流局")
-          console.log(app.globalData.currentRound)
-          console.log("app.globalData.currentRound")
-        }
-/*      
-        if(less than half votes are true): 
-          currentRound ptr++
-          canGo = true
-          if(currentRound == 5): 
-            expire the leader
-            delegate new leader
-            currentRound = 0
-            return
-        else: 
-          expire the leader
-          delegate new leader //(queueidx+1) / queue.length(10)
-          currentRound = 0
-          store the votes result of the last round in votesx[]
-          if (in fellow): 
-            isPartialVoting
-          await res from cloud function
-          if (success): 
-          wx.showModal
-          display:{
-            第x局
-            2/4 x -----失败
-          }
-          canGo = true
-*/
-
-    }
-    },
-    onError: function(err) {
-    }
-
-  })
-},
-
-
-clickNo(e){
-  const db = wx.cloud.database({})
-   //shuffle users in queue
-   Array.prototype.shuffle = function() {
-    var array = this;
-    var m = array.length,
-        t, i;
-    while (m) {
-        i = Math.floor(Math.random() * m--);
-        t = array[m];
-        array[m] = array[i];
-        array[i] = t;
-    }
-    return array;
-}
-  const that = this
-  this.setData({hasFellow: false})
-
-  if(app.globalData.currentRound == 0){
-    db.collection('vote').add({
-      data: {
-        nickName: this.data.userInfo.nickName,
-        avatar: this.data.userInfo.avatarUrl,
-        hasVote: true,
-        voteRes: [false, null, null, null, null]
-      }
-    })
-    .then(res => {
-      wx.showModal({
-        cancelColor: 'cancelColor',
-        title:'投票成功!'
-      })
-    })
-
-    const watcher3 = db.collection('vote')
-    .where({})
-    .watch({
-      onChange: function(snapshot) {
-        // console.log('docs\'s changed events', snapshot.docChanges)
-        // console.log('query result snapshot after the event', snapshot.docs)
-        // console.log('is init data', snapshot.type === 'init')
-        if(snapshot.docChanges.length == that.data.displayQueue.length){    
-          that.setData({
-            displayVote:snapshot.docs.shuffle()
-          })
-          app.globalData.vote = that.data.displayVote    
-
-          wx.cloud.callFunction({
-            // 云函数名称
-            name: 'add',
-            // 传给云函数的参数
-            data: {
-            },
-          })
-          .then(res => {
-            // console.log(res.result) // 3
-          })
-          .catch(console.error)
-          console.log("fellow cleared")
-
-
-          that.setData({canGo: true})
-      }
-      },
-      onError: function(err) {
-      }
-    })
-  }
-  else{
-    const db = wx.cloud.database({})
-    var resId = ""
-    var voteArr = []
-
-    db.collection('queue').where({
-      avatar: that.data.userInfo.avatarUrl
-    })
-    .get({
-      success:function(res){
-        resId = res._id
-        voteArr = res.voteRes
-        console.log("voteArr")
-        console.log(voteArr)
-        db.collection('queue').doc(resId).update({
-          isLeader: false
-        })
-      }
-    })
-
-
-  }
-},
 })
-
-/*
-        const currentRound = app.globalData.currentRound
-        const votes = snapshot.docs
-        console.log("votes:")
-        console.log(votes)
-
-        let count = 0
-        for(let a=0;a<votes.length;++a){
-          if(votes[currentRound] == true){
-            count++
-          }
-        }
-
-        console.log("count")
-        console.log(count)
-        if(count <= votes.length){
-          console.log(app.globalData.currentRound)
-          app.globalData.currentRound = app.globalData.currentRound + 1
-          console.log(app.globalData.currentRound)
-          if(app.globalData.currentRound == 5){
-            var resId = ""
-            const db = wx.cloud.database({})
-            db.collection('queue').where({
-              avatar: that.data.avatarUrl
-            })
-            .get({
-              success:function(res){
-                resId = res._id
-              }
-            })
-            db.collection('queue').doc(resId).update({
-              isLeader: false
-            })
-          }
-
-          app.globalData.canGo = true
-          that.setData({canGo: true})
-        }
-        else{
-          console.log("没有流局")
-          console.log(app.globalData.currentRound)
-          console.log("app.globalData.currentRound")
-        }
-/*      
-        if(less than half votes are true): 
-          currentRound ptr++
-          canGo = true
-          clear votes database?
-          if(currentRound == 5): 
-            expire the leader
-            delegate new leader
-            currentRound = 0
-            return
-        else: 
-          expire the leader
-          delegate new leader //(queueidx+1) / queue.length(10)
-          currentRound = 0
-          store the votes result of the last round in votesx[]
-          if (in fellow): 
-            isPartialVoting
-          await res from cloud function
-          if (success): 
-          wx.showModal
-          display:{
-            第x局
-            2/4 x -----失败
-          }
-          canGo = true
-*/

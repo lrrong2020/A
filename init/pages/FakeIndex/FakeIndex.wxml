@@ -16,6 +16,13 @@
     <block wx:else>
       <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
       <text class="userinfo-nickname">{{userInfo.nickName}}</text>
+
+      <view class="userinfoF">
+        <view wx:for="{{displayQueue}}" wx:for-index="idx" wx:for-item="itemName">
+          <image id="{{idx}}" class='{{itemName.isLeader?"userinfo-avatar-leader":"userinfo-avatar"}}' src="{{itemName.avatar}}" mode="cover" bindtap='onclickProfile'></image>
+        </view>
+      </view>
+
       <button wx:if="{{isOwner && !isBegun}}" id="Enter" bindtap='enterRoom'>开始游戏</button>
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <!-- <button id="refresh" bindtap='refresh'>refresh</button> -->
@@ -29,29 +36,45 @@
 <view class="userinfoF" wx:if="{{hasFellow}}">
   <text>1: </text>
         <view wx:for="{{displayFellow}}" wx:for-index="idx" wx:for-item="itemName">
-          <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+          <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
         <!-- <button bindtap="clickYes" class="voteButton">同意</button>
         <button bindtap="clickNo" class="voteButton">反对</button> -->
+</view>
+<view class="userinfoF" wx:if="{{hasFellow2}}">
+  <text>2: </text>
+        <view wx:for="{{displayFellow2}}" wx:for-index="idx" wx:for-item="itemName">
+          <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+        </view>
+</view>
+<view class="userinfoF" wx:if="{{hasFellow3}}">
+  <text>3: </text>
+        <view wx:for="{{displayFellow3}}" wx:for-index="idx" wx:for-item="itemName">
+          <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+        </view>
+</view>
+<view class="userinfoF" wx:if="{{hasFellow4}}">
+  <text>4: </text>
+        <view wx:for="{{displayFellow4}}" wx:for-index="idx" wx:for-item="itemName">
+          <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+        </view>
+</view>
+<view class="userinfoF" wx:if="{{hasFellow5}}">
+  <text>5: </text>
+        <view wx:for="{{displayFellow5}}" wx:for-index="idx" wx:for-item="itemName">
+          <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
+        </view>
 </view>
 </block>
     </block>  
   </view>
 
-<view class="userinfoF">
-<view wx:for="{{displayQueue}}" wx:for-index="idx" wx:for-item="itemName">
+<!-- <view class="userinfoF">
+  <view wx:for="{{displayQueue}}" wx:for-index="idx" wx:for-item="itemName">
+    <image id="{{idx}}" class='{{itemName.isLeader?"userinfo-avatar-leader":"userinfo-avatar"}}' src="{{itemName.avatar}}" mode="cover" bindtap='onclickProfile'></image>
+  </view>
+</view> -->
 
-<image id="{{idx}}" class='{{itemName.isLeader?"userinfo-avatar-leader":"userinfo-avatar"}}' src="{{itemName.avatar}}" mode="cover" bindtap='onclickProfile'></image>
-<!-- <text class="userinfo-nickname">{{itemName.nickName}}</text> -->
-
-
-  <!-- <view wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
-          <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
-          <text>{{itemName.voteRes[0]}}</text>
-  </view> -->
-</view>
-
-</view>
 <!-- <block wx:if="{{isLeader}}"> -->
 <block wx:if="{{canGo && isLeader}}">
       <!-- <button id="clearRoom" bindtap='clearRoom'>Clear</button> -->
@@ -61,14 +84,13 @@
 
 <view wx:for="{{displayVote}}" wx:for-index="idx" wx:for-item="itemName">
           <image id="{{idx}}" class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
-
           <text wx:for="{{itemName.voteRes.length}}" wx:for-index="i"> {{itemName.voteRes[i] != null?itemName.voteRes[i]:""}}</text>
 </view>
-
+<!-- 
 <view wx:if="{{votes1}}"><button onclick='one'>第一局</button></view>
 <view wx:if="{{votes2}}"><button onclick='two'>第二局</button></view>
 <view wx:if="{{votes3}}"><button onclick='three'>第三局</button></view>
 <view wx:if="{{votes4}}"><button onclick='four'>第四局</button></view>
-<view wx:if="{{votes5}}"><button onclick='five'>第五局</button></view>
+<view wx:if="{{votes5}}"><button onclick='five'>第五局</button></view> -->
 
 

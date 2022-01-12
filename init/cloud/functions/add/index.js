@@ -41,5 +41,9 @@ exports.main = async (event, context) => {
     }).remove()
   } catch(e) {
     console.error(e)
+  }finally{
+    db.collection('fellow').where({
+      isExisted: true
+    }).remove()
   }
 }

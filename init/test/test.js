@@ -12,7 +12,10 @@ Page({
         f: -1,
         theQueue: app.globalData.myQueue,
         displayQueue:[],
-        submitList:[]
+        submitList:[],
+        fellowNo:[3,4,4,5,5],
+        currentFrame: app.globalData.currentFrame,
+        hasQueue: false
       },
     
 
@@ -24,7 +27,11 @@ Page({
         // this.setData({
         //   buttons: this.data.buttons,
         // })
-        this.setData({theQueue: app.globalData.myQueue})
+        this.setData({
+          theQueue: app.globalData.myQueue,
+          currentFrame: getApp().globalData.currentFrame,
+          hasQueue: false
+        })
       },
     
 
@@ -88,8 +95,6 @@ radioButtonTap: function (e) {
       if (this.data.displayQueue[i].id == id) {
         //当前点击的位置为true即选中
         this.data.displayQueue[i].checked = true;
-
-
       }
       else {
         //其他的位置为false
@@ -102,18 +107,18 @@ radioButtonTap: function (e) {
     })
   },
   checkButtonTap:function(e){
+    const currentFrame = getApp().globalData.currentFrame
+    const FELLOW_NO = [3,4,4,5,5]
       var n = 0
       const f = this.data.f
-    console.log(e)
+    // console.log(e)
     let id = e.currentTarget.dataset.id
     console.log(id)
     for (let i = 0; i < this.data.displayQueue.length; i++) {
       if (this.data.displayQueue[i].id == id) {
         if (this.data.displayQueue[i].checked == true) {
           this.data.displayQueue[i].checked = false;
-
           n--
-
         } else {
           this.data.displayQueue[i].checked = true;
             //record first button met
@@ -122,7 +127,7 @@ radioButtonTap: function (e) {
                 this.setData({f: i})
             }
           //if reaches upper limit
-          if((this.data.number + n + 1) > 2){
+          if((this.data.number + n + 1) > FELLOW_NO[currentFrame]){
             // for(let j = 0; j < this.data.buttons.length; j++){
             //     if(this.data.buttons[j].checked == true){
             //         this.data.buttons[j].checked = false;
@@ -154,7 +159,13 @@ radioButtonTap: function (e) {
   select(e){
     //create new array of objecs including surrogate ids
 
-    this.setData({theQueue: app.globalData.myQueue})
+    this.setData({
+      theQueue: app.globalData.myQueue,
+      currentFrame: getApp().globalData.currentFrame
+    })
+    this.setData({
+      hasQueue: true
+    })
     const displayQueue = this.data.displayQueue
 
     if(this.data.displayQueue.length > 0){
@@ -168,7 +179,8 @@ radioButtonTap: function (e) {
   },
 
   submit(e){
-
+    const currentFrame = getApp().globalData.currentFrame
+    const FELLOW_NO = [3,4,4,5,5]
     this.setData({submitList: []})
     for (let i = 0; i < this.data.displayQueue.length; i++) {
       if(this.data.displayQueue[i].checked == true){
@@ -187,6 +199,16 @@ radioButtonTap: function (e) {
       displayContent = displayContent +  submitList[i].nickName+ ", "  
     }
 
+    if(submitList.length < FELLOW_NO[currentFrame]){
+      let notEnough = "当前已选人数: " + submitList.length + "/" + FELLOW_NO[currentFrame]
+      wx.showModal({
+        cancelColor: 'cancelColor',
+        title:"人数不够, 无法发车",
+        content: notEnough
+      })
+      return
+    }
+
 
     wx.showModal({
       cancelColor: 'cancelColor',
@@ -197,19 +219,76 @@ radioButtonTap: function (e) {
         if(res.confirm){
           const db = wx.cloud.database({})
 
-          for(let i = 0;i < submitList.length;i++){
-
-            db.collection('fellow').add({
-              data:{
-                nickName: submitList[i].nickName,
-                avatar: submitList[i].avatar,
-                isExisted: true
+          switch(app.globalData.currentFrame){
+            case 0:
+              for(let i = 0;i < submitList.length;i++){
+                db.collection('fellow').add({
+                  data:{
+                    nickName: submitList[i].nickName,
+                    avatar: submitList[i].avatar,
+                    isExisted: true
+                  }
+                })      
+                  .then(res => {
+                }) 
               }
-            })      
-              .then(res => {
-            })
-            
+              break
 
+              case 1:
+                for(let i = 0;i < submitList.length;i++){
+                  db.collection('fellow2').add({
+                    data:{
+                      nickName: submitList[i].nickName,
+                      avatar: submitList[i].avatar,
+                      isExisted: true
+                    }
+                  })      
+                    .then(res => {
+                  }) 
+                }
+                break
+
+                case 2:
+                  for(let i = 0;i < submitList.length;i++){
+                    db.collection('fellow3').add({
+                      data:{
+                        nickName: submitList[i].nickName,
+                        avatar: submitList[i].avatar,
+                        isExisted: true
+                      }
+                    })      
+                      .then(res => {
+                    }) 
+                  }
+                  break
+                
+                  case 3:
+                    for(let i = 0;i < submitList.length;i++){
+                      db.collection('fellow4').add({
+                        data:{
+                          nickName: submitList[i].nickName,
+                          avatar: submitList[i].avatar,
+                          isExisted: true
+                        }
+                      })      
+                        .then(res => {
+                      }) 
+                    }
+                    break
+                    
+                    case 4:
+                      for(let i = 0;i < submitList.length;i++){
+                        db.collection('fellow5').add({
+                          data:{
+                            nickName: submitList[i].nickName,
+                            avatar: submitList[i].avatar,
+                            isExisted: true
+                          }
+                        })      
+                          .then(res => {
+                        }) 
+                      }
+                      break
           }
           console.log("app.globalData.userInfo")
           console.log(app.globalData.userInfo)
@@ -236,15 +315,14 @@ radioButtonTap: function (e) {
                   if(res.data[i].avatar == avt){
                     resId = res.data[i]._id
                     const nextIndex = (i+1) % res.data.length
-                    console.log("i: " + i)
-                    console.log("nextIndex: " + nextIndex)
+                    // console.log("i: " + i)
+                    // console.log("nextIndex: " + nextIndex)
                     nextId = res.data[(i+1) % res.data.length]._id
                     break
                   }
                   else{
                     continue
                   }
-
                 }
                 console.log("resId after")
                 console.log(resId)
@@ -255,20 +333,19 @@ radioButtonTap: function (e) {
                   data:{
                     isLeader: false
                   }
-
-                })
-                db.collection('queue').doc(nextId).update({
-                  data:{
-                    isLeader: true
-                  }
                 })
 
+                if(getApp().globalData.currentFrame < 5){
+                  db.collection('queue').doc(nextId).update({
+                    data:{
+                      isLeader: true
+                    }
+                  })
+                }
                 // console.log(idList)
                 //借用id实现多记录删除
               }
             })
-            
-
           //voted = false (globaldata)
           //navigate to FakeIndex
           //hide 发车

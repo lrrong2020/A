@@ -8,7 +8,10 @@
   <image class='{{item.checked?"checked_button":"normal_button"}}' data-id='{{item.id}}' bindtap='checkButtonTap' src="{{item.avatar}}"></image>
   </block>
 </view>
-<text>{{msg}}    </text>
-<text>number: {{number}}</text>
-<button bindtap="select">开始选人</button>
+<text>已选: {{number}}/{{fellowNo[currentFrame]}}</text>
+<block wx:if="{{!hasQueue}}">
+  <button bindtap="select">开始选人</button>
+</block>
+<block wx:else>
 <button bindtap="submit">提交结果</button>
+</block>

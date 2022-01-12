@@ -25,24 +25,25 @@ App({
         })
         const that = this
         const db = wx.cloud.database()
+
         const watcher = db.collection('fellow')
         .where({})
         .watch({
             onChange: function(snapshot) {
+                const FELLOW_NO = [3,4,4,5,5]
                 // console.log('docs\'s changed events', snapshot.docChanges)
                 // console.log('query result snapshot after the event', snapshot.docs)
                 // console.log('is init data', snapshot.type === 'init')
-                
                 if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
-                    // console.log('1.docs\'s changed events', snapshot.docChanges)
-                    // console.log('2,query result snapshot after the event', snapshot.docs)
-                    // console.log('3.is init data', snapshot.type === 'init')    
+                    console.log('fellow 1.docs\'s changed events', snapshot.docChanges)
+                    console.log('2,query result snapshot after the event', snapshot.docs)
+                    console.log('3.is init data', snapshot.type === 'init')    
                     console.log("fellow changed")
                     getApp().globalData.hasFellow = true
                     getApp().globalData.fellow = snapshot.docs
                     wx.showModal({
                     cancelColor: 'cancelColor',
-                    title:"任务进行中"
+                    title:"车长已发车, 第一轮任务进行中"
                     })
                     wx.navigateBack({
                         delta: 1
@@ -53,6 +54,123 @@ App({
                 console.error('the watch closed because of error', err)
             }
         })
+
+        const watcher10 = db.collection('fellow2')
+        .where({})
+        .watch({
+            onChange: function(snapshot) {
+                const FELLOW_NO = [3,4,4,5,5]
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
+                    // console.log('1.docs\'s changed events', snapshot.docChanges)
+                    // console.log('2,query result snapshot after the event', snapshot.docs)
+                    // console.log('3.is init data', snapshot.type === 'init')    
+                    console.log("fellow2 changed")
+                    getApp().globalData.hasFellow2 = true
+                    getApp().globalData.fellow2 = snapshot.docs
+                    wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:"车长已发车, 第二轮任务进行中"
+                    })
+                    wx.navigateBack({
+                        delta: 1
+                      })
+                }
+             },
+            onError: function(err) {
+                console.error('the watch closed because of error', err)
+            }
+        })
+
+        const watcher20 = db.collection('fellow3')
+        .where({})
+        .watch({
+            onChange: function(snapshot) {
+                const FELLOW_NO = [3,4,4,5,5]
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
+                    // console.log('1.docs\'s changed events', snapshot.docChanges)
+                    // console.log('2,query result snapshot after the event', snapshot.docs)
+                    // console.log('3.is init data', snapshot.type === 'init')    
+                    console.log("fellow3 changed")
+                    getApp().globalData.hasFellow3 = true
+                    getApp().globalData.fellow3 = snapshot.docs
+                    wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:"车长已发车, 第三轮任务进行中"
+                    })
+                    wx.navigateBack({
+                        delta: 1
+                      })
+                }
+             },
+            onError: function(err) {
+                console.error('the watch closed because of error', err)
+            }
+        })
+
+        const watcher30 = db.collection('fellow4')
+        .where({})
+        .watch({
+            onChange: function(snapshot) {
+                const FELLOW_NO = [3,4,4,5,5]
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
+                    // console.log('1.docs\'s changed events', snapshot.docChanges)
+                    // console.log('2,query result snapshot after the event', snapshot.docs)
+                    // console.log('3.is init data', snapshot.type === 'init')    
+                    console.log("fellow4 changed")
+                    getApp().globalData.hasFellow4 = true
+                    getApp().globalData.fellow4 = snapshot.docs
+                    wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:"车长已发车, 第四轮任务进行中"
+                    })
+                    wx.navigateBack({
+                        delta: 1
+                      })
+                }
+             },
+            onError: function(err) {
+                console.error('the watch closed because of error', err)
+            }
+        })
+
+        const watcher40 = db.collection('fellow5')
+        .where({})
+        .watch({
+            onChange: function(snapshot) {
+                const FELLOW_NO = [3,4,4,5,5]
+                // console.log('docs\'s changed events', snapshot.docChanges)
+                // console.log('query result snapshot after the event', snapshot.docs)
+                // console.log('is init data', snapshot.type === 'init')
+                if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
+                    // console.log('1.docs\'s changed events', snapshot.docChanges)
+                    // console.log('2,query result snapshot after the event', snapshot.docs)
+                    // console.log('3.is init data', snapshot.type === 'init')    
+                    console.log("fellow5 changed")
+                    getApp().globalData.hasFellow5 = true
+                    getApp().globalData.fellow5 = snapshot.docs
+                    wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:"车长已发车, 第五轮任务进行中"
+                    })
+                    wx.navigateBack({
+                        delta: 1
+                      })
+                }
+             },
+            onError: function(err) {
+                console.error('the watch closed because of error', err)
+            }
+        })
+
         const watcher1 = db.collection('queue')
         .where({})
         .watch({
