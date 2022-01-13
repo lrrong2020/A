@@ -201,8 +201,10 @@ App({
         .where({})
         .watch({
             onChange: function(snapshot) {
+                console.log("informed 猎杀")
+                console.log(snapshot)
                 if(snapshot.type != 'init'){
-                    
+                    console.log("刺杀了")
                     getApp().globalData.assaAvt = snapshot.docs.assa,
                     getApp().globalData.deadAvt = snapshot.docs.dead
                     if(snapshot.docs.dead == getApp().globalData.role[0].avatar){
@@ -219,9 +221,6 @@ App({
                             content:"蓝方胜利"
                           })
                     }
-    
-    
-
                 }
                
              },

@@ -154,6 +154,14 @@ Page({
         },
         onError: function(err) {
           console.error('the watch closed because of error', err)
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          })
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          })
         }
       })
 
@@ -173,13 +181,20 @@ Page({
             //   content:"请查看你的身份牌"
             // })
 
-            console.log("Role changed")
+            // console.log("Role changed")
           that.setData({roleChanged: true})
         }
 
         },
         onError: function(err) {
-          
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          })
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          })
         }
 
       })
@@ -232,6 +247,14 @@ Page({
             }
             },
             onError: function(err) {
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              })
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              })
             }
           })
 
@@ -273,6 +296,14 @@ Page({
           }
           },
           onError: function(err) {
+            wx.showModal({
+              cancelColor: 'cancelColor',
+              title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+            })
+            wx.showModal({
+              cancelColor: 'cancelColor',
+              title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+            })
           }
         })
 
@@ -312,6 +343,14 @@ Page({
             }
             },
             onError: function(err) {
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              })
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              })
             }
           })
           //  watcher.close()
@@ -352,6 +391,14 @@ Page({
         }
         },
         onError: function(err) {
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          })
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          })
         }
       })
 
@@ -388,6 +435,14 @@ Page({
             }
             },
             onError: function(err) {
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              })
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              })
             }
           })
 
@@ -435,7 +490,15 @@ Page({
                   }
                 } 
                 },
-                onError: function(err) {  
+                onError: function(err) {
+                  wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                  })
+                  wx.showModal({
+                    cancelColor: 'cancelColor',
+                    title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                  })
                 }
               })
  
@@ -488,7 +551,15 @@ Page({
                     }
                   } 
                   },
-                  onError: function(err) {  
+                  onError: function(err) { 
+                    wx.showModal({
+                      cancelColor: 'cancelColor',
+                      title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                    })
+                    wx.showModal({
+                      cancelColor: 'cancelColor',
+                      title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                    }) 
                   }
                 })
 
@@ -570,6 +641,14 @@ Page({
                     } 
                     },
                     onError: function(err) {  
+                      wx.showModal({
+                        cancelColor: 'cancelColor',
+                        title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                      })
+                      wx.showModal({
+                        cancelColor: 'cancelColor',
+                        title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                      })
                     }
                   })
 
@@ -650,6 +729,14 @@ Page({
                       } 
                       },
                       onError: function(err) {  
+                        wx.showModal({
+                          cancelColor: 'cancelColor',
+                          title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                        })
+                        wx.showModal({
+                          cancelColor: 'cancelColor',
+                          title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                        })
                       }
                     })
  
@@ -661,9 +748,9 @@ Page({
                         onChange: function(snapshot) {
                           that.refresh()
                           const fellowNo = [3,4,4,5,5]
-                          console.log('docs\'s changed events', snapshot.docChanges)
-                          console.log('query result snapshot after the event', snapshot.docs)
-                          console.log('is init data', snapshot.type === 'init')
+                          // console.log('docs\'s changed events', snapshot.docChanges)
+                          // console.log('query result snapshot after the event', snapshot.docs)
+                          // console.log('is init data', snapshot.type === 'init')
                           if(snapshot.docs.length > 0 && snapshot.type != 'init'){
                             if(snapshot.docs.length != fellowNo[4]){
                               that.setData({
@@ -727,9 +814,56 @@ Page({
                         } 
                         },
                         onError: function(err) {  
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                          })
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                          })
                         }
                       })
 
+                      // const watcherAssa = db.collection('end')
+                      // .where({})
+                      // .watch({
+                      //     onChange: function(snapshot) {
+                      //       console.log("informed 猎杀")
+                      //       console.log(snapshot)
+                      //         if(snapshot.type != 'init'){
+                                  
+                      //             getApp().globalData.assaAvt = snapshot.docs.assa,
+                      //             getApp().globalData.deadAvt = snapshot.docs.dead
+                      //             if(snapshot.docs.dead == getApp().globalData.role[0].avatar){
+                      //                 wx.showModal({
+                      //                   cancelColor: 'cancelColor',
+                      //                   title:"刺杀成功",
+                      //                   content:"红方胜利"
+                      //                 })
+                      //             }
+                      //             else{
+                      //                 wx.showModal({
+                      //                     cancelColor: 'cancelColor',
+                      //                     title:"刺杀失败",
+                      //                     content:"蓝方胜利"
+                      //                   })
+                      //             }
+                      //         }
+                             
+                      //      },
+                      //     onError: function(err) {
+                      //         console.error('the watch closed because of error', err)
+                      //         wx.showModal({
+                      //           cancelColor: 'cancelColor',
+                      //           title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                      //         })
+                      //         wx.showModal({
+                      //           cancelColor: 'cancelColor',
+                      //           title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                      //         })
+                      //     }
+                      // })
 
 
 
@@ -893,8 +1027,8 @@ Page({
       .then(res => {
       })
     }
-    console.log('shuffledMyQueue')
-    console.log(shuffledMyQueue)
+    // console.log('shuffledMyQueue')
+    // console.log(shuffledMyQueue)
         }
       }
     })
@@ -904,7 +1038,7 @@ Page({
   async refresh(e){
     this.checkUser()
 
-    console.log("refreshing myQueue")
+    // console.log("refreshing myQueue")
 
     //successfully upload user profile and then refresh
 
@@ -934,8 +1068,8 @@ Page({
       displayQueue: app.globalData.myQueue
     })
 
-    console.log("this.data")
-    console.log(this.data)
+    // console.log("this.data")
+    // console.log(this.data)
   },
 
   clearRoom(e){
@@ -1078,6 +1212,21 @@ Page({
          .catch(console.error)
          console.log('vote cleared')    
         }
+        wx.cloud.callFunction({
+          // 云函数名称
+          name: 'addE',
+          // 传给云函数的参数
+          data: {
+          },
+        })
+        .then(res => {
+          // console.log(res.result) // 3
+        })
+        .catch(console.error)
+
+
+        console.log("end cleared")
+        
       }
     })
 
@@ -1102,8 +1251,8 @@ Page({
         // this.setData({
         //   displayRole: app.globalData.role
         // })
-        console.log("shuffled role from Database")
-        console.log(role)
+        // console.log("shuffled role from Database")
+        // console.log(role)
         var nm = userInfo.nickName
         var avt = userInfo.avatarUrl
         //需要换成avatar否则发身份有问题
@@ -1189,8 +1338,9 @@ onclickProfile(e){
   }
 
   else if(that.data.isAssa){
+    const dd = app.globalData.myQueue[e.target.id]
     let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
-    let assText = "你确定要刺杀 " + app.globalData.myQueue[e.target.id].nickName + leaderText + " 吗?"
+    let assText = "你确定要刺杀 " + dd.nickName + leaderText + " 吗?"
     wx.showModal({
       cancelColor: 'cancelColor',
       title:"猎杀时刻",
@@ -1199,13 +1349,18 @@ onclickProfile(e){
         if(res.confirm){
 
           console.log(that.data.displayQueue[that.data.queueIdx].nickName + " 刺杀了 " + app.globalData.myQueue[e.target.id].nickName)
-          const assaData = that.userInfo.avatarUrl
-          const deadData = app.globalData.myQueue[e.target.id].avartar
+          const assaData = that.data.userInfo.avatarUrl
+          const deadData = dd.avartar
+
+
+          console.log(dd)
+          console.log(dd.avatar)
           const db = wx.cloud.database()
           db.collection('end').add({
             data:{
-              assa:assaData,
-              dead: deadData
+              assa: assaData,
+              dead: deadData,
+              hasVote: true
             }
           })
         }
