@@ -164,11 +164,11 @@ Page({
           // console.log('query result snapshot after the event', snapshot.docs)
           // console.log('is init data', snapshot.type === 'init')
           if(snapshot.type != 'init'){
-            wx.showModal({
-              cancelColor: 'cancelColor',
-              title:"游戏开始",
-              content:"请查看你的身份牌"
-            })
+            // wx.showModal({
+            //   cancelColor: 'cancelColor',
+            //   title:"游戏开始",
+            //   content:"请查看你的身份牌"
+            // })
 
             console.log("Role changed")
           that.setData({roleChanged: true})
@@ -383,48 +383,40 @@ Page({
           .watch({
             onChange: function(snapshot) {
               that.refresh()
+              const fellowNoAcc = [3,7,11,16,21]
               const fellowNo = [3,4,4,5,5]
-    
-
-              if(snapshot.docChanges.length > 0 && snapshot.type != 'init'){
-              // console.log('docs\'s changed events', snapshot.docChanges)
-              // console.log('query result snapshot after the event', snapshot.docs)
-              // console.log('is init data', snapshot.type === 'init')
-              
+              console.log('docs\'s changed events', snapshot.docChanges)
+              console.log('query result snapshot after the event', snapshot.docs)
+              console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
               if(snapshot.docs.length == fellowNo[curFrame]){
-
                 let no = 0
                 for(let index = 0;index < snapshot.docs.length;index++){
                   if(snapshot.docs[index].vote){
                     no++
                   }
                 }
-
                 switch(curFrame){
                   case 0:
                     that.setData({
                       votes0: no
                     })
                     break
-
                   case 1:
                     that.setData({
                       votes1: no
                     })
                     break
-
                   case 2:
                     that.setData({
                       votes2: no
                     })
                     break
-
                   case 3:
                     that.setData({
                       votes3: no
                     })
                     break
-
                     case 4:
                       that.setData({
                         votes4: no
@@ -432,14 +424,236 @@ Page({
                       break
                 }
               }
-            }
-    
+            } 
             },
-            onError: function(err) {
-              
+            onError: function(err) {  
             }
-    
           })
+          watcher114.close()
+
+          const curFrame2 = getApp().globalData.currentFrame
+          const watcher115 = db.collection('vote')
+          .where({
+              currentFrame: curFrame2
+          })
+          .watch({
+            onChange: function(snapshot) {
+              that.refresh()
+              const fellowNoAcc = [3,7,11,16,21]
+              const fellowNo = [3,4,4,5,5]
+              console.log('docs\'s changed events', snapshot.docChanges)
+              console.log('query result snapshot after the event', snapshot.docs)
+              console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+              if(snapshot.docs.length == fellowNo[curFrame2]){
+                let no = 0
+                for(let index = 0;index < snapshot.docs.length;index++){
+                  if(snapshot.docs[index].vote){
+                    no++
+                  }
+                }
+                switch(curFrame2){
+                  case 0:
+                    that.setData({
+                      votes0: no
+                    })
+                    break
+                  case 1:
+                    that.setData({
+                      votes1: no
+                    })
+                    break
+                  case 2:
+                    that.setData({
+                      votes2: no
+                    })
+                    break
+                  case 3:
+                    that.setData({
+                      votes3: no
+                    })
+                    break
+                    case 4:
+                      that.setData({
+                        votes4: no
+                      })
+                      break
+                }
+              }
+            } 
+            },
+            onError: function(err) {  
+            }
+          })
+          watcher115.close()
+
+          const curFrame3 = getApp().globalData.currentFrame
+          const watcher116 = db.collection('vote')
+          .where({
+              currentFrame: curFrame3
+          })
+          .watch({
+            onChange: function(snapshot) {
+              that.refresh()
+              const fellowNoAcc = [3,7,11,16,21]
+              const fellowNo = [3,4,4,5,5]
+              console.log('docs\'s changed events', snapshot.docChanges)
+              console.log('query result snapshot after the event', snapshot.docs)
+              console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+              if(snapshot.docs.length == fellowNo[curFrame3]){
+                let no = 0
+                for(let index = 0;index < snapshot.docs.length;index++){
+                  if(snapshot.docs[index].vote){
+                    no++
+                  }
+                }
+                switch(curFrame3){
+                  case 0:
+                    that.setData({
+                      votes0: no
+                    })
+                    break
+                  case 1:
+                    that.setData({
+                      votes1: no
+                    })
+                    break
+                  case 2:
+                    that.setData({
+                      votes2: no
+                    })
+                    break
+                  case 3:
+                    that.setData({
+                      votes3: no
+                    })
+                    break
+                    case 4:
+                      that.setData({
+                        votes4: no
+                      })
+                      break
+                }
+              }
+            } 
+            },
+            onError: function(err) {  
+            }
+          })
+          watcher116.close()
+
+          const curFrame4 = getApp().globalData.currentFrame
+          const watcher117 = db.collection('vote')
+          .where({
+              currentFrame: curFrame4
+          })
+          .watch({
+            onChange: function(snapshot) {
+              that.refresh()
+              const fellowNoAcc = [3,7,11,16,21]
+              const fellowNo = [3,4,4,5,5]
+              console.log('docs\'s changed events', snapshot.docChanges)
+              console.log('query result snapshot after the event', snapshot.docs)
+              console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+              if(snapshot.docs.length == fellowNo[curFrame4]){
+                let no = 0
+                for(let index = 0;index < snapshot.docs.length;index++){
+                  if(snapshot.docs[index].vote){
+                    no++
+                  }
+                }
+                switch(curFrame4){
+                  case 0:
+                    that.setData({
+                      votes0: no
+                    })
+                    break
+                  case 1:
+                    that.setData({
+                      votes1: no
+                    })
+                    break
+                  case 2:
+                    that.setData({
+                      votes2: no
+                    })
+                    break
+                  case 3:
+                    that.setData({
+                      votes3: no
+                    })
+                    break
+                    case 4:
+                      that.setData({
+                        votes4: no
+                      })
+                      break
+                }
+              }
+            } 
+            },
+            onError: function(err) {  
+            }
+          })
+          watcher114.close()
+
+          const curFrame5 = getApp().globalData.currentFrame
+          const watcher118 = db.collection('vote')
+          .where({
+              currentFrame: curFrame5
+          })
+          .watch({
+            onChange: function(snapshot) {
+              that.refresh()
+              const fellowNoAcc = [3,7,11,16,21]
+              const fellowNo = [3,4,4,5,5]
+              console.log('docs\'s changed events', snapshot.docChanges)
+              console.log('query result snapshot after the event', snapshot.docs)
+              console.log('is init data', snapshot.type === 'init')
+              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+              if(snapshot.docs.length == fellowNo[curFrame5]){
+                let no = 0
+                for(let index = 0;index < snapshot.docs.length;index++){
+                  if(snapshot.docs[index].vote){
+                    no++
+                  }
+                }
+                switch(curFrame5){
+                  case 0:
+                    that.setData({
+                      votes0: no
+                    })
+                    break
+                  case 1:
+                    that.setData({
+                      votes1: no
+                    })
+                    break
+                  case 2:
+                    that.setData({
+                      votes2: no
+                    })
+                    break
+                  case 3:
+                    that.setData({
+                      votes3: no
+                    })
+                    break
+                    case 4:
+                      that.setData({
+                        votes4: no
+                      })
+                      break
+                }
+              }
+            } 
+            },
+            onError: function(err) {  
+            }
+          })
+          watcher114.close()
 
   },
 
@@ -954,6 +1168,7 @@ drive(e){
 sucMis(e){
   //success
   const currentFrame = app.globalData.currentFrame - 1
+  console.log(currentFrame)
   console.log("任务开始")
   const db = wx.cloud.database()
   db.collection('vote').add({
@@ -973,6 +1188,7 @@ sucMis(e){
 failMis(e){
   //fail
   const currentFrame = app.globalData.currentFrame - 1
+  console.log(currentFrame)
   console.log("任务开始")
   // console.log(getApp().globalData.currentFrame)
   const db = wx.cloud.database()
@@ -988,5 +1204,62 @@ failMis(e){
     inFellow:false
   })
 
+},
+
+nxtLeader(e){
+  // const avt = app.globalData.userInfo.avatarUrl
+  //         console.log("avt")
+  //         console.log(avt)
+            // const db = wx.cloud.database({})
+        db.collection('queue').where({
+          isLeader: true
+        })
+        .get({
+          success:function(res){
+            // resId = res._id
+            // console.log("resId")
+            // console.log(resId)
+            // console.log("res")
+            // console.log(res)
+            // res.data 是包含以上定义的两条记录的数组
+            var resId = ""
+            var nextId = ""
+            // console.log("resId before")
+            // console.log(resId)
+
+                resId = res.data[0]._id
+                const nextIndex = (i+1) % res.data.length
+                // console.log("i: " + i)
+                // console.log("nextIndex: " + nextIndex)
+                nextId = res.data[(i+1) % res.data.length]._id
+
+              
+
+            
+            console.log("resId after")
+            console.log(resId)
+            console.log("nextId after")
+            console.log(nextId)
+
+            db.collection('queue').doc(resId).update({
+              data:{
+                isLeader: false
+              }
+            })
+
+            if(getApp().globalData.currentFrame < 5){
+              db.collection('queue').doc(nextId).update({
+                data:{
+                  isLeader: true
+                }
+              })
+            }
+            // console.log(idList)
+            //借用id实现多记录删除
+          }
+        })
+      //voted = false (globaldata)
+      //navigate to FakeIndex
+      //hide 发车
 }
 })

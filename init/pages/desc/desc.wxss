@@ -1,0 +1,12 @@
+/* pages/desc/desc.wxss */
+.container{
+    align-items: center;
+}
+.b{
+    font-weight: 1000;
+    color: red;
+  }
+
+  .subs{
+      margin: 30rpx;
+  }

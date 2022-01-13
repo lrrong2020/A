@@ -162,3 +162,7 @@ page {
   border-radius: 38px;
   line-height: 38px;
 }
+.b{
+  font-weight: 1000;
+  color: red;
+}

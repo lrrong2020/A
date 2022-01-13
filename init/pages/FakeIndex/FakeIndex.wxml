@@ -24,6 +24,7 @@
       </view>
 
       <button wx:if="{{isOwner && !isBegun}}" id="Enter" bindtap='enterRoom'>开始游戏</button>
+      <button wx:if="{{isOwner && isBegun}}" bindtap="nxtLeader">下一个</button>
       <button id="clearRoom" bindtap='clearRoom'>Clear</button>
       <!-- <button id="refresh" bindtap='refresh'>refresh</button> -->
       <block wx:if="{{roleChanged}}">

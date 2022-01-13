@@ -41,10 +41,10 @@ App({
                     console.log("fellow changed")
                     getApp().globalData.hasFellow = true
                     getApp().globalData.fellow = snapshot.docs
-                    wx.showModal({
-                    cancelColor: 'cancelColor',
-                    title:"车长已发车, 第一轮任务进行中"
-                    })
+                    // wx.showModal({
+                    // cancelColor: 'cancelColor',
+                    // title:"车长已发车, 第一轮任务进行中"
+                    // })
                     wx.navigateBack({
                         delta: 1
                       })
@@ -70,10 +70,10 @@ App({
                     console.log("fellow2 changed")
                     getApp().globalData.hasFellow2 = true
                     getApp().globalData.fellow2 = snapshot.docs
-                    wx.showModal({
-                    cancelColor: 'cancelColor',
-                    title:"车长已发车, 第二轮任务进行中"
-                    })
+                    // wx.showModal({
+                    // cancelColor: 'cancelColor',
+                    // title:"车长已发车, 第二轮任务进行中"
+                    // })
                     wx.navigateBack({
                         delta: 1
                       })
@@ -99,10 +99,10 @@ App({
                     console.log("fellow3 changed")
                     getApp().globalData.hasFellow3 = true
                     getApp().globalData.fellow3 = snapshot.docs
-                    wx.showModal({
-                    cancelColor: 'cancelColor',
-                    title:"车长已发车, 第三轮任务进行中"
-                    })
+                    // wx.showModal({
+                    // cancelColor: 'cancelColor',
+                    // title:"车长已发车, 第三轮任务进行中"
+                    // })
                     wx.navigateBack({
                         delta: 1
                       })
@@ -128,10 +128,10 @@ App({
                     console.log("fellow4 changed")
                     getApp().globalData.hasFellow4 = true
                     getApp().globalData.fellow4 = snapshot.docs
-                    wx.showModal({
-                    cancelColor: 'cancelColor',
-                    title:"车长已发车, 第四轮任务进行中"
-                    })
+                    // wx.showModal({
+                    // cancelColor: 'cancelColor',
+                    // title:"车长已发车, 第四轮任务进行中"
+                    // })
                     wx.navigateBack({
                         delta: 1
                       })
@@ -157,10 +157,10 @@ App({
                     console.log("fellow5 changed")
                     getApp().globalData.hasFellow5 = true
                     getApp().globalData.fellow5 = snapshot.docs
-                    wx.showModal({
-                    cancelColor: 'cancelColor',
-                    title:"车长已发车, 第五轮任务进行中"
-                    })
+                    // wx.showModal({
+                    // cancelColor: 'cancelColor',
+                    // title:"车长已发车, 第五轮任务进行中"
+                    // })
                     wx.navigateBack({
                         delta: 1
                       })
@@ -187,14 +187,7 @@ App({
                     cancelColor: 'cancelColor',
                     title:"房间已清理 请点击右上角 ... 重新进入小程序"
                     })
-                    wx.showModal({
-                        cancelColor: 'cancelColor',
-                        title:"房间已清理 请点击右上角 ... 重新进入小程序"
-                    })
-                    wx.showModal({
-                        cancelColor: 'cancelColor',
-                        title:"房间已清理 请点击右上角 ... 重新进入小程序"
-                    })
+                    
                 }
              },
             onError: function(err) {
