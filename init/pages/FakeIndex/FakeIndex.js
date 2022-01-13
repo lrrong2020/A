@@ -40,7 +40,9 @@ Page({
     isBegun:false,
     queueIdx: -1,
     inFellow: false,
-    fellowNo:[3,4,4,5,5]
+    fellowNo:[3,4,4,5,5],
+    successGames:0,
+    failGames:0
 
   },
   onShow(){
@@ -413,7 +415,22 @@ Page({
                     }
                     that.setData({
                       votes0: no
-                    })          
+                    })
+
+
+                    const incS = that.data.successGames + 1
+                    const incF = that.data.failGames + 1
+                    if(no == 3){
+                      that.setData({
+                        successGames: incS
+                      })
+                    }
+                    else{
+                      that.setData({
+                        failGames: incF
+                      })
+                    }
+
                     watcher114.close()
                   }
                 } 
@@ -422,7 +439,6 @@ Page({
                 }
               })
  
-                console.log("case 1")
 
                 const watcher1141 = db.collection('vote')
                 .where({
@@ -436,7 +452,17 @@ Page({
                     console.log('query result snapshot after the event', snapshot.docs)
                     console.log('is init data', snapshot.type === 'init')
                     if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                      if(snapshot.docs.length != fellowNo[1]){
+                        that.setData({
+                          canGo: false
+                        })
+                        getApp().globalData.canGo = false
+                      }
                     if(snapshot.docs.length == fellowNo[1]){
+                      that.setData({
+                        canGo: true
+                      })
+                      getApp().globalData.canGo = true
                       let no = 0
                       for(let index = 0;index < snapshot.docs.length;index++){
                         if(snapshot.docs[index].vote){
@@ -445,7 +471,19 @@ Page({
                       }
                       that.setData({
                         votes1: no
-                      })          
+                      })
+                      const incS = that.data.successGames + 1
+                      const incF = that.data.failGames + 1
+                      if(no == 4){
+                        that.setData({
+                          successGames: incS
+                        })
+                      }
+                      else{
+                        that.setData({
+                          failGames: incF
+                        })
+                      }
                       watcher1141.close()
                     }
                   } 
@@ -466,7 +504,17 @@ Page({
                       console.log('query result snapshot after the event', snapshot.docs)
                       console.log('is init data', snapshot.type === 'init')
                       if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                        if(snapshot.docs.length != fellowNo[2]){
+                          that.setData({
+                            canGo: false
+                          })
+                          getApp().globalData.canGo = false
+                        }
                       if(snapshot.docs.length == fellowNo[2]){
+                        that.setData({
+                          canGo: true
+                        })
+                        getApp().globalData.canGo = true
                         let no = 0
                         for(let index = 0;index < snapshot.docs.length;index++){
                           if(snapshot.docs[index].vote){
@@ -475,7 +523,48 @@ Page({
                         }
                         that.setData({
                           votes2: no
-                        })          
+                        })
+                        
+                        const incS = that.data.successGames + 1
+                        const incF = that.data.failGames + 1
+                        if(no == 4){
+                          that.setData({
+                            successGames: inc
+                          })
+                        }
+                        else{
+                          that.setData({
+                            failGames: incF
+                          })
+                        }
+
+                        //if end
+                        const suc = that.data.successGames
+                        const fa = that.data.failGames
+
+                        if(suc > 2){
+                          getApp().globalData.canGo = false
+                          that.setData({
+                            canGo: false
+                          })
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:"刺杀环节",
+                            content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
+                          })
+                        }
+                        if(fa > 2){
+                          getApp().globalData.canGo = false
+                          that.setData({
+                            canGo: false
+                          })
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:"游戏结束",
+                            content:"红方获胜"
+                          })
+                        }
+
                         watcher1142.close()
                       }
                     } 
@@ -496,7 +585,17 @@ Page({
                         console.log('query result snapshot after the event', snapshot.docs)
                         console.log('is init data', snapshot.type === 'init')
                         if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                          if(snapshot.docs.length != fellowNo[3]){
+                            that.setData({
+                              canGo: false
+                            })
+                            getApp().globalData.canGo = false
+                          }
                         if(snapshot.docs.length == fellowNo[3]){
+                          that.setData({
+                            canGo: true
+                          })
+                          getApp().globalData.canGo = true
                           let no = 0
                           for(let index = 0;index < snapshot.docs.length;index++){
                             if(snapshot.docs[index].vote){
@@ -505,7 +604,47 @@ Page({
                           }
                           that.setData({
                             votes3: no
-                          })          
+                          })
+
+                          const incS = that.data.successGames + 1
+                          const incF = that.data.failGames + 1
+                          if(no > 3){
+                            that.setData({
+                              successGames: incS
+                            })
+                          }
+                          else{
+                            that.setData({
+                              failGames: incF
+                            })
+                          }
+
+                           //if end
+                        const suc = that.data.successGames
+                        const fa = that.data.failGames
+
+                        if(suc > 2){
+                          getApp().globalData.canGo = false
+                          that.setData({
+                            canGo: false
+                          })
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:"刺杀环节",
+                            content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
+                          })
+                        }
+                        if(fa > 2){
+                          getApp().globalData.canGo = false
+                          that.setData({
+                            canGo: false
+                          })
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:"游戏结束",
+                            content:"红方获胜"
+                          })
+                        }
                           watcher1143.close()
                         }
                       } 
@@ -526,7 +665,14 @@ Page({
                           console.log('query result snapshot after the event', snapshot.docs)
                           console.log('is init data', snapshot.type === 'init')
                           if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                            if(snapshot.docs.length != fellowNo[4]){
+                              that.setData({
+                                canGo: false
+                              })
+                              getApp().globalData.canGo = false
+                            }
                           if(snapshot.docs.length == fellowNo[4]){
+
                             let no = 0
                             for(let index = 0;index < snapshot.docs.length;index++){
                               if(snapshot.docs[index].vote){
@@ -535,7 +681,47 @@ Page({
                             }
                             that.setData({
                               votes4: no
-                            })          
+                            })
+                            
+                            const incS = that.data.successGames + 1
+                            const incF = that.data.failGames + 1
+                            if(no == 5){
+                              that.setData({
+                                successGames: incS
+                              })
+                            }
+                            else{
+                              that.setData({
+                                failGames: incF
+                              })
+                            }
+
+                             //if end
+                        const suc = that.data.successGames
+                        const fa = that.data.failGames
+
+                        if(suc > 2){
+                          getApp().globalData.canGo = false
+                          that.setData({
+                            canGo: false
+                          })
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:"刺杀环节",
+                            content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
+                          })
+                        }
+                        if(fa > 2){
+                          getApp().globalData.canGo = false
+                          that.setData({
+                            canGo: false
+                          })
+                          wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:"游戏结束",
+                            content:"红方获胜"
+                          })
+                        }
                             watcher1144.close()
                           }
                         } 
@@ -654,15 +840,15 @@ Page({
       return array;
   }
 
-  console.log(1)
+
     //append shuffled queue to role
     const db = wx.cloud.database({})
-    console.log(2)
+
     //pick leader
     db.collection('queue').where({})
     .get({
       success: function(res) {
-        console.log(3)
+
         // res.data 是包含以上定义的两条记录的数组
         var idList = []
         for(var i = 0;i < res.data.length;++i){
@@ -670,11 +856,10 @@ Page({
         }
         console.log(idList)
         //借用id实现随机选择
-        console.log(4)
+
         //rd 0 ~ queue.length-1
         let rd = Math.floor(Math.random() * that.data.displayQueue.length)
-        console.log("rd: " + rd)
-        console.log(5)
+
         db.collection('queue').doc(idList[rd]).update({
           data:{
             isLeader: true
@@ -688,13 +873,13 @@ Page({
             console.log(res)
           }
         })
-        console.log(6)
+
       }
     })
 
 
 
-    console.log(6)
+
 
 
     // var shuffledMyQueue = app.globalData.myQueue.shuffle()
@@ -1012,8 +1197,19 @@ onclickProfile(e){
       content: assText,
       success:function(res){
         if(res.confirm){
+
           console.log(that.data.displayQueue[that.data.queueIdx].nickName + " 刺杀了 " + app.globalData.myQueue[e.target.id].nickName)
+          const assaData = that.userInfo.avatarUrl
+          const deadData = app.globalData.myQueue[e.target.id].avartar
+          const db = wx.cloud.database()
+          db.collection('end').add({
+            data:{
+              assa:assaData,
+              dead: deadData
+            }
+          })
         }
+
       }
     })
     return
@@ -1102,56 +1298,45 @@ nxtLeader(e){
   // const avt = app.globalData.userInfo.avatarUrl
   //         console.log("avt")
   //         console.log(avt)
-            // const db = wx.cloud.database({})
-        db.collection('queue').where({
-          isLeader: true
-        })
-        .get({
-          success:function(res){
-            // resId = res._id
-            // console.log("resId")
-            // console.log(resId)
-            // console.log("res")
-            // console.log(res)
-            // res.data 是包含以上定义的两条记录的数组
-            var resId = ""
-            var nextId = ""
-            // console.log("resId before")
-            // console.log(resId)
+      console.log("next")
 
-                resId = res.data[0]._id
-                const nextIndex = (i+1) % res.data.length
-                // console.log("i: " + i)
-                // console.log("nextIndex: " + nextIndex)
-                nextId = res.data[(i+1) % res.data.length]._id
-
-              
-
-            
-            console.log("resId after")
-            console.log(resId)
-            console.log("nextId after")
-            console.log(nextId)
-
-            db.collection('queue').doc(resId).update({
-              data:{
-                isLeader: false
-              }
-            })
-
-            if(getApp().globalData.currentFrame < 5){
-              db.collection('queue').doc(nextId).update({
-                data:{
-                  isLeader: true
-                }
-              })
+      var avt = ''
+      for(let i = 0;i < this.data.displayQueue.length;i++){
+        if(this.data.displayQueue[i].isLeader){
+          avt = this.data.displayQueue[i].avatar
+          break
+        }
+      }
+      console.log("avt" + avt)
+      const db = wx.cloud.database({})
+      db.collection('queue').where({
+      })
+      .get({
+        success:function(res){
+          var resId = ""
+          var nextId = ""
+          for(var i = 0;i < res.data.length;i++){
+            if(res.data[i].avatar == avt){
+              resId = res.data[i]._id
+              nextId = res.data[(i+1) % res.data.length]._id
+              break
             }
-            // console.log(idList)
-            //借用id实现多记录删除
+            else{
+              continue
+            }
           }
-        })
-      //voted = false (globaldata)
-      //navigate to FakeIndex
-      //hide 发车
+          db.collection('queue').doc(resId).update({
+            data:{
+              isLeader: false
+            }
+          })
+
+          db.collection('queue').doc(nextId).update({
+            data:{
+              isLeader: true
+            }
+          })
+        }
+      })
 }
 })

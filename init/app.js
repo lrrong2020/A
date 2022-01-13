@@ -1,3 +1,5 @@
+// const { get } = require("http")
+
 //app.js
 App({
     onLaunch () {
@@ -194,6 +196,39 @@ App({
                 console.error('the watch closed because of error', err)
             }
         })
+
+        const watcherAssa = db.collection('end')
+        .where({})
+        .watch({
+            onChange: function(snapshot) {
+                if(snapshot.type != 'init'){
+                    
+                    getApp().globalData.assaAvt = snapshot.docs.assa,
+                    getApp().globalData.deadAvt = snapshot.docs.dead
+                    if(snapshot.docs.dead == getApp().globalData.role[0].avatar){
+                        wx.showModal({
+                          cancelColor: 'cancelColor',
+                          title:"刺杀成功",
+                          content:"红方胜利"
+                        })
+                    }
+                    else{
+                        wx.showModal({
+                            cancelColor: 'cancelColor',
+                            title:"刺杀失败",
+                            content:"蓝方胜利"
+                          })
+                    }
+    
+    
+
+                }
+               
+             },
+            onError: function(err) {
+                console.error('the watch closed because of error', err)
+            }
+        })
     },
 
     globalData: {
@@ -229,5 +264,7 @@ App({
         currentFrame:0,//for count larger frames
         canGo: true,
         isAssa: false,
+        assaAvt:"",
+        deadAvt:""
     }
 })
