@@ -166,3 +166,6 @@ page {
   font-weight: 1000;
   color: red;
 }
+.textA{
+  text-align:justify;
+}

@@ -137,7 +137,7 @@ radioButtonTap: function (e) {
             let zuiduo = "此轮最多可以选 " + FELLOW_NO[currentFrame]+ " 个人\n请再次点击取消选取"
             wx.showModal({
               cancelColor: 'cancelColor',
-              title:"最多可以选n个人\n请再次点击取消选取"
+              title: zuiduo
             })
             this.data.displayQueue[f].checked = false;
             break
@@ -325,10 +325,10 @@ radioButtonTap: function (e) {
                     continue
                   }
                 }
-                console.log("resId after")
-                console.log(resId)
-                console.log("nextId after")
-                console.log(nextId)
+                // console.log("resId after")
+                // console.log(resId)
+                // console.log("nextId after")
+                // console.log(nextId)
 
                 db.collection('queue').doc(resId).update({
                   data:{

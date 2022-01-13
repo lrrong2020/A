@@ -39,7 +39,7 @@
         <view wx:for="{{displayFellow}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
-  <text wx:if="{{votes0 != -1}}">{{votes0}}/{{fellowNo[0]}}</text>
+  <text wx:if="{{votes0 != -1}}" class='{{votes0==3?"success":"fail"}}'>{{votes0}}/{{fellowNo[0]}}</text>
         <!-- <button bindtap="clickYes" class="voteButton">同意</button>
         <button bindtap="clickNo" class="voteButton">反对</button> -->
 </view>
@@ -48,28 +48,28 @@
         <view wx:for="{{displayFellow2}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
-  <text wx:if="{{votes1 != -1}}">{{votes1}}/{{fellowNo[1]}}</text>
+  <text wx:if="{{votes1 != -1}}" class='{{votes1==4?"success":"fail"}}'>{{votes1}}/{{fellowNo[1]}}</text>
 </view>
 <view class="userinfoF" wx:if="{{hasFellow3}}">
   <text>3: </text>
         <view wx:for="{{displayFellow3}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
-  <text wx:if="{{votes2 != -1}}">{{votes2}}/{{fellowNo[2]}}</text>
+  <text wx:if="{{votes2 != -1}}" class='{{votes2==4?"success":"fail"}}'>{{votes2}}/{{fellowNo[2]}}</text>
 </view>
 <view class="userinfoF" wx:if="{{hasFellow4}}">
   <text>4: </text>
         <view wx:for="{{displayFellow4}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
-  <text wx:if="{{votes3 != -1}}">{{votes3}}/{{fellowNo[3]}}</text>
+  <text wx:if="{{votes3 != -1}}" class='{{votes3>3?"success":"fail"}}'>{{votes3}}/{{fellowNo[3]}}</text>
 </view>
 <view class="userinfoF" wx:if="{{hasFellow5}}">
   <text>5: </text>
         <view wx:for="{{displayFellow5}}" wx:for-index="idx" wx:for-item="itemName">
           <image class='userinfo-avatar-fellow' src="{{itemName.avatar}}" mode="cover"></image>
         </view>
-  <text wx:if="{{votes4 != -1}}">{{votes4}}/{{fellowNo[4]}}</text>
+  <text wx:if="{{votes4 != -1}}" class='{{votes4==5?"success":"fail"}}'>{{votes4}}/{{fellowNo[4]}}</text>
 </view>
 </block>
     </block>  

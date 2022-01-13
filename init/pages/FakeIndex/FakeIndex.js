@@ -72,6 +72,7 @@ Page({
 
    
     const displayQueue = this.data.displayQueue
+
     const db = wx.cloud.database()
     const watcher = db.collection('queue')
       .where({})
@@ -192,7 +193,11 @@ Page({
               if(snapshot.type != 'init'){
                 app.globalData.currentFrame = 1
                 console.log("[0]app.globalData.currentFrame: "+app.globalData.currentFrame)
-                getApp().globalData.canGo = true
+                getApp().globalData.canGo = false
+                if(that.data.votes0 == -1){
+                  getApp().globalData.canGo = true
+                }
+
               }
 
               // console.log('docs\'s changed events', snapshot.docChanges)
@@ -239,7 +244,10 @@ Page({
             if(snapshot.type != 'init'){
               app.globalData.currentFrame = 2
               console.log("[1]app.globalData.currentFrame: "+app.globalData.currentFrame)
-              getApp().globalData.canGo = true
+              getApp().globalData.canGo = false
+              if(that.data.votes1 == -1){
+                getApp().globalData.canGo = true
+              }
             }
             // console.log('docs\'s changed events', snapshot.docChanges)
             // console.log('query result snapshot after the event', snapshot.docs)
@@ -274,7 +282,10 @@ Page({
               if(snapshot.type != 'init'){
                 app.globalData.currentFrame = 3
                 console.log("[2]app.globalData.currentFrame: "+app.globalData.currentFrame)
-                getApp().globalData.canGo = true
+                getApp().globalData.canGo = false
+                if(that.data.votes2 == -1){
+                  getApp().globalData.canGo = true
+                }
               }
               const watcher4 = db.collection('fellow3')
               // console.log('docs\'s changed events', snapshot.docChanges)
@@ -312,7 +323,10 @@ Page({
           if(snapshot.type != 'init'){
             app.globalData.currentFrame = 4
             console.log("[3]app.globalData.currentFrame: "+app.globalData.currentFrame)
-            getApp().globalData.canGo = true
+            getApp().globalData.canGo = false
+            if(that.data.votes3 == -1){
+              getApp().globalData.canGo = true
+            }
           }
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
@@ -376,284 +390,162 @@ Page({
           })
 
           const curFrame = getApp().globalData.currentFrame
-          const watcher114 = db.collection('vote')
-          .where({
-              currentFrame: curFrame
-          })
-          .watch({
-            onChange: function(snapshot) {
-              that.refresh()
-              const fellowNoAcc = [3,7,11,16,21]
-              const fellowNo = [3,4,4,5,5]
-              console.log('docs\'s changed events', snapshot.docChanges)
-              console.log('query result snapshot after the event', snapshot.docs)
-              console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-              if(snapshot.docs.length == fellowNo[curFrame]){
-                let no = 0
-                for(let index = 0;index < snapshot.docs.length;index++){
-                  if(snapshot.docs[index].vote){
-                    no++
-                  }
-                }
-                switch(curFrame){
-                  case 0:
-                    that.setData({
-                      votes0: no
-                    })
-                    break
-                  case 1:
-                    that.setData({
-                      votes1: no
-                    })
-                    break
-                  case 2:
-                    that.setData({
-                      votes2: no
-                    })
-                    break
-                  case 3:
-                    that.setData({
-                      votes3: no
-                    })
-                    break
-                    case 4:
-                      that.setData({
-                        votes4: no
-                      })
-                      break
-                }
-              }
-            } 
-            },
-            onError: function(err) {  
-            }
-          })
-          watcher114.close()
 
-          const curFrame2 = getApp().globalData.currentFrame
-          const watcher115 = db.collection('vote')
-          .where({
-              currentFrame: curFrame2
-          })
-          .watch({
-            onChange: function(snapshot) {
-              that.refresh()
-              const fellowNoAcc = [3,7,11,16,21]
-              const fellowNo = [3,4,4,5,5]
-              console.log('docs\'s changed events', snapshot.docChanges)
-              console.log('query result snapshot after the event', snapshot.docs)
-              console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-              if(snapshot.docs.length == fellowNo[curFrame2]){
-                let no = 0
-                for(let index = 0;index < snapshot.docs.length;index++){
-                  if(snapshot.docs[index].vote){
-                    no++
-                  }
-                }
-                switch(curFrame2){
-                  case 0:
-                    that.setData({
-                      votes0: no
-                    })
-                    break
-                  case 1:
-                    that.setData({
-                      votes1: no
-                    })
-                    break
-                  case 2:
-                    that.setData({
-                      votes2: no
-                    })
-                    break
-                  case 3:
-                    that.setData({
-                      votes3: no
-                    })
-                    break
-                    case 4:
-                      that.setData({
-                        votes4: no
-                      })
-                      break
-                }
-              }
-            } 
-            },
-            onError: function(err) {  
-            }
-          })
-          watcher115.close()
 
-          const curFrame3 = getApp().globalData.currentFrame
-          const watcher116 = db.collection('vote')
-          .where({
-              currentFrame: curFrame3
-          })
-          .watch({
-            onChange: function(snapshot) {
-              that.refresh()
-              const fellowNoAcc = [3,7,11,16,21]
-              const fellowNo = [3,4,4,5,5]
-              console.log('docs\'s changed events', snapshot.docChanges)
-              console.log('query result snapshot after the event', snapshot.docs)
-              console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-              if(snapshot.docs.length == fellowNo[curFrame3]){
-                let no = 0
-                for(let index = 0;index < snapshot.docs.length;index++){
-                  if(snapshot.docs[index].vote){
-                    no++
-                  }
-                }
-                switch(curFrame3){
-                  case 0:
+              const watcher114 = db.collection('vote')
+              .where({
+                  currentFrame: 0
+              })
+              .watch({
+                onChange: function(snapshot) {
+                  that.refresh()
+                  const fellowNo = [3,4,4,5,5]
+                  console.log('docs\'s changed events', snapshot.docChanges)
+                  console.log('query result snapshot after the event', snapshot.docs)
+                  console.log('is init data', snapshot.type === 'init')
+                  if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                  if(snapshot.docs.length == fellowNo[0]){
+                    let no = 0
+                    for(let index = 0;index < snapshot.docs.length;index++){
+                      if(snapshot.docs[index].vote){
+                        no++
+                      }
+                    }
                     that.setData({
                       votes0: no
-                    })
-                    break
-                  case 1:
-                    that.setData({
-                      votes1: no
-                    })
-                    break
-                  case 2:
-                    that.setData({
-                      votes2: no
-                    })
-                    break
-                  case 3:
-                    that.setData({
-                      votes3: no
-                    })
-                    break
-                    case 4:
-                      that.setData({
-                        votes4: no
-                      })
-                      break
+                    })          
+                    watcher114.close()
+                  }
+                } 
+                },
+                onError: function(err) {  
                 }
-              }
-            } 
-            },
-            onError: function(err) {  
-            }
-          })
-          watcher116.close()
+              })
+ 
+                console.log("case 1")
 
-          const curFrame4 = getApp().globalData.currentFrame
-          const watcher117 = db.collection('vote')
-          .where({
-              currentFrame: curFrame4
-          })
-          .watch({
-            onChange: function(snapshot) {
-              that.refresh()
-              const fellowNoAcc = [3,7,11,16,21]
-              const fellowNo = [3,4,4,5,5]
-              console.log('docs\'s changed events', snapshot.docChanges)
-              console.log('query result snapshot after the event', snapshot.docs)
-              console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-              if(snapshot.docs.length == fellowNo[curFrame4]){
-                let no = 0
-                for(let index = 0;index < snapshot.docs.length;index++){
-                  if(snapshot.docs[index].vote){
-                    no++
-                  }
-                }
-                switch(curFrame4){
-                  case 0:
-                    that.setData({
-                      votes0: no
-                    })
-                    break
-                  case 1:
-                    that.setData({
-                      votes1: no
-                    })
-                    break
-                  case 2:
-                    that.setData({
-                      votes2: no
-                    })
-                    break
-                  case 3:
-                    that.setData({
-                      votes3: no
-                    })
-                    break
-                    case 4:
+                const watcher1141 = db.collection('vote')
+                .where({
+                    currentFrame: 1
+                })
+                .watch({
+                  onChange: function(snapshot) {
+                    that.refresh()
+                    const fellowNo = [3,4,4,5,5]
+                    console.log('docs\'s changed events', snapshot.docChanges)
+                    console.log('query result snapshot after the event', snapshot.docs)
+                    console.log('is init data', snapshot.type === 'init')
+                    if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                    if(snapshot.docs.length == fellowNo[1]){
+                      let no = 0
+                      for(let index = 0;index < snapshot.docs.length;index++){
+                        if(snapshot.docs[index].vote){
+                          no++
+                        }
+                      }
                       that.setData({
-                        votes4: no
-                      })
-                      break
-                }
-              }
-            } 
-            },
-            onError: function(err) {  
-            }
-          })
-          watcher114.close()
+                        votes1: no
+                      })          
+                      watcher1141.close()
+                    }
+                  } 
+                  },
+                  onError: function(err) {  
+                  }
+                })
 
-          const curFrame5 = getApp().globalData.currentFrame
-          const watcher118 = db.collection('vote')
-          .where({
-              currentFrame: curFrame5
-          })
-          .watch({
-            onChange: function(snapshot) {
-              that.refresh()
-              const fellowNoAcc = [3,7,11,16,21]
-              const fellowNo = [3,4,4,5,5]
-              console.log('docs\'s changed events', snapshot.docChanges)
-              console.log('query result snapshot after the event', snapshot.docs)
-              console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-              if(snapshot.docs.length == fellowNo[curFrame5]){
-                let no = 0
-                for(let index = 0;index < snapshot.docs.length;index++){
-                  if(snapshot.docs[index].vote){
-                    no++
-                  }
-                }
-                switch(curFrame5){
-                  case 0:
-                    that.setData({
-                      votes0: no
+                  const watcher1142 = db.collection('vote')
+                  .where({
+                      currentFrame: 2
+                  })
+                  .watch({
+                    onChange: function(snapshot) {
+                      that.refresh()
+                      const fellowNo = [3,4,4,5,5]
+                      console.log('docs\'s changed events', snapshot.docChanges)
+                      console.log('query result snapshot after the event', snapshot.docs)
+                      console.log('is init data', snapshot.type === 'init')
+                      if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                      if(snapshot.docs.length == fellowNo[2]){
+                        let no = 0
+                        for(let index = 0;index < snapshot.docs.length;index++){
+                          if(snapshot.docs[index].vote){
+                            no++
+                          }
+                        }
+                        that.setData({
+                          votes2: no
+                        })          
+                        watcher1142.close()
+                      }
+                    } 
+                    },
+                    onError: function(err) {  
+                    }
+                  })
+
+                    const watcher1143 = db.collection('vote')
+                    .where({
+                        currentFrame: 3
                     })
-                    break
-                  case 1:
-                    that.setData({
-                      votes1: no
+                    .watch({
+                      onChange: function(snapshot) {
+                        that.refresh()
+                        const fellowNo = [3,4,4,5,5]
+                        console.log('docs\'s changed events', snapshot.docChanges)
+                        console.log('query result snapshot after the event', snapshot.docs)
+                        console.log('is init data', snapshot.type === 'init')
+                        if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                        if(snapshot.docs.length == fellowNo[3]){
+                          let no = 0
+                          for(let index = 0;index < snapshot.docs.length;index++){
+                            if(snapshot.docs[index].vote){
+                              no++
+                            }
+                          }
+                          that.setData({
+                            votes3: no
+                          })          
+                          watcher1143.close()
+                        }
+                      } 
+                      },
+                      onError: function(err) {  
+                      }
                     })
-                    break
-                  case 2:
-                    that.setData({
-                      votes2: no
-                    })
-                    break
-                  case 3:
-                    that.setData({
-                      votes3: no
-                    })
-                    break
-                    case 4:
-                      that.setData({
-                        votes4: no
+ 
+                      const watcher1144 = db.collection('vote')
+                      .where({
+                          currentFrame: 4
                       })
-                      break
-                }
-              }
-            } 
-            },
-            onError: function(err) {  
-            }
-          })
-          watcher114.close()
+                      .watch({
+                        onChange: function(snapshot) {
+                          that.refresh()
+                          const fellowNo = [3,4,4,5,5]
+                          console.log('docs\'s changed events', snapshot.docChanges)
+                          console.log('query result snapshot after the event', snapshot.docs)
+                          console.log('is init data', snapshot.type === 'init')
+                          if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+                          if(snapshot.docs.length == fellowNo[4]){
+                            let no = 0
+                            for(let index = 0;index < snapshot.docs.length;index++){
+                              if(snapshot.docs[index].vote){
+                                no++
+                              }
+                            }
+                            that.setData({
+                              votes4: no
+                            })          
+                            watcher1144.close()
+                          }
+                        } 
+                        },
+                        onError: function(err) {  
+                        }
+                      })
+
+
+
 
   },
 
