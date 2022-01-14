@@ -1,4 +1,5 @@
 {
+    "setting": {},
     "condition": {
         "plugin": {
             "list": []
@@ -38,6 +39,13 @@
                 {
                     "name": "a",
                     "pathName": "pages/FakeIndex/FakeIndex",
+                    "query": "",
+                    "launchMode": "default",
+                    "scene": null
+                },
+                {
+                    "name": "desc",
+                    "pathName": "pages/desc/desc",
                     "query": "",
                     "scene": null,
                     "launchMode": "default"

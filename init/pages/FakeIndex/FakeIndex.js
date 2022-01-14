@@ -1760,7 +1760,8 @@ nxtLeader(e){
   //         console.log("avt")
   //         console.log(avt)
       console.log("next")
-
+  
+      this.setData()
       var avt = ''
       for(let i = 0;i < this.data.displayQueue.length;i++){
         if(this.data.displayQueue[i].isLeader){

@@ -1,31 +1,31 @@
 <!--index.wxml-->
 <view >
 <view style='text-align:center'>
-<h1 style="font-size: 72rpx;">馋死阿了 0.9</h1>
+<h1 style="font-size: 52rpx;">馋死阿了 1.0.0</h1>
+  --by rt
 </view>
 <text class="textA"style='text-align:justify;'>
-出于技术, 时间, 预算等方面的限制, 此小程序有如下要求, 请在游戏开始前认真阅读并在游戏过程中谨慎遵守.
+出于技术, 时间, 预算等方面的限制, 为了优秀的游戏体验, 请在游戏开始前<text class="bb">认真阅读并在游戏过程中谨慎遵守</text>如下要求.
 
 1. 此小程序基于腾讯云开发 (serverless架构), 且游戏逻辑计算由所有人共同完成. <text class="b">小程序默认玩家一直处于"登录并进入房间"页面</text>, 如在数据更新时退出小程序(?), 极有可能造成数据不一致甚至<text class="b">游戏无法正确继续进行</text>的后果. (其实就算不退出也有可能显示不完整, 但是我没买那么多流量供它自动刷新, 开摆!) 遇到如此情况请大声询问其他玩家上车或者投票结果.
 
 
-2. 请确保<text class="b">游戏开始前能看到所有(10位)玩家的头像</text>, 否则请告知房主并刷新.
+2. 此小程序仅提供<text class="b">10人局</text>玩法且只有<text class="b">一个房间</text> (游戏结束后需要房主手动清理房间). 另外, 请确保<text class="b">游戏开始前能看到所有(10位)玩家的头像</text>, 否则请通知房主.
 
 
-3. 车长发车<text class="b">不可否决</text>, 请一致同意后再发车. 流局 (5次未通过车长提案 )请通知房主进行<text class="b">手动操作</text>
+3. 车长发车<text class="b">不可否决</text>, 请一致同意后再发车. 流局 (小于或等于半数玩家同意车长提案)请通知房主进行<text class="b">手动操作</text>. <text class="b">连续5局流局会导致红方获得本轮胜利</text>(*此小程序不提供此功能*, 请注意这是<text class="bb">游戏规则</text>之一), 请手动投fail使本轮任务失败.
 
 
 4. 此小程序<text class="b">不提供刺杀功能</text>, 如果刺客要刺杀请直接大喊: "我要刀xxx"
 
 
-5. <text class="b">好人不能投fail</text>(*此小程序没有对此进行限制*, 请注意这是<text class="b">游戏规则</text>之一).
+5. <text class="b">好人不能投fail</text>(*此小程序没有对此进行限制*, 请注意这是<text class="bb">游戏规则</text>之一).
 
 
-6. <text class="b">湖中仙女不可以验曾执此特殊身份的玩家</text>(*此小程序没有对此进行限制*, 请注意这是<text class="b">游戏规则</text>之一). 同时, 湖中仙女只能在<text class="b">第2, 3, 4轮任务完成后</text>进行查验(*此小程序没有对此进行限制*).
+6. <text class="b">湖中仙女不可以验曾执此特殊身份的玩家</text>(*此小程序没有对此进行限制*, 请注意这是<text class="bb">游戏规则</text>之一). 同时, 湖中仙女只能在<text class="b">第2, 3, 4轮任务完成后</text>进行查验(*此小程序没有对此进行限制*).
 
 
 4. 此小程序以头像及昵称作为唯一识别用户的依据, <text class="b">请勿使用与其他玩家相同的头像或昵称</text>参与游戏
-
 
 
 
@@ -35,5 +35,5 @@
 </text>
 
 
-<button bindtap="viewDesc">游戏介绍</button>
+<button bindtap="viewDesc" class="bt">游戏介绍</button>
 </view>

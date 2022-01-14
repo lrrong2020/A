@@ -164,8 +164,15 @@ page {
 }
 .b{
   font-weight: 1000;
+  color: rgb(55, 109, 190);
+}
+.bb{
+  font-weight: 1000;
   color: red;
 }
 .textA{
   text-align:justify;
+}
+.bt{
+  margin: 50rpx;
 }
