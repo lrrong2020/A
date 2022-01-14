@@ -1,0 +1,48 @@
+{
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "id": -1,
+                    "name": "评论",
+                    "pathName": "pages/review/review",
+                    "query": ""
+                },
+                {
+                    "id": 1,
+                    "name": "编辑",
+                    "pathName": "pages/detail/detail",
+                    "query": "url=https://tcb-def7de.tcb.qcloud.la/1531733018488-1224544.png"
+                },
+                {
+                    "id": 2,
+                    "name": "相册详情页",
+                    "pathName": "pages/photos/photos",
+                    "query": "id=0"
+                },
+                {
+                    "id": -1,
+                    "name": "上传图片",
+                    "pathName": "pages/photos/add",
+                    "query": ""
+                },
+                {
+                    "name": "a",
+                    "pathName": "pages/FakeIndex/FakeIndex",
+                    "query": "",
+                    "scene": null,
+                    "launchMode": "default"
+                }
+            ]
+        }
+    }
+}

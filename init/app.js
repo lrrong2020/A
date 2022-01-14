@@ -33,9 +33,7 @@ App({
         .watch({
             onChange: function(snapshot) {
                 const FELLOW_NO = [3,4,4,5,5]
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
+
                 if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
                     console.log('fellow 1.docs\'s changed events', snapshot.docChanges)
                     console.log('2,query result snapshot after the event', snapshot.docs)
@@ -43,10 +41,6 @@ App({
                     console.log("fellow changed")
                     getApp().globalData.hasFellow = true
                     getApp().globalData.fellow = snapshot.docs
-                    // wx.showModal({
-                    // cancelColor: 'cancelColor',
-                    // title:"车长已发车, 第一轮任务进行中"
-                    // })
                     wx.navigateBack({
                         delta: 1
                       })
@@ -62,20 +56,13 @@ App({
         .watch({
             onChange: function(snapshot) {
                 const FELLOW_NO = [3,4,4,5,5]
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
+
                 if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
-                    // console.log('1.docs\'s changed events', snapshot.docChanges)
-                    // console.log('2,query result snapshot after the event', snapshot.docs)
-                    // console.log('3.is init data', snapshot.type === 'init')    
+
                     console.log("fellow2 changed")
                     getApp().globalData.hasFellow2 = true
                     getApp().globalData.fellow2 = snapshot.docs
-                    // wx.showModal({
-                    // cancelColor: 'cancelColor',
-                    // title:"车长已发车, 第二轮任务进行中"
-                    // })
+
                     wx.navigateBack({
                         delta: 1
                       })
@@ -91,20 +78,13 @@ App({
         .watch({
             onChange: function(snapshot) {
                 const FELLOW_NO = [3,4,4,5,5]
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
+
                 if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
-                    // console.log('1.docs\'s changed events', snapshot.docChanges)
-                    // console.log('2,query result snapshot after the event', snapshot.docs)
-                    // console.log('3.is init data', snapshot.type === 'init')    
+
                     console.log("fellow3 changed")
                     getApp().globalData.hasFellow3 = true
                     getApp().globalData.fellow3 = snapshot.docs
-                    // wx.showModal({
-                    // cancelColor: 'cancelColor',
-                    // title:"车长已发车, 第三轮任务进行中"
-                    // })
+
                     wx.navigateBack({
                         delta: 1
                       })
@@ -120,20 +100,13 @@ App({
         .watch({
             onChange: function(snapshot) {
                 const FELLOW_NO = [3,4,4,5,5]
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
+
                 if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
-                    // console.log('1.docs\'s changed events', snapshot.docChanges)
-                    // console.log('2,query result snapshot after the event', snapshot.docs)
-                    // console.log('3.is init data', snapshot.type === 'init')    
+
                     console.log("fellow4 changed")
                     getApp().globalData.hasFellow4 = true
                     getApp().globalData.fellow4 = snapshot.docs
-                    // wx.showModal({
-                    // cancelColor: 'cancelColor',
-                    // title:"车长已发车, 第四轮任务进行中"
-                    // })
+
                     wx.navigateBack({
                         delta: 1
                       })
@@ -149,20 +122,13 @@ App({
         .watch({
             onChange: function(snapshot) {
                 const FELLOW_NO = [3,4,4,5,5]
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
+
                 if(snapshot.docChanges.length > 0 && snapshot.docChanges[0].dataType == "add"){
-                    // console.log('1.docs\'s changed events', snapshot.docChanges)
-                    // console.log('2,query result snapshot after the event', snapshot.docs)
-                    // console.log('3.is init data', snapshot.type === 'init')    
+
                     console.log("fellow5 changed")
                     getApp().globalData.hasFellow5 = true
                     getApp().globalData.fellow5 = snapshot.docs
-                    // wx.showModal({
-                    // cancelColor: 'cancelColor',
-                    // title:"车长已发车, 第五轮任务进行中"
-                    // })
+
                     wx.navigateBack({
                         delta: 1
                       })
@@ -177,12 +143,7 @@ App({
         .where({})
         .watch({
             onChange: function(snapshot) {
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
-                // console.log('docs\'s changed events', snapshot.docChanges)
-                // console.log('query result snapshot after the event', snapshot.docs)
-                // console.log('is init data', snapshot.type === 'init')
+
                 if(snapshot.docs.length == 0 && snapshot.docChanges.length > 0){
                     getApp().globalData.cleared = true
                     wx.showModal({
@@ -203,7 +164,7 @@ App({
             onChange: function(snapshot) {
                 console.log("informed 猎杀")
                 console.log(snapshot)
-                if(snapshot.type != 'init'){
+                if(snapshot.type != 'init' && snapshot.docChanges[0].dataType == "add"){
                     console.log("刺杀了")
                     getApp().globalData.assaAvt = snapshot.docs.assa,
                     getApp().globalData.deadAvt = snapshot.docs.dead

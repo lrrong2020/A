@@ -309,7 +309,7 @@ radioButtonTap: function (e) {
                   resId = res.data[i]._id
                   // const nextIndex = (i+1) % res.data.length
                   nextId = res.data[(i+1) % res.data.length]._id
-                  lastId = res.data[(i +res.data.length-1) % res.data.length]._id
+                  lastId = res.data[(i +res.data.length - 1) % res.data.length]._id
                   break
                 }
                 else{

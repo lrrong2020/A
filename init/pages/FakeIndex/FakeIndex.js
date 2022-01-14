@@ -44,10 +44,16 @@ Page({
     fellowNo:[3,4,4,5,5],
     successGames:0,
     failGames:0,
-    canSetGod: false
-
+    canSetGod: false,
   },
+
   onShow(){
+    this.refresh()
+    const that = this
+    setTimeout(() => {
+      that.refresh()
+    }, 1000)
+
     this.setData({
       canGo: app.globalData.canGo,    
       isAssa: app.globalData.isAssa,
@@ -116,8 +122,7 @@ Page({
             var isLeader = doc[idx].isLeader//???????????????????????????????
             var isGoddess = doc[idx].isGoddess
             var wasGoddess = doc[idx].wassGoddess
-            // console.log("isLeader:" + isLeader)
-            // console.log("isGoddess:" + isGoddess)
+
             that.setData({
               displayQueue: snapshot.docs,
               isLeader: isLeader,
@@ -157,15 +162,15 @@ Page({
           
         },
         onError: function(err) {
-          console.error('the watch closed because of error', err)
-          wx.showModal({
-            cancelColor: 'cancelColor',
-            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-          })
-          wx.showModal({
-            cancelColor: 'cancelColor',
-            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-          })
+          // console.error('the watch closed because of error', err)
+          // wx.showModal({
+          //   cancelColor: 'cancelColor',
+          //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          // })
+          // wx.showModal({
+          //   cancelColor: 'cancelColor',
+          //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          // })
         }
       })
 
@@ -173,7 +178,7 @@ Page({
       .where({})
       .watch({
         onChange: function(snapshot) {
-          that.refresh()
+          // that.refresh()
 
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
@@ -191,14 +196,14 @@ Page({
 
         },
         onError: function(err) {
-          wx.showModal({
-            cancelColor: 'cancelColor',
-            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-          })
-          wx.showModal({
-            cancelColor: 'cancelColor',
-            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-          })
+          // wx.showModal({
+          //   cancelColor: 'cancelColor',
+          //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          // })
+          // wx.showModal({
+          //   cancelColor: 'cancelColor',
+          //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          // })
         }
 
       })
@@ -221,13 +226,15 @@ Page({
                 if(that.data.votes0 != -1){
                   getApp().globalData.canGo = true
                   that.setData({
-                    canGo: true
+                    canGo: true,
+                    canSetGod: false
                   })
                 }
                 else{
                   getApp().globalData.canGo = false
                   that.setData({
-                    canGo: false
+                    canGo: false,
+
                   })
                 }
 
@@ -263,14 +270,14 @@ Page({
             }
             },
             onError: function(err) {
-              wx.showModal({
-                cancelColor: 'cancelColor',
-                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              })
-              wx.showModal({
-                cancelColor: 'cancelColor',
-                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              })
+              // wx.showModal({
+              //   cancelColor: 'cancelColor',
+              //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              // })
+              // wx.showModal({
+              //   cancelColor: 'cancelColor',
+              //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              // })
             }
           })
 
@@ -285,7 +292,7 @@ Page({
             if(snapshot.type != 'init'){
               app.globalData.currentFrame = 2
               that.setData({
-                canSetGod:true
+                canSetGod:true,
               })
               console.log("[1]app.globalData.currentFrame: "+app.globalData.currentFrame)
               getApp().globalData.canGo = false
@@ -295,13 +302,15 @@ Page({
                 if(that.data.votes1 != -1){
                   getApp().globalData.canGo = true
                   that.setData({
-                    canGo: true
+                    canGo: true,
+
                   })
                 }
                 else{
                   getApp().globalData.canGo = false
                   that.setData({
-                    canGo: false
+                    canGo: false,
+
                   })
                 }
             }
@@ -327,14 +336,14 @@ Page({
           }
           },
           onError: function(err) {
-            wx.showModal({
-              cancelColor: 'cancelColor',
-              title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-            })
-            wx.showModal({
-              cancelColor: 'cancelColor',
-              title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-            })
+        //     wx.showModal({
+        //     //   cancelColor: 'cancelColor',
+        //     //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+        //     // })
+        //     // wx.showModal({
+        //     //   cancelColor: 'cancelColor',
+        //     //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+        //     // })
           }
         })
 
@@ -353,13 +362,15 @@ Page({
                 if(that.data.votes2 != -1){
                   getApp().globalData.canGo = true
                   that.setData({
-                    canGo: true
+                    canGo: true,
+
                   })
                 }
                 else{
                   getApp().globalData.canGo = false
                   that.setData({
-                    canGo: false
+                    canGo: false,
+
                   })
                 }
               }
@@ -386,14 +397,14 @@ Page({
             }
             },
             onError: function(err) {
-              wx.showModal({
-                cancelColor: 'cancelColor',
-                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              })
-              wx.showModal({
-                cancelColor: 'cancelColor',
-                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              })
+              // wx.showModal({
+              //   cancelColor: 'cancelColor',
+              //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              // })
+              // wx.showModal({
+              //   cancelColor: 'cancelColor',
+              //   title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              // })
             }
           })
           //  watcher.close()
@@ -414,13 +425,15 @@ Page({
                 if(that.data.votes3 != -1){
                   getApp().globalData.canGo = true
                   that.setData({
-                    canGo: true
+                    canGo: true,
+
                   })
                 }
                 else{
                   getApp().globalData.canGo = false
                   that.setData({
-                    canGo: false
+                    canGo: false,
+
                   })
                 }
           }
@@ -446,14 +459,14 @@ Page({
         }
         },
         onError: function(err) {
-          wx.showModal({
-            cancelColor: 'cancelColor',
-            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-          })
-          wx.showModal({
-            cancelColor: 'cancelColor',
-            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-          })
+      //     wx.showModal({
+      //       cancelColor: 'cancelColor',
+      //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+      //     })
+      //     wx.showModal({
+      //       cancelColor: 'cancelColor',
+      //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+      //     })
         }
       })
 
@@ -476,7 +489,8 @@ Page({
                 that.setData({
                   hasFellow5: true,
                   hasFellow5: app.globalData.hasFellow5,
-                  displayFellow5: app.globalData.fellow5
+                  displayFellow5: app.globalData.fellow5,
+                  canSetGod: false
                 })
                 const avt = that.data.userInfo.avatarUrl
                 let doc = snapshot.docs
@@ -490,14 +504,14 @@ Page({
             }
             },
             onError: function(err) {
-              wx.showModal({
-                cancelColor: 'cancelColor',
-                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              })
-              wx.showModal({
-                cancelColor: 'cancelColor',
-                title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              })
+          //     wx.showModal({
+          //       cancelColor: 'cancelColor',
+          //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          //     })
+          //     wx.showModal({
+          //       cancelColor: 'cancelColor',
+          //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+          //     })
             }
           })
 
@@ -556,14 +570,14 @@ Page({
                 } 
                 },
                 onError: function(err) {
-                  wx.showModal({
-                    cancelColor: 'cancelColor',
-                    title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                  })
-                  wx.showModal({
-                    cancelColor: 'cancelColor',
-                    title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                  })
+              //     wx.showModal({
+              //       cancelColor: 'cancelColor',
+              //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              //     })
+              //     wx.showModal({
+              //       cancelColor: 'cancelColor',
+              //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+              //     })
                 }
               })
  
@@ -617,14 +631,14 @@ Page({
                   } 
                   },
                   onError: function(err) { 
-                    wx.showModal({
-                      cancelColor: 'cancelColor',
-                      title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                    })
-                    wx.showModal({
-                      cancelColor: 'cancelColor',
-                      title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                    }) 
+                //     wx.showModal({
+                //       cancelColor: 'cancelColor',
+                //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                //     })
+                //     wx.showModal({
+                //       cancelColor: 'cancelColor',
+                //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                //     }) 
                   }
                 })
 
@@ -706,14 +720,14 @@ Page({
                     } 
                     },
                     onError: function(err) {  
-                      wx.showModal({
-                        cancelColor: 'cancelColor',
-                        title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                      })
-                      wx.showModal({
-                        cancelColor: 'cancelColor',
-                        title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                      })
+                  //     wx.showModal({
+                  //       cancelColor: 'cancelColor',
+                  //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                  //     })
+                  //     wx.showModal({
+                  //       cancelColor: 'cancelColor',
+                  //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                  //     })
                     }
                   })
 
@@ -794,14 +808,14 @@ Page({
                       } 
                       },
                       onError: function(err) {  
-                        wx.showModal({
-                          cancelColor: 'cancelColor',
-                          title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                        })
-                        wx.showModal({
-                          cancelColor: 'cancelColor',
-                          title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                        })
+                    //     wx.showModal({
+                    //       cancelColor: 'cancelColor',
+                    //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                    //     })
+                    //     wx.showModal({
+                    //       cancelColor: 'cancelColor',
+                    //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                    //     })
                       }
                     })
  
@@ -879,14 +893,14 @@ Page({
                         } 
                         },
                         onError: function(err) {  
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                          })
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                          })
+                      //     wx.showModal({
+                      //       cancelColor: 'cancelColor',
+                      //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                      //     })
+                      //     wx.showModal({
+                      //       cancelColor: 'cancelColor',
+                      //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
+                      //     })
                         }
                       })
 
@@ -896,7 +910,7 @@ Page({
                       //     onChange: function(snapshot) {
                       //       console.log("informed 猎杀")
                       //       console.log(snapshot)
-                      //         if(snapshot.type != 'init'){
+                      //         if(if(snapshot.type != 'init' && snapshot.docChanges[0].dataType == "add")){
                                   
                       //             getApp().globalData.assaAvt = snapshot.docs.assa,
                       //             getApp().globalData.deadAvt = snapshot.docs.dead
@@ -936,7 +950,6 @@ Page({
 
 
   async getUserProfile(e) {
-
     console.log("Login")
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
@@ -1102,40 +1115,195 @@ Page({
   },
 
   async refresh(e){
+    var countFrame = -1
+    const that = this
     this.checkUser()
-
-    // console.log("refreshing myQueue")
-
-    //successfully upload user profile and then refresh
-
-    // const code = await this.getUserProfile()
-    // console.log("code")
-    // console.log(code)
-
     const db = wx.cloud.database({})
     db.collection('queue').where({})
     .get({
       success: function(res) {
-        app.globalData.myQueue = []//clear existent queue
+        app.globalData.myQueue = []
         const myQueue = app.globalData.myQueue
-        //const theQueue = this.data.displayQueue
-
         for(var i = 0;i < res.data.length;++i){
           myQueue.push(res.data[i])
-          //theQueue.push(res.data[i])
-          //dq.push(res.data[i])
         }
-        // console.log('myQueue:')
-        // console.log(myQueue)
-        //console.log(theQueue)
       }
     })
     this.setData({
       displayQueue: app.globalData.myQueue
     })
 
-    // console.log("this.data")
-    // console.log(this.data)
+    db.collection('fellow').where({})
+    .get({
+      success:function(res){
+        if(res.data.length != 0){
+          countFrame = 0
+          that.setData({
+            displayFellow: res.data,
+            hasFellow: true
+          })
+        }
+      }
+    })
+
+    db.collection('fellow2').where({})
+    .get({
+      success:function(res){
+        if(res.data.length != 0){
+          countFrame = 1
+          that.setData({
+            displayFellow2: res.data,
+            hasFellow2: true
+          })
+        }
+      }
+    })
+
+    db.collection('fellow3').where({})
+    .get({
+      success:function(res){
+        if(res.data.length != 0){
+          countFrame = 2
+          that.setData({
+            displayFellow3: res.data,
+            hasFellow3: true
+          })
+        }
+      }
+    })
+
+    db.collection('fellow4').where({})
+    .get({
+      success:function(res){
+        if(res.data.length != 0){
+          countFrame = 3
+          that.setData({
+            displayFellow4: res.data,
+            hasFellow4: true
+          })
+        }
+      }
+    })
+
+    db.collection('fellow5').where({})
+    .get({
+      success:function(res){
+        if(res.data.length != 0){
+          countFrame = 4
+          that.setData({
+            displayFellow5: res.data,
+            hasFellow5: true
+          })
+        }
+      }
+    })
+
+    db.collection('vote').where({
+      currentFrame: 0
+    })
+    .get({
+      success:function(res){
+        if(res.data.length > 0){
+          getApp().globalData.currentFrame = 1
+          that.setData({currentFrame: 1})
+          var counter = 0
+          for(var ii = 0;i < res.data.length;i++){
+            if(res.data[ii].vote){
+              counter++
+            }
+          }
+          that.setData({
+            votes0: counter
+          })
+        }
+      }
+    })
+
+    db.collection('vote').where({
+      currentFrame: 1
+    })
+    .get({
+      success:function(res){
+        if(res.data.length > 0){
+          getApp().globalData.currentFrame = 2
+          that.setData({currentFrame: 2})
+          var counter = 0
+          for(var ii = 0;i < res.data.length;i++){
+            if(res.data[ii].vote){
+              counter++
+            }
+          }
+          that.setData({
+            votes1: counter
+          })
+        }
+      }
+    })
+
+    db.collection('vote').where({
+      currentFrame: 2
+    })
+    .get({
+      success:function(res){
+        if(res.data.length > 0){
+          getApp().globalData.currentFrame = 3
+          that.setData({currentFrame: 3})
+          var counter = 0
+          for(var ii = 0;i < res.data.length;i++){
+            if(res.data[ii].vote){
+              counter++
+            }
+          }
+          that.setData({
+            votes2: counter
+          })
+        }
+      }
+    })
+
+
+    db.collection('vote').where({
+      currentFrame: 3
+    })
+    .get({
+      success:function(res){
+        if(res.data.length > 0){
+          getApp().globalData.currentFrame = 4
+          that.setData({currentFrame: 4})
+          var counter = 0
+          for(var ii = 0;i < res.data.length;i++){
+            if(res.data[ii].vote){
+              counter++
+            }
+          }
+          that.setData({
+            votes3: counter
+          })
+        }
+      }
+    })
+
+
+    db.collection('vote').where({
+      currentFrame: 4
+    })
+    .get({
+      success:function(res){
+        if(res.data.length > 0){
+          getApp().globalData.currentFrame = 4
+          that.setData({currentFrame: 4})
+          var counter = 0
+          for(var ii = 0;i < res.data.length;i++){
+            if(res.data[ii].vote){
+              counter++
+            }
+          }
+          that.setData({
+            votes4: counter
+          })
+        }
+      }
+    })
   },
 
   clearRoom(e){
@@ -1402,10 +1570,78 @@ onclickProfile(e){
 
 
   }
+  else if(that.data.isGoddess){
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:'你确定要查验此人吗?',
+      success:function(res){
+        if(res.confirm){
+          const av = getApp().globalData.myQueue[e.target.id].avatar
+          var resNo = -1
+          for(var i = 0;i < getApp().globalData.role.length;i++){
+            if(getApp().globalData.role[i].avatar == av){
+              resNo = i
+              let resText = (resNo < 6)?"蓝方":"红方"
+              wx.showModal({
+                cancelColor: 'cancelColor',
+                title:'查验',
+                content: resText,
+                success:function(res){
+                  const db = wx.cloud.database()
+                  db.collection('queue').where({
+                  })
+                  .get({
+                    success:function(res){
+                      var resId = ""
+                      for(var i = 0;i < res.data.length;i++){
+                        if(res.data[i].avatar == av){
+                          resId = res.data[i]._id
+                          break
+                        }
+                        else{
+                          continue
+                        }
+                      }
+                      db.collection('queue').where({
+                        isGoddess: true
+                      }).update({
+                        data:{
+                          isGoddess: false
+                        },
+                        success:function(res){
+                          db.collection('queue').doc(resId).update({
+                            data:{
+                              isGoddess: true
+                            }
+                          })
+                        }
+                      })
+                    }
+                  })
+              
+                }
+              })
+
+
+
+            }
+
+          }         
+        }
+      }
+    })
+  }
 
   else if(that.data.isAssa){
     const dd = app.globalData.myQueue[e.target.id]
+
     let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
+
+
+    // if(app.globalData.myQueue[e.target.id].isLeader){
+    //   if()
+
+    // }
     let godText = (app.globalData.myQueue[e.target.id].isGoddess && app.globalData.currentFrame > 1)?" (湖中仙女)":""
     let assText = "你确定要刺杀 " + dd.nickName + leaderText + godText + " 吗?"
     wx.showModal({
@@ -1471,6 +1707,7 @@ seeRole(e){
 },
 
 drive(e){
+
   wx.navigateTo({
     url: '/test/test',
   })

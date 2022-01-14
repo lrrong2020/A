@@ -20,7 +20,7 @@
 
       <view class="userinfoF">
         <view wx:for="{{displayQueue}}" wx:for-index="idx" wx:for-item="itemName">
-          <image id="{{idx}}" class='{{(itemName.isLeader || itemName.isGoddess && canSetGod)?"userinfo-avatar-leader":"userinfo-avatar"}}' src="{{itemName.avatar}}" mode="cover" bindtap='onclickProfile'></image>
+          <image id="{{idx}}" class='{{(itemName.isLeader && ((!hasFellow) || (!hasFellow2) || (!hasFellow3) || (!hasFellow4) || (!hasFellow5)) || (itemName.isGoddess && canSetGod))?"userinfo-avatar-leader":"userinfo-avatar"}}' src="{{itemName.avatar}}" mode="cover" bindtap='onclickProfile'>  </image>
         </view>
       </view>
 
