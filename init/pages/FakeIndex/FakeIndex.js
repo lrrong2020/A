@@ -30,6 +30,7 @@ Page({
     displayVote:[],
     isLeader: false,
     isGoddess: false,
+    wasGoddess:false,
     isAssa: app.globalData.isAssa,
     votes0: -1,
     votes1: -1,
@@ -42,7 +43,8 @@ Page({
     inFellow: false,
     fellowNo:[3,4,4,5,5],
     successGames:0,
-    failGames:0
+    failGames:0,
+    canSetGod: false
 
   },
   onShow(){
@@ -113,12 +115,14 @@ Page({
             console.log("Auto Update")
             var isLeader = doc[idx].isLeader//???????????????????????????????
             var isGoddess = doc[idx].isGoddess
-            console.log("isLeader:" + isLeader)
-            console.log("isGoddess:" + isGoddess)
+            var wasGoddess = doc[idx].wassGoddess
+            // console.log("isLeader:" + isLeader)
+            // console.log("isGoddess:" + isGoddess)
             that.setData({
               displayQueue: snapshot.docs,
               isLeader: isLeader,
               isGoddess: isGoddess,
+              wasGoddess: wasGoddess,
             })
             app.globalData.myQueue = snapshot.docs
             // console.log("global.myQueue ")
@@ -268,6 +272,9 @@ Page({
           onChange: function(snapshot) {
             if(snapshot.type != 'init'){
               app.globalData.currentFrame = 2
+              that.setData({
+                canSetGod:true
+              })
               console.log("[1]app.globalData.currentFrame: "+app.globalData.currentFrame)
               getApp().globalData.canGo = false
               if(that.data.votes1 == -1){
@@ -927,7 +934,8 @@ Page({
             nickName: res.userInfo.nickName,
             avatar: res.userInfo.avatarUrl,
             isLeader: false,
-            isGoddess: false
+            isGoddess: false,
+            wasGoddess: false
           }
         })
         .then(res => {
@@ -1340,7 +1348,8 @@ onclickProfile(e){
   else if(that.data.isAssa){
     const dd = app.globalData.myQueue[e.target.id]
     let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
-    let assText = "你确定要刺杀 " + dd.nickName + leaderText + " 吗?"
+    let godText = (app.globalData.myQueue[e.target.id].isGoddess && app.globalData.currentFrame > 1)?" (湖中仙女)":""
+    let assText = "你确定要刺杀 " + dd.nickName + leaderText + godText + " 吗?"
     wx.showModal({
       cancelColor: 'cancelColor',
       title:"猎杀时刻",
@@ -1355,14 +1364,14 @@ onclickProfile(e){
 
           console.log(dd)
           console.log(dd.avatar)
-          const db = wx.cloud.database()
-          db.collection('end').add({
-            data:{
-              assa: assaData,
-              dead: deadData,
-              hasVote: true
-            }
-          })
+          // const db = wx.cloud.database()
+          // db.collection('end').add({
+          //   data:{
+          //     assa: assaData,
+          //     dead: deadData,
+          //     hasVote: true
+          //   }
+          // })
         }
 
       }
@@ -1371,7 +1380,8 @@ onclickProfile(e){
   }
   else{
     let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
-    let content = app.globalData.myQueue[e.target.id].nickName + leaderText
+    let godText = (app.globalData.myQueue[e.target.id].isGoddess && app.globalData.currentFrame > 1)?" (湖中仙女)":""
+    let content = app.globalData.myQueue[e.target.id].nickName + leaderText + godText
     wx.showModal({
       cancelColor: 'cancelColor',
       title:"玩家昵称",
