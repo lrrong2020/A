@@ -700,7 +700,7 @@ Page({
                           wx.showModal({
                             cancelColor: 'cancelColor',
                             title:"刺杀环节",
-                            content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
+                            content:"蓝方获得三局胜利, 请刺客刺杀"
                           })
                         }
                         if(fa > 2){
@@ -1198,112 +1198,112 @@ Page({
       }
     })
 
-    db.collection('vote').where({
-      currentFrame: 0
-    })
-    .get({
-      success:function(res){
-        if(res.data.length > 0){
-          getApp().globalData.currentFrame = 1
-          that.setData({currentFrame: 1})
-          var counter = 0
-          for(var ii = 0;i < res.data.length;i++){
-            if(res.data[ii].vote){
-              counter++
-            }
-          }
-          that.setData({
-            votes0: counter
-          })
-        }
-      }
-    })
+    // db.collection('vote').where({
+    //   currentFrame: 0
+    // })
+    // .get({
+    //   success:function(res){
+    //     if(res.data.length > 0){
+    //       getApp().globalData.currentFrame = 1
+    //       that.setData({currentFrame: 1})
+    //       var counter = 0
+    //       for(var ii = 0;i < res.data.length;i++){
+    //         if(res.data[ii].vote){
+    //           counter++
+    //         }
+    //       }
+    //       that.setData({
+    //         votes0: counter
+    //       })
+    //     }
+    //   }
+    // })
 
-    db.collection('vote').where({
-      currentFrame: 1
-    })
-    .get({
-      success:function(res){
-        if(res.data.length > 0){
-          getApp().globalData.currentFrame = 2
-          that.setData({currentFrame: 2})
-          var counter = 0
-          for(var ii = 0;i < res.data.length;i++){
-            if(res.data[ii].vote){
-              counter++
-            }
-          }
-          that.setData({
-            votes1: counter
-          })
-        }
-      }
-    })
+    // db.collection('vote').where({
+    //   currentFrame: 1
+    // })
+    // .get({
+    //   success:function(res){
+    //     if(res.data.length > 0){
+    //       getApp().globalData.currentFrame = 2
+    //       that.setData({currentFrame: 2})
+    //       var counter = 0
+    //       for(var ii = 0;i < res.data.length;i++){
+    //         if(res.data[ii].vote){
+    //           counter++
+    //         }
+    //       }
+    //       that.setData({
+    //         votes1: counter
+    //       })
+    //     }
+    //   }
+    // })
 
-    db.collection('vote').where({
-      currentFrame: 2
-    })
-    .get({
-      success:function(res){
-        if(res.data.length > 0){
-          getApp().globalData.currentFrame = 3
-          that.setData({currentFrame: 3})
-          var counter = 0
-          for(var ii = 0;i < res.data.length;i++){
-            if(res.data[ii].vote){
-              counter++
-            }
-          }
-          that.setData({
-            votes2: counter
-          })
-        }
-      }
-    })
-
-
-    db.collection('vote').where({
-      currentFrame: 3
-    })
-    .get({
-      success:function(res){
-        if(res.data.length > 0){
-          getApp().globalData.currentFrame = 4
-          that.setData({currentFrame: 4})
-          var counter = 0
-          for(var ii = 0;i < res.data.length;i++){
-            if(res.data[ii].vote){
-              counter++
-            }
-          }
-          that.setData({
-            votes3: counter
-          })
-        }
-      }
-    })
+    // db.collection('vote').where({
+    //   currentFrame: 2
+    // })
+    // .get({
+    //   success:function(res){
+    //     if(res.data.length > 0){
+    //       getApp().globalData.currentFrame = 3
+    //       that.setData({currentFrame: 3})
+    //       var counter = 0
+    //       for(var ii = 0;i < res.data.length;i++){
+    //         if(res.data[ii].vote){
+    //           counter++
+    //         }
+    //       }
+    //       that.setData({
+    //         votes2: counter
+    //       })
+    //     }
+    //   }
+    // })
 
 
-    db.collection('vote').where({
-      currentFrame: 4
-    })
-    .get({
-      success:function(res){
-        if(res.data.length > 0){
-          getApp().globalData.currentFrame = 4
-          that.setData({currentFrame: 4})
-          var counter = 0
-          for(var ii = 0;i < res.data.length;i++){
-            if(res.data[ii].vote){
-              counter++
-            }
-          }
-          that.setData({
-            votes4: counter
-          })
-        }
-      }
-    })
+    // db.collection('vote').where({
+    //   currentFrame: 3
+    // })
+    // .get({
+    //   success:function(res){
+    //     if(res.data.length > 0){
+    //       getApp().globalData.currentFrame = 4
+    //       that.setData({currentFrame: 4})
+    //       var counter = 0
+    //       for(var ii = 0;i < res.data.length;i++){
+    //         if(res.data[ii].vote){
+    //           counter++
+    //         }
+    //       }
+    //       that.setData({
+    //         votes3: counter
+    //       })
+    //     }
+    //   }
+    // })
+
+
+    // db.collection('vote').where({
+    //   currentFrame: 4
+    // })
+    // .get({
+    //   success:function(res){
+    //     if(res.data.length > 0){
+    //       getApp().globalData.currentFrame = 4
+    //       that.setData({currentFrame: 4})
+    //       var counter = 0
+    //       for(var ii = 0;i < res.data.length;i++){
+    //         if(res.data[ii].vote){
+    //           counter++
+    //         }
+    //       }
+    //       that.setData({
+    //         votes4: counter
+    //       })
+    //     }
+    //   }
+    // })
   },
 
   clearRoom(e){
@@ -1570,12 +1570,13 @@ onclickProfile(e){
 
 
   }
-  else if(that.data.isGoddess){
+  else if(that.data.isGoddess && that.data.canSetGod){
     wx.showModal({
       cancelColor: 'cancelColor',
       title:'你确定要查验此人吗?',
       success:function(res){
         if(res.confirm){
+          that.setData({isGoddess:false})
           const av = getApp().globalData.myQueue[e.target.id].avatar
           var resNo = -1
           for(var i = 0;i < getApp().globalData.role.length;i++){
@@ -1632,49 +1633,49 @@ onclickProfile(e){
     })
   }
 
-  else if(that.data.isAssa){
-    const dd = app.globalData.myQueue[e.target.id]
+  // else if(that.data.isAssa){
+  //   const dd = app.globalData.myQueue[e.target.id]
 
-    let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
-
-
-    // if(app.globalData.myQueue[e.target.id].isLeader){
-    //   if()
-
-    // }
-    let godText = (app.globalData.myQueue[e.target.id].isGoddess && app.globalData.currentFrame > 1)?" (湖中仙女)":""
-    let assText = "你确定要刺杀 " + dd.nickName + leaderText + godText + " 吗?"
-    wx.showModal({
-      cancelColor: 'cancelColor',
-      title:"猎杀时刻",
-      content: assText,
-      success:function(res){
-        if(res.confirm){
-
-          console.log(that.data.displayQueue[that.data.queueIdx].nickName + " 刺杀了 " + app.globalData.myQueue[e.target.id].nickName)
-          const assaData = that.data.userInfo.avatarUrl
-          const deadData = dd.avartar
+  //   let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
 
 
-          console.log(dd)
-          console.log(dd.avatar)
-          // const db = wx.cloud.database()
-          // db.collection('end').add({
-          //   data:{
-          //     assa: assaData,
-          //     dead: deadData,
-          //     hasVote: true
-          //   }
-          // })
-        }
+  //   // if(app.globalData.myQueue[e.target.id].isLeader){
+  //   //   if()
 
-      }
-    })
-    return
-  }
+  //   // }
+  //   let godText = (app.globalData.myQueue[e.target.id].isGoddess && app.globalData.currentFrame > 1)?" (湖中仙女)":""
+  //   let assText = "你确定要刺杀 " + dd.nickName + leaderText + godText + " 吗?"
+  //   wx.showModal({
+  //     cancelColor: 'cancelColor',
+  //     title:"猎杀时刻",
+  //     content: assText,
+  //     success:function(res){
+  //       if(res.confirm){
+
+  //         console.log(that.data.displayQueue[that.data.queueIdx].nickName + " 刺杀了 " + app.globalData.myQueue[e.target.id].nickName)
+  //         const assaData = that.data.userInfo.avatarUrl
+  //         const deadData = dd.avartar
+
+
+  //         console.log(dd)
+  //         console.log(dd.avatar)
+  //         // const db = wx.cloud.database()
+  //         // db.collection('end').add({
+  //         //   data:{
+  //         //     assa: assaData,
+  //         //     dead: deadData,
+  //         //     hasVote: true
+  //         //   }
+  //         // })
+  //       }
+
+  //     }
+  //   })
+  //   return
+  // }
   else{
     let leaderText = app.globalData.myQueue[e.target.id].isLeader?"(此轮车长)":""
-    let godText = (app.globalData.myQueue[e.target.id].isGoddess && app.globalData.currentFrame > 1)?" (湖中仙女)":""
+    let godText = (app.globalData.myQueue[e.target.id].isGoddess && that.data.canSetGod && app.globalData.currentFrame > 1)?" (湖中仙女)":""
     let content = app.globalData.myQueue[e.target.id].nickName + leaderText + godText
     wx.showModal({
       cancelColor: 'cancelColor',
