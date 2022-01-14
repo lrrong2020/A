@@ -215,8 +215,20 @@ Page({
                 app.globalData.currentFrame = 1
                 console.log("[0]app.globalData.currentFrame: "+app.globalData.currentFrame)
                 getApp().globalData.canGo = false
-                if(that.data.votes0 == -1){
+                that.setData({
+                  canGo: false
+                })
+                if(that.data.votes0 != -1){
                   getApp().globalData.canGo = true
+                  that.setData({
+                    canGo: true
+                  })
+                }
+                else{
+                  getApp().globalData.canGo = false
+                  that.setData({
+                    canGo: false
+                  })
                 }
 
               }
@@ -277,9 +289,21 @@ Page({
               })
               console.log("[1]app.globalData.currentFrame: "+app.globalData.currentFrame)
               getApp().globalData.canGo = false
-              if(that.data.votes1 == -1){
-                getApp().globalData.canGo = true
-              }
+                that.setData({
+                  canGo: false
+                })
+                if(that.data.votes1 != -1){
+                  getApp().globalData.canGo = true
+                  that.setData({
+                    canGo: true
+                  })
+                }
+                else{
+                  getApp().globalData.canGo = false
+                  that.setData({
+                    canGo: false
+                  })
+                }
             }
             // console.log('docs\'s changed events', snapshot.docChanges)
             // console.log('query result snapshot after the event', snapshot.docs)
@@ -323,8 +347,20 @@ Page({
                 app.globalData.currentFrame = 3
                 console.log("[2]app.globalData.currentFrame: "+app.globalData.currentFrame)
                 getApp().globalData.canGo = false
-                if(that.data.votes2 == -1){
+                that.setData({
+                  canGo: false
+                })
+                if(that.data.votes2 != -1){
                   getApp().globalData.canGo = true
+                  that.setData({
+                    canGo: true
+                  })
+                }
+                else{
+                  getApp().globalData.canGo = false
+                  that.setData({
+                    canGo: false
+                  })
                 }
               }
               const watcher4 = db.collection('fellow3')
@@ -372,9 +408,21 @@ Page({
             app.globalData.currentFrame = 4
             console.log("[3]app.globalData.currentFrame: "+app.globalData.currentFrame)
             getApp().globalData.canGo = false
-            if(that.data.votes3 == -1){
-              getApp().globalData.canGo = true
-            }
+                that.setData({
+                  canGo: false
+                })
+                if(that.data.votes3 != -1){
+                  getApp().globalData.canGo = true
+                  that.setData({
+                    canGo: true
+                  })
+                }
+                else{
+                  getApp().globalData.canGo = false
+                  that.setData({
+                    canGo: false
+                  })
+                }
           }
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
@@ -464,11 +512,21 @@ Page({
                 onChange: function(snapshot) {
                   that.refresh()
                   const fellowNo = [3,4,4,5,5]
-                  console.log('docs\'s changed events', snapshot.docChanges)
-                  console.log('query result snapshot after the event', snapshot.docs)
-                  console.log('is init data', snapshot.type === 'init')
+                  // console.log('docs\'s changed events', snapshot.docChanges)
+                  // console.log('query result snapshot after the event', snapshot.docs)
+                  // console.log('is init data', snapshot.type === 'init')
                   if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-                  if(snapshot.docs.length == fellowNo[0]){
+                    if(snapshot.docs.length != fellowNo[0]){
+                      that.setData({
+                        canGo: false
+                      })
+                      getApp().globalData.canGo = false
+                    }
+                  else{
+                    that.setData({
+                      canGo: true
+                    })
+                    getApp().globalData.canGo = true
                     let no = 0
                     for(let index = 0;index < snapshot.docs.length;index++){
                       if(snapshot.docs[index].vote){
@@ -519,8 +577,8 @@ Page({
                     that.refresh()
                     const fellowNo = [3,4,4,5,5]
                     console.log('docs\'s changed events', snapshot.docChanges)
-                    console.log('query result snapshot after the event', snapshot.docs)
-                    console.log('is init data', snapshot.type === 'init')
+                    // console.log('query result snapshot after the event', snapshot.docs)
+                    // console.log('is init data', snapshot.type === 'init')
                     if(snapshot.docs.length > 0 && snapshot.type != 'init'){
                       if(snapshot.docs.length != fellowNo[1]){
                         that.setData({
@@ -528,7 +586,7 @@ Page({
                         })
                         getApp().globalData.canGo = false
                       }
-                    if(snapshot.docs.length == fellowNo[1]){
+                    else{
                       that.setData({
                         canGo: true
                       })
@@ -588,7 +646,7 @@ Page({
                           })
                           getApp().globalData.canGo = false
                         }
-                      if(snapshot.docs.length == fellowNo[2]){
+                      else{
                         that.setData({
                           canGo: true
                         })
