@@ -58,12 +58,12 @@ Page({
       canGo: app.globalData.canGo,    
       isAssa: app.globalData.isAssa,
     })
-    if((this.data.hasUserInfo && this.data.displayQueue.length == 0) || (this.data.hasUserInfo && this.data.queueIdx == -1)){
-      wx.showModal({
-        cancelColor: 'cancelColor',
-        title:'房间已经被清理或你已经被踢出房间. 如要重新进入房间, 请点击右上角三个点 → "重新进入小程序"'
-      })
-    }
+    // if((this.data.hasUserInfo && this.data.displayQueue.length == 0) || (this.data.hasUserInfo && this.data.queueIdx == -1)){
+    //   wx.showModal({
+    //     cancelColor: 'cancelColor',
+    //     title:'房间已经被清理或你已经被踢出房间. 如要重新进入房间, 请点击右上角三个点 → "重新进入小程序"'
+    //   })
+    // }
 
   },
 
@@ -240,10 +240,7 @@ Page({
 
               }
 
-              // console.log('docs\'s changed events', snapshot.docChanges)
-              // console.log('query result snapshot after the event', snapshot.docs)
-              // console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docChanges.length > 0){          
+              if(snapshot.docs.length == 3){          
                 console.log("fellow changed")
                 that.setData({
                   hasFellow: true,
@@ -317,7 +314,7 @@ Page({
             // console.log('docs\'s changed events', snapshot.docChanges)
             // console.log('query result snapshot after the event', snapshot.docs)
             // console.log('is init data', snapshot.type === 'init')
-            if(snapshot.docChanges.length > 0){          
+            if(snapshot.docs.length == 4){          
               console.log("fellow2 changed")
               that.setData({
                 hasFellow2: true,
@@ -378,7 +375,7 @@ Page({
               // console.log('docs\'s changed events', snapshot.docChanges)
               // console.log('query result snapshot after the event', snapshot.docs)
               // console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docChanges.length > 0){          
+              if(snapshot.docs.length == 4){          
                 console.log("fellow3 changed")
                 that.setData({
                   hasFellow3: true,
@@ -440,7 +437,7 @@ Page({
           // console.log('docs\'s changed events', snapshot.docChanges)
           // console.log('query result snapshot after the event', snapshot.docs)
           // console.log('is init data', snapshot.type === 'init')
-          if(snapshot.docChanges.length > 0){          
+          if(snapshot.docs.length == 5){          
             console.log("fellow4 changed")
             that.setData({
               hasFellow4: true,
@@ -484,7 +481,7 @@ Page({
               // console.log('docs\'s changed events', snapshot.docChanges)
               // console.log('query result snapshot after the event', snapshot.docs)
               // console.log('is init data', snapshot.type === 'init')
-              if(snapshot.docChanges.length > 0){          
+              if(snapshot.docs.length == 5){          
                 console.log("fellow5 changed")
                 that.setData({
                   hasFellow5: true,
@@ -952,12 +949,10 @@ Page({
   async getUserProfile(e) {
     const that = this
     console.log("Login")
-    // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
+
     wx.getUserProfile({
-      desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
+      desc: '展示用户信息', 
       success: (res) => {
-        // console.log("res userinfo: ")
-        // console.log(res)
       
         this.setData({
           hasUserInfo: true,
@@ -970,42 +965,38 @@ Page({
 
         const db = wx.cloud.database({})
 
-
-
-
         db.collection('queue').where({
           avatar: res.userInfo.avatarUrl
         })
         .get({
-          success:function(res){
-            if(res.data.length != 0){
-              db.collection('queue').where({
-                avatar: res.userInfo.avatarUrl
-              }).remove({})
+          success:function(ress){
+            if(ress.data.length != 0){
+              that.refresh()
               return
             }
+            else{
+              db.collection('queue').add({
+                data: {
+                  nickName: res.userInfo.nickName,
+                  avatar: res.userInfo.avatarUrl,
+                  isLeader: false,
+                  isGoddess: false,
+                  wasGoddess: false
+                }
+              })
+              .then(res => {
+                that.setData({
+                  displayQueue: app.globalData.myQueue
+                })
+                that.refresh()
+              })
+            }
           }
-        })
-
-        console.log("isOwner: "+this.data.isOwner)
-        db.collection('queue').add({
-          data: {
-            nickName: res.userInfo.nickName,
-            avatar: res.userInfo.avatarUrl,
-            isLeader: false,
-            isGoddess: false,
-            wasGoddess: false
-          }
-        })
-        .then(res => {
-          this.setData({
-            displayQueue: app.globalData.myQueue
-          })
-          // return "200"
         })
       }
     })
   },
+
   enterRoom(e){
     let renshu = "队列中人数: " + this.data.displayQueue.length + "/10"
     const that = this
@@ -1103,6 +1094,9 @@ Page({
     const that = this
     this.checkUser()
     const db = wx.cloud.database({})
+
+    
+
     db.collection('queue').where({})
     .get({
       success: function(res) {
@@ -1216,19 +1210,55 @@ Page({
         }
       }
     })
+getApp().globalData.currentFrame = countFrame
 
-    db.collection('vote').where({
-      avatar: that.data.userInfo.avatarUrl
-    })
-    .get({
+
+    var colName = "fellow"
+    switch(getApp().globalData.currentFrame){
+      case 0:
+      break
+      case 1:colName = "fellow2"
+      break
+      case 2:colName = "fellow3"
+      break
+      case 0:colName = "fellow4"
+      break
+      case 0:colName = "fellow5"
+        break
+    }
+    db.collection(colName).where({avatar: that.data.userInfo.avatarUrl}).get({
       success:function(res){
-        if(res.data){
+        if(res.data.length > 0){
           that.setData({
-            inFellow: false
+            inFellow: true
+          })
+          console.log(true)
+          db.collection('vote').where({
+            avatar: that.data.userInfo.avatarUrl,
+            currentFrame: getApp().globalData.currentFrame
+          })
+          .get({
+            success:function(res){
+              console.log(getApp().globalData.currentFrame)
+              if(res.data.length != 0){
+                that.setData({
+                  inFellow: false
+                })
+                console.log(false)
+              }
+              else{
+                that.setData({
+                  inFellow: true
+                })
+                console.log(true)
+              }
+            }
           })
         }
       }
     })
+
+
   },
 
   clearRoom(e){
@@ -1644,6 +1674,7 @@ drive(e){
 },
 
 sucMis(e){
+  const that = this
   //success
   const currentFrame = app.globalData.currentFrame - 1
   console.log(currentFrame)
