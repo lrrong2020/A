@@ -328,6 +328,7 @@ radioButtonTap: function (e) {
                     isGoddess: true
                   }
                 })
+                console.log('Goddess')
               }
 
 

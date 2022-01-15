@@ -88,7 +88,7 @@
       <button id="drive" bindtap='drive'>发车</button>
 </block>
 
-<block wx:if="{{hasUserInfo && inFellow}}">
+<block wx:if="{{inFellow}}">
       <!-- <button id="startMis" bindtap='startMis'>开始任务</button> -->
        <button id="sucMis" bindtap='sucMis'>success</button>
         <button id="failMis" bindtap='failMis'>fail</button>  
