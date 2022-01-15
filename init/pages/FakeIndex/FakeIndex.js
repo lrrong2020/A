@@ -53,7 +53,13 @@ Page({
     setTimeout(() => {
       that.refresh()
     }, 1000)
+    setTimeout(() => {
+      that.refresh()
+    }, 10000)
 
+    setTimeout(() => {
+      that.refresh()
+    }, 100000)
     this.setData({
       canGo: app.globalData.canGo,    
       isAssa: app.globalData.isAssa,
@@ -523,9 +529,7 @@ Page({
                 onChange: function(snapshot) {
                   that.refresh()
                   const fellowNo = [3,4,4,5,5]
-                  // console.log('docs\'s changed events', snapshot.docChanges)
-                  // console.log('query result snapshot after the event', snapshot.docs)
-                  // console.log('is init data', snapshot.type === 'init')
+
                   if(snapshot.docs.length > 0 && snapshot.type != 'init'){
                     if(snapshot.docs.length != fellowNo[0]){
                       that.setData({
@@ -547,8 +551,6 @@ Page({
                     that.setData({
                       votes0: no
                     })
-
-
                     const incS = that.data.successGames + 1
                     const incF = that.data.failGames + 1
                     if(no == 3){
@@ -561,192 +563,28 @@ Page({
                         failGames: incF
                       })
                     }
-
                     watcher114.close()
-                  }
-                } 
-                },
-                onError: function(err) {
-              //     wx.showModal({
-              //       cancelColor: 'cancelColor',
-              //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              //     })
-              //     wx.showModal({
-              //       cancelColor: 'cancelColor',
-              //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-              //     })
-                }
-              })
- 
 
-                const watcher1141 = db.collection('vote')
-                .where({
-                    currentFrame: 1
-                })
-                .watch({
-                  onChange: function(snapshot) {
-                    that.refresh()
-                    const fellowNo = [3,4,4,5,5]
-                    console.log('docs\'s changed events', snapshot.docChanges)
-                    // console.log('query result snapshot after the event', snapshot.docs)
-                    // console.log('is init data', snapshot.type === 'init')
-                    if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-                      if(snapshot.docs.length != fellowNo[1]){
-                        that.setData({
-                          canGo: false
-                        })
-                        getApp().globalData.canGo = false
-                      }
-                    else{
-                      that.setData({
-                        canGo: true
-                      })
-                      getApp().globalData.canGo = true
-                      let no = 0
-                      for(let index = 0;index < snapshot.docs.length;index++){
-                        if(snapshot.docs[index].vote){
-                          no++
-                        }
-                      }
-                      that.setData({
-                        votes1: no
-                      })
-                      const incS = that.data.successGames + 1
-                      const incF = that.data.failGames + 1
-                      if(no == 4){
-                        that.setData({
-                          successGames: incS
-                        })
-                      }
-                      else{
-                        that.setData({
-                          failGames: incF
-                        })
-                      }
-                      watcher1141.close()
-                    }
-                  } 
-                  },
-                  onError: function(err) { 
-                //     wx.showModal({
-                //       cancelColor: 'cancelColor',
-                //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                //     })
-                //     wx.showModal({
-                //       cancelColor: 'cancelColor',
-                //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                //     }) 
-                  }
-                })
-
-                  const watcher1142 = db.collection('vote')
-                  .where({
-                      currentFrame: 2
-                  })
-                  .watch({
-                    onChange: function(snapshot) {
-                      that.refresh()
-                      const fellowNo = [3,4,4,5,5]
-                      console.log('docs\'s changed events', snapshot.docChanges)
-                      console.log('query result snapshot after the event', snapshot.docs)
-                      console.log('is init data', snapshot.type === 'init')
-                      if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-                        if(snapshot.docs.length != fellowNo[2]){
-                          that.setData({
-                            canGo: false
-                          })
-                          getApp().globalData.canGo = false
-                        }
-                      else{
-                        that.setData({
-                          canGo: true
-                        })
-                        getApp().globalData.canGo = true
-                        let no = 0
-                        for(let index = 0;index < snapshot.docs.length;index++){
-                          if(snapshot.docs[index].vote){
-                            no++
-                          }
-                        }
-                        that.setData({
-                          votes2: no
-                        })
-                        
-                        const incS = that.data.successGames + 1
-                        const incF = that.data.failGames + 1
-                        if(no == 4){
-                          that.setData({
-                            successGames: inc
-                          })
-                        }
-                        else{
-                          that.setData({
-                            failGames: incF
-                          })
-                        }
-
-                        //if end
-                        const suc = that.data.successGames
-                        const fa = that.data.failGames
-
-                        if(suc > 2){
-                          getApp().globalData.canGo = false
-                          that.setData({
-                            canGo: false
-                          })
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:"刺杀环节",
-                            content:"蓝方获得三局胜利, 请刺客刺杀"
-                          })
-                        }
-                        if(fa > 2){
-                          getApp().globalData.canGo = false
-                          that.setData({
-                            canGo: false
-                          })
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:"游戏结束",
-                            content:"红方获胜"
-                          })
-                        }
-
-                        watcher1142.close()
-                      }
-                    } 
-                    },
-                    onError: function(err) {  
-                  //     wx.showModal({
-                  //       cancelColor: 'cancelColor',
-                  //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                  //     })
-                  //     wx.showModal({
-                  //       cancelColor: 'cancelColor',
-                  //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                  //     })
-                    }
-                  })
-
-                    const watcher1143 = db.collection('vote')
+//1
+                    const watcher1141 = db.collection('vote')
                     .where({
-                        currentFrame: 3
+                        currentFrame: 1
                     })
                     .watch({
                       onChange: function(snapshot) {
-                        that.refresh()
+                        // that.refresh()
                         const fellowNo = [3,4,4,5,5]
                         console.log('docs\'s changed events', snapshot.docChanges)
-                        console.log('query result snapshot after the event', snapshot.docs)
-                        console.log('is init data', snapshot.type === 'init')
+                        // console.log('query result snapshot after the event', snapshot.docs)
+                        // console.log('is init data', snapshot.type === 'init')
                         if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-                          if(snapshot.docs.length != fellowNo[3]){
+                          if(snapshot.docs.length != fellowNo[1]){
                             that.setData({
                               canGo: false
                             })
                             getApp().globalData.canGo = false
                           }
-                        if(snapshot.docs.length == fellowNo[3]){
+                        else{
                           that.setData({
                             canGo: true
                           })
@@ -758,12 +596,11 @@ Page({
                             }
                           }
                           that.setData({
-                            votes3: no
+                            votes1: no
                           })
-
                           const incS = that.data.successGames + 1
                           const incF = that.data.failGames + 1
-                          if(no > 3){
+                          if(no == 4){
                             that.setData({
                               successGames: incS
                             })
@@ -773,134 +610,276 @@ Page({
                               failGames: incF
                             })
                           }
-
-                           //if end
-                        const suc = that.data.successGames
-                        const fa = that.data.failGames
-
-                        if(suc > 2){
-                          getApp().globalData.canGo = false
-                          that.setData({
-                            canGo: false
-                          })
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:"刺杀环节",
-                            content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
-                          })
-                        }
-                        if(fa > 2){
-                          getApp().globalData.canGo = false
-                          that.setData({
-                            canGo: false
-                          })
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:"游戏结束",
-                            content:"红方获胜"
-                          })
-                        }
-                          watcher1143.close()
+                          watcher1141.close()
                         }
                       } 
                       },
-                      onError: function(err) {  
-                    //     wx.showModal({
-                    //       cancelColor: 'cancelColor',
-                    //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                    //     })
-                    //     wx.showModal({
-                    //       cancelColor: 'cancelColor',
-                    //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                    //     })
+                      onError: function(err) { 
+    
                       }
                     })
+//2
+const watcher1142 = db.collection('vote')
+.where({
+    currentFrame: 2
+})
+.watch({
+  onChange: function(snapshot) {
+    // that.refresh()
+    const fellowNo = [3,4,4,5,5]
+    console.log('docs\'s changed events', snapshot.docChanges)
+    console.log('query result snapshot after the event', snapshot.docs)
+    console.log('is init data', snapshot.type === 'init')
+    if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+      if(snapshot.docs.length != fellowNo[2]){
+        that.setData({
+          canGo: false
+        })
+        getApp().globalData.canGo = false
+      }
+    else{
+      that.setData({
+        canGo: true
+      })
+      getApp().globalData.canGo = true
+      let no = 0
+      for(let index = 0;index < snapshot.docs.length;index++){
+        if(snapshot.docs[index].vote){
+          no++
+        }
+      }
+      that.setData({
+        votes2: no
+      })
+      
+      const incS = that.data.successGames + 1
+      const incF = that.data.failGames + 1
+      if(no == 4){
+        that.setData({
+          successGames: inc
+        })
+      }
+      else{
+        that.setData({
+          failGames: incF
+        })
+      }
+
+      //if end
+      const suc = that.data.successGames
+      const fa = that.data.failGames
+
+      if(suc > 2){
+        getApp().globalData.canGo = false
+        that.setData({
+          canGo: false
+        })
+        wx.showModal({
+          cancelColor: 'cancelColor',
+          title:"刺杀环节",
+          content:"蓝方获得三局胜利, 请刺客刺杀"
+        })
+      }
+      if(fa > 2){
+        getApp().globalData.canGo = false
+        that.setData({
+          canGo: false
+        })
+        wx.showModal({
+          cancelColor: 'cancelColor',
+          title:"游戏结束",
+          content:"红方获胜"
+        })
+      }
+
+      watcher1142.close()
+//3
+
+const watcher1143 = db.collection('vote')
+.where({
+    currentFrame: 3
+})
+.watch({
+  onChange: function(snapshot) {
+    // that.refresh()
+    const fellowNo = [3,4,4,5,5]
+    console.log('docs\'s changed events', snapshot.docChanges)
+    console.log('query result snapshot after the event', snapshot.docs)
+    console.log('is init data', snapshot.type === 'init')
+    if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+      if(snapshot.docs.length != fellowNo[3]){
+        that.setData({
+          canGo: false
+        })
+        getApp().globalData.canGo = false
+      }
+    if(snapshot.docs.length == fellowNo[3]){
+      that.setData({
+        canGo: true
+      })
+      getApp().globalData.canGo = true
+      let no = 0
+      for(let index = 0;index < snapshot.docs.length;index++){
+        if(snapshot.docs[index].vote){
+          no++
+        }
+      }
+      that.setData({
+        votes3: no
+      })
+
+      const incS = that.data.successGames + 1
+      const incF = that.data.failGames + 1
+      if(no > 3){
+        that.setData({
+          successGames: incS
+        })
+      }
+      else{
+        that.setData({
+          failGames: incF
+        })
+      }
+
+       //if end
+    const suc = that.data.successGames
+    const fa = that.data.failGames
+
+    if(suc > 2){
+      getApp().globalData.canGo = false
+      that.setData({
+        canGo: false
+      })
+      wx.showModal({
+        cancelColor: 'cancelColor',
+        title:"刺杀环节",
+        content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
+      })
+    }
+    if(fa > 2){
+      getApp().globalData.canGo = false
+      that.setData({
+        canGo: false
+      })
+      wx.showModal({
+        cancelColor: 'cancelColor',
+        title:"游戏结束",
+        content:"红方获胜"
+      })
+    }
+      watcher1143.close()
+      const watcher1144 = db.collection('vote')
+      .where({
+          currentFrame: 4
+      })
+      .watch({
+        onChange: function(snapshot) {
+          // that.refresh()
+          const fellowNo = [3,4,4,5,5]
+          // console.log('docs\'s changed events', snapshot.docChanges)
+          // console.log('query result snapshot after the event', snapshot.docs)
+          // console.log('is init data', snapshot.type === 'init')
+          if(snapshot.docs.length > 0 && snapshot.type != 'init'){
+            if(snapshot.docs.length != fellowNo[4]){
+              that.setData({
+                canGo: false
+              })
+              getApp().globalData.canGo = false
+            }
+          if(snapshot.docs.length == fellowNo[4]){
+
+            let no = 0
+            for(let index = 0;index < snapshot.docs.length;index++){
+              if(snapshot.docs[index].vote){
+                no++
+              }
+            }
+            that.setData({
+              votes4: no
+            })
+            
+            const incS = that.data.successGames + 1
+            const incF = that.data.failGames + 1
+            if(no == 5){
+              that.setData({
+                successGames: incS
+              })
+            }
+            else{
+              that.setData({
+                failGames: incF
+              })
+            }
+
+             //if end
+        const suc = that.data.successGames
+        const fa = that.data.failGames
+
+        if(suc > 2){
+          getApp().globalData.canGo = false
+          that.setData({
+            canGo: false
+          })
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:"刺杀环节",
+            content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
+          })
+        }
+        if(fa > 2){
+          getApp().globalData.canGo = false
+          that.setData({
+            canGo: false
+          })
+          wx.showModal({
+            cancelColor: 'cancelColor',
+            title:"游戏结束",
+            content:"红方获胜"
+          })
+        }
+            watcher1144.close()
+          }
+        } 
+        },
+        onError: function(err) {  
+
+        }
+      })
+
+
+    }
+  } 
+  },
+  onError: function(err) {  
+
+  }
+})
+
+    }
+  } 
+  },
+  onError: function(err) {  
+
+  }
+})
+
+
+
+                  }
+                } 
+                },
+                onError: function(err) {
+                }
+              })
  
-                      const watcher1144 = db.collection('vote')
-                      .where({
-                          currentFrame: 4
-                      })
-                      .watch({
-                        onChange: function(snapshot) {
-                          that.refresh()
-                          const fellowNo = [3,4,4,5,5]
-                          // console.log('docs\'s changed events', snapshot.docChanges)
-                          // console.log('query result snapshot after the event', snapshot.docs)
-                          // console.log('is init data', snapshot.type === 'init')
-                          if(snapshot.docs.length > 0 && snapshot.type != 'init'){
-                            if(snapshot.docs.length != fellowNo[4]){
-                              that.setData({
-                                canGo: false
-                              })
-                              getApp().globalData.canGo = false
-                            }
-                          if(snapshot.docs.length == fellowNo[4]){
 
-                            let no = 0
-                            for(let index = 0;index < snapshot.docs.length;index++){
-                              if(snapshot.docs[index].vote){
-                                no++
-                              }
-                            }
-                            that.setData({
-                              votes4: no
-                            })
-                            
-                            const incS = that.data.successGames + 1
-                            const incF = that.data.failGames + 1
-                            if(no == 5){
-                              that.setData({
-                                successGames: incS
-                              })
-                            }
-                            else{
-                              that.setData({
-                                failGames: incF
-                              })
-                            }
 
-                             //if end
-                        const suc = that.data.successGames
-                        const fa = that.data.failGames
 
-                        if(suc > 2){
-                          getApp().globalData.canGo = false
-                          that.setData({
-                            canGo: false
-                          })
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:"刺杀环节",
-                            content:"蓝方获得三局胜利, 请刺客点击头像开始刺杀"
-                          })
-                        }
-                        if(fa > 2){
-                          getApp().globalData.canGo = false
-                          that.setData({
-                            canGo: false
-                          })
-                          wx.showModal({
-                            cancelColor: 'cancelColor',
-                            title:"游戏结束",
-                            content:"红方获胜"
-                          })
-                        }
-                            watcher1144.close()
-                          }
-                        } 
-                        },
-                        onError: function(err) {  
-                      //     wx.showModal({
-                      //       cancelColor: 'cancelColor',
-                      //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                      //     })
-                      //     wx.showModal({
-                      //       cancelColor: 'cancelColor',
-                      //       title:'小程序出现错误! 请立即通知房主. . 请点击右上角三个点 → "重新进入小程序"'
-                      //     })
-                        }
-                      })
+  
 
+
+ 
+ 
                       // const watcherAssa = db.collection('end')
                       // .where({})
                       // .watch({
@@ -971,7 +950,7 @@ Page({
         .get({
           success:function(ress){
             if(ress.data.length != 0){
-              that.refresh()
+              // that.refresh()
               return
             }
             else{
@@ -988,7 +967,7 @@ Page({
                 that.setData({
                   displayQueue: app.globalData.myQueue
                 })
-                that.refresh()
+                // that.refresh()
               })
             }
           }
@@ -1090,7 +1069,7 @@ Page({
 
   async refresh(e){
     console.log("refreshing")
-    var countFrame = -1
+
     const that = this
     this.checkUser()
     const db = wx.cloud.database({})
@@ -1115,7 +1094,16 @@ Page({
     .get({
       success:function(res){
         if(res.data.length != 0){
-          countFrame = 0
+
+          if(that.data.votes0 == -1){
+            getApp().globalData.currentFrame = 0
+          }
+          else{
+            getApp().globalData.currentFrame = 1
+          }
+
+
+
           that.setData({
             displayFellow: res.data,
             hasFellow: true
@@ -1128,94 +1116,122 @@ Page({
             }
           }
         }
-      }
-    })
 
-    db.collection('fellow2').where({})
-    .get({
-      success:function(res){
-        if(res.data.length != 0){
-          countFrame = 1
+//2
+db.collection('fellow2').where({})
+.get({
+  success:function(res){
+    if(res.data.length != 0){
+      if(that.data.votes0 == -1){
+        getApp().globalData.currentFrame = 1
+      }
+      else{
+        getApp().globalData.currentFrame = 2
+      }
+      that.setData({
+        displayFellow2: res.data,
+        hasFellow2: true
+      })
+      for(var i = 0;i < res.data.length;i++){
+        if(res.data[i].avatar == that.data.userInfo.avatarUrl){
           that.setData({
-            displayFellow2: res.data,
-            hasFellow2: true
+            inFellow: true
           })
-          for(var i = 0;i < res.data.length;i++){
-            if(res.data[i].avatar == that.data.userInfo.avatarUrl){
-              that.setData({
-                inFellow: true
-              })
-            }
-          }
         }
       }
-    })
+    }
 
-    db.collection('fellow3').where({})
-    .get({
-      success:function(res){
-        if(res.data.length != 0){
-          countFrame = 2
+//3
+db.collection('fellow3').where({})
+.get({
+  success:function(res){
+    if(res.data.length != 0){
+      if(that.data.votes0 == -1){
+        getApp().globalData.currentFrame = 2
+      }
+      else{
+        getApp().globalData.currentFrame = 3
+      }
+      that.setData({
+        displayFellow3: res.data,
+        hasFellow3: true
+      })
+      for(var i = 0;i < res.data.length;i++){
+        if(res.data[i].avatar == that.data.userInfo.avatarUrl){
           that.setData({
-            displayFellow3: res.data,
-            hasFellow3: true
+            inFellow: true
           })
-          for(var i = 0;i < res.data.length;i++){
-            if(res.data[i].avatar == that.data.userInfo.avatarUrl){
-              that.setData({
-                inFellow: true
-              })
-            }
-          }
         }
+      }
+    }
+
+//4
+db.collection('fellow4').where({})
+.get({
+  success:function(res){
+    if(res.data.length != 0){
+      if(that.data.votes0 == -1){
+        getApp().globalData.currentFrame = 3
+      }
+      else{
+        getApp().globalData.currentFrame = 4
+      }
+      that.setData({
+        displayFellow4: res.data,
+        hasFellow4: true
+      })
+      for(var i = 0;i < res.data.length;i++){
+        if(res.data[i].avatar == that.data.userInfo.avatarUrl){
+          that.setData({
+            inFellow: true
+          })
+        }
+      }
+    }
+
+//5
+db.collection('fellow5').where({})
+.get({
+  success:function(res){
+    if(res.data.length != 0){
+      if(that.data.votes0 == -1){
+        getApp().globalData.currentFrame = 4
+      }
+      else{
+        getApp().globalData.currentFrame = 5
+      }
+      that.setData({
+        displayFellow5: res.data,
+        hasFellow5: true
+      })
+      for(var i = 0;i < res.data.length;i++){
+        if(res.data[i].avatar = that.data.userInfo.avatarUrl){
+          that.setData({
+            inFellow: true
+          })
+        }
+      }
+    }
+  }
+})
+
+  }
+})
+
+  }
+})
+
+
+  }
+})
+
       }
     })
 
-    db.collection('fellow4').where({})
-    .get({
-      success:function(res){
-        if(res.data.length != 0){
-          countFrame = 3
-          that.setData({
-            displayFellow4: res.data,
-            hasFellow4: true
-          })
-          for(var i = 0;i < res.data.length;i++){
-            if(res.data[i].avatar == that.data.userInfo.avatarUrl){
-              that.setData({
-                inFellow: true
-              })
-            }
-          }
-        }
-      }
-    })
 
-    db.collection('fellow5').where({})
-    .get({
-      success:function(res){
-        if(res.data.length != 0){
-          countFrame = 4
-          that.setData({
-            displayFellow5: res.data,
-            hasFellow5: true
-          })
-          for(var i = 0;i < res.data.length;i++){
-            if(res.data[i].avatar = that.data.userInfo.avatarUrl){
-              that.setData({
-                inFellow: true
-              })
-            }
-          }
-        }
-      }
-    })
-getApp().globalData.currentFrame = countFrame
-
-
-    var colName = "fellow"
+    var colName = ""
     switch(getApp().globalData.currentFrame){
-      case 0:
+      case 0:colName = "fellow"
       break
       case 1:colName = "fellow2"
       break
@@ -1227,8 +1243,8 @@ getApp().globalData.currentFrame = countFrame
         break
     }
     db.collection(colName).where({avatar: that.data.userInfo.avatarUrl}).get({
-      success:function(res){
-        if(res.data.length > 0){
+      success:function(ress){
+        if(ress.data.length > 0){
           that.setData({
             inFellow: true
           })
@@ -1676,7 +1692,7 @@ drive(e){
 sucMis(e){
   const that = this
   //success
-  const currentFrame = app.globalData.currentFrame - 1
+  const currentFrame = app.globalData.currentFrame
   console.log(currentFrame)
   console.log("任务开始")
   const db = wx.cloud.database()
@@ -1698,7 +1714,7 @@ sucMis(e){
 failMis(e){
   const that = this
   //fail
-  const currentFrame = app.globalData.currentFrame - 1
+  const currentFrame = app.globalData.currentFrame
   console.log(currentFrame)
   console.log("任务开始")
   // console.log(getApp().globalData.currentFrame)
