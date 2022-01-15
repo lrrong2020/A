@@ -1,6 +1,6 @@
 // FakeIndex.js
 // 获取应用实例
-const regeneratorRuntime = require('../common/regenerator-runtime.js')
+// const regeneratorRuntime = require('../common/regenerator-runtime.js')
 const app = getApp()
 
 Page({
@@ -950,17 +950,18 @@ Page({
 
 
   async getUserProfile(e) {
+    const that = this
     console.log("Login")
     // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认，开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
     wx.getUserProfile({
       desc: '展示用户信息', // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
       success: (res) => {
-        console.log("res userinfo: ")
-        console.log(res)
+        // console.log("res userinfo: ")
+        // console.log(res)
       
         this.setData({
-          userInfo: res.userInfo,
           hasUserInfo: true,
+          userInfo: res.userInfo,
           displayQueue: app.globalData.myQueue
         })
 
@@ -968,38 +969,25 @@ Page({
         //console.log(this.data.userInfo)
 
         const db = wx.cloud.database({})
-        const queue = db.collection('queue')
+
+
+
+
+        db.collection('queue').where({
+          avatar: res.userInfo.avatarUrl
+        })
+        .get({
+          success:function(res){
+            if(res.data.length != 0){
+              db.collection('queue').where({
+                avatar: res.userInfo.avatarUrl
+              }).remove({})
+              return
+            }
+          }
+        })
+
         console.log("isOwner: "+this.data.isOwner)
-
-        //如果已经存在于数据库中 而且不应该超过10人
-        // const exist = await db.collection('queue').get()
-        // db.collection('queue').where({})
-        //   .get({
-        //     success: function(res) {
-        //     // res.data 是包含以上定义的两条记录的数组
-        //     var avatarList = []
-        //     for(var i = 0;i < res.data.length;++i){
-        //       if(res.data[i]._avatar == this.data.userInfo.avatarUrl){
-                
-        //         return
-        //       }
-        //       else{
-        //         avatarList.push(res.data[i]._avatar)
-        //       }
-
-        //     }
-
-        //     //借用id实现多记录删除
-        //     // for(var j = 0;j < idList.length;++j ){
-        //     //   db.collection('queue').doc(idList[j]).remove({
-        //     //     success: function(res) {
-        //     //     }
-        //     //   })
-        //     // }
-        //   }
-        // })
-
-
         db.collection('queue').add({
           data: {
             nickName: res.userInfo.nickName,
@@ -1035,11 +1023,6 @@ Page({
     that.checkUser()
 
     console.log("enter room")
-    //isOwner only (may be only visible to the onwer)
-    // if(!this.data.isOwner){
-    //   return
-    // }
-    //shuffle users in queue
     Array.prototype.shuffle = function() {
       var array = this;
       var m = array.length,
@@ -1115,6 +1098,7 @@ Page({
   },
 
   async refresh(e){
+    console.log("refreshing")
     var countFrame = -1
     const that = this
     this.checkUser()
@@ -1142,6 +1126,13 @@ Page({
             displayFellow: res.data,
             hasFellow: true
           })
+          for(var i = 0;i < res.data.length;i++){
+            if(res.data[i].avatar == that.data.userInfo.avatarUrl){
+              that.setData({
+                inFellow: true
+              })
+            }
+          }
         }
       }
     })
@@ -1155,6 +1146,13 @@ Page({
             displayFellow2: res.data,
             hasFellow2: true
           })
+          for(var i = 0;i < res.data.length;i++){
+            if(res.data[i].avatar == that.data.userInfo.avatarUrl){
+              that.setData({
+                inFellow: true
+              })
+            }
+          }
         }
       }
     })
@@ -1168,6 +1166,13 @@ Page({
             displayFellow3: res.data,
             hasFellow3: true
           })
+          for(var i = 0;i < res.data.length;i++){
+            if(res.data[i].avatar == that.data.userInfo.avatarUrl){
+              that.setData({
+                inFellow: true
+              })
+            }
+          }
         }
       }
     })
@@ -1181,6 +1186,13 @@ Page({
             displayFellow4: res.data,
             hasFellow4: true
           })
+          for(var i = 0;i < res.data.length;i++){
+            if(res.data[i].avatar == that.data.userInfo.avatarUrl){
+              that.setData({
+                inFellow: true
+              })
+            }
+          }
         }
       }
     })
@@ -1194,116 +1206,29 @@ Page({
             displayFellow5: res.data,
             hasFellow5: true
           })
+          for(var i = 0;i < res.data.length;i++){
+            if(res.data[i].avatar = that.data.userInfo.avatarUrl){
+              that.setData({
+                inFellow: true
+              })
+            }
+          }
         }
       }
     })
 
-    // db.collection('vote').where({
-    //   currentFrame: 0
-    // })
-    // .get({
-    //   success:function(res){
-    //     if(res.data.length > 0){
-    //       getApp().globalData.currentFrame = 1
-    //       that.setData({currentFrame: 1})
-    //       var counter = 0
-    //       for(var ii = 0;i < res.data.length;i++){
-    //         if(res.data[ii].vote){
-    //           counter++
-    //         }
-    //       }
-    //       that.setData({
-    //         votes0: counter
-    //       })
-    //     }
-    //   }
-    // })
-
-    // db.collection('vote').where({
-    //   currentFrame: 1
-    // })
-    // .get({
-    //   success:function(res){
-    //     if(res.data.length > 0){
-    //       getApp().globalData.currentFrame = 2
-    //       that.setData({currentFrame: 2})
-    //       var counter = 0
-    //       for(var ii = 0;i < res.data.length;i++){
-    //         if(res.data[ii].vote){
-    //           counter++
-    //         }
-    //       }
-    //       that.setData({
-    //         votes1: counter
-    //       })
-    //     }
-    //   }
-    // })
-
-    // db.collection('vote').where({
-    //   currentFrame: 2
-    // })
-    // .get({
-    //   success:function(res){
-    //     if(res.data.length > 0){
-    //       getApp().globalData.currentFrame = 3
-    //       that.setData({currentFrame: 3})
-    //       var counter = 0
-    //       for(var ii = 0;i < res.data.length;i++){
-    //         if(res.data[ii].vote){
-    //           counter++
-    //         }
-    //       }
-    //       that.setData({
-    //         votes2: counter
-    //       })
-    //     }
-    //   }
-    // })
-
-
-    // db.collection('vote').where({
-    //   currentFrame: 3
-    // })
-    // .get({
-    //   success:function(res){
-    //     if(res.data.length > 0){
-    //       getApp().globalData.currentFrame = 4
-    //       that.setData({currentFrame: 4})
-    //       var counter = 0
-    //       for(var ii = 0;i < res.data.length;i++){
-    //         if(res.data[ii].vote){
-    //           counter++
-    //         }
-    //       }
-    //       that.setData({
-    //         votes3: counter
-    //       })
-    //     }
-    //   }
-    // })
-
-
-    // db.collection('vote').where({
-    //   currentFrame: 4
-    // })
-    // .get({
-    //   success:function(res){
-    //     if(res.data.length > 0){
-    //       getApp().globalData.currentFrame = 4
-    //       that.setData({currentFrame: 4})
-    //       var counter = 0
-    //       for(var ii = 0;i < res.data.length;i++){
-    //         if(res.data[ii].vote){
-    //           counter++
-    //         }
-    //       }
-    //       that.setData({
-    //         votes4: counter
-    //       })
-    //     }
-    //   }
-    // })
+    db.collection('vote').where({
+      avatar: that.data.userInfo.avatarUrl
+    })
+    .get({
+      success:function(res){
+        if(res.data){
+          that.setData({
+            inFellow: false
+          })
+        }
+      }
+    })
   },
 
   clearRoom(e){
@@ -1313,13 +1238,6 @@ Page({
       title:"你确定要清理房间吗?",
       success:function(res){
         if(res.confirm){
-          //to clear queue and role
-
-          //isOwner only
-
-          // if(!this.data.isOwner){
-          //   return
-         // }
          const db = wx.cloud.database({})
          db.collection('queue').where({})
          .get({
@@ -1390,9 +1308,6 @@ Page({
          })
          .catch(console.error)
          console.log("fellow2 cleared")
-
-
-         
 
          wx.cloud.callFunction({
            // 云函数名称
@@ -1571,57 +1486,71 @@ onclickProfile(e){
 
   }
   else if(that.data.isGoddess && that.data.canSetGod){
+    const idd = getApp().globalData.myQueue[e.target.id].nickName
     wx.showModal({
       cancelColor: 'cancelColor',
       title:'你确定要查验此人吗?',
+      content:idd,
       success:function(res){
         if(res.confirm){
-          that.setData({isGoddess:false})
+          // that.setData({isGoddess:false})
           const av = getApp().globalData.myQueue[e.target.id].avatar
           var resNo = -1
           for(var i = 0;i < getApp().globalData.role.length;i++){
             if(getApp().globalData.role[i].avatar == av){
               resNo = i
-              let resText = (resNo < 6)?"蓝方":"红方"
-              wx.showModal({
-                cancelColor: 'cancelColor',
-                title:'查验',
-                content: resText,
-                success:function(res){
-                  const db = wx.cloud.database()
-                  db.collection('queue').where({
+              if(resNo != -1){
+                setTimeout(() => {
+                  wx.showToast({
+                    title: '等等...',
                   })
-                  .get({
-                    success:function(res){
-                      var resId = ""
-                      for(var i = 0;i < res.data.length;i++){
-                        if(res.data[i].avatar == av){
-                          resId = res.data[i]._id
-                          break
-                        }
-                        else{
-                          continue
-                        }
-                      }
-                      db.collection('queue').where({
-                        isGoddess: true
-                      }).update({
-                        data:{
-                          isGoddess: false
-                        },
-                        success:function(res){
-                          db.collection('queue').doc(resId).update({
-                            data:{
-                              isGoddess: true
-                            }
-                          })
-                        }
-                      })
-                    }
-                  })
-              
-                }
+                }, 1000)
+              }
+              wx.hideToast({
+                success: (res) => {},
               })
+              let resText = (resNo < 6)?"蓝方":"红方"
+
+                wx.showModal({
+                  cancelColor: 'cancelColor',
+                  title:'查验',
+                  content: resText,
+                  success:function(res){
+                    const db = wx.cloud.database()
+                    db.collection('queue').where({
+                    })
+                    .get({
+                      success:function(res){
+                        var resId = ""
+                        for(var i = 0;i < res.data.length;i++){
+                          if(res.data[i].avatar == av){
+                            resId = res.data[i]._id
+                            break
+                          }
+                          else{
+                            continue
+                          }
+                        }
+                        db.collection('queue').where({
+                          isGoddess: true
+                        }).update({
+                          data:{
+                            isGoddess: false
+                          },
+                          success:function(res){
+                            db.collection('queue').doc(resId).update({
+                              data:{
+                                isGoddess: true
+                              }
+                            })
+                          }
+                        })
+                      }
+                    })
+                  }
+                })
+              
+
 
 
 
@@ -1723,7 +1652,8 @@ sucMis(e){
   db.collection('vote').add({
     data:{
       currentFrame: currentFrame,
-      vote: true
+      vote: true,
+      avatar: that.data.userInfo.avatarUrl
     }
   })      
   .then(res => {
@@ -1735,6 +1665,7 @@ sucMis(e){
 },
 
 failMis(e){
+  const that = this
   //fail
   const currentFrame = app.globalData.currentFrame - 1
   console.log(currentFrame)
@@ -1744,13 +1675,15 @@ failMis(e){
   db.collection('vote').add({
     data:{
       currentFrame: currentFrame,
-      vote: false
+      vote: false,
+      avatar: that.data.userInfo.avatarUrl
     }
   })   
   .then(res => {
   })
   this.setData({
-    inFellow:false
+    inFellow:false,
+    
   })
 
 },

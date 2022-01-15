@@ -1,5 +1,5 @@
 // index.js
-const regeneratorRuntime = require('../common/regenerator-runtime.js')
+// const regeneratorRuntime = require('../common/regenerator-runtime.js')
 // 获取应用实例
 const app = getApp()
 

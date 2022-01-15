@@ -1,10 +1,6 @@
 {
     "pages": [
         "pages/index/index",
-        "pages/user/user",
-        "pages/photos/add",
-        "pages/photos/photos",
-        "pages/album/add",
         "pages/FakeIndex/FakeIndex",
         "pages/roles/0",
         "test/test",
